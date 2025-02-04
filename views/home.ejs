@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .LOGO {
+                display: block;
+                width: 20px
+            }
+            .background {
+                background-image: url('images/bg-image.png');
+                background-repeat: no-repeat;
+                background-size: cover;
+                width: 100%;
+                height: 50vh;
+                background-position: center;
+                /* position: fixed; for  background to remain fixed while scrolling*/
+                object-fit: contain;
+
+            }
+            .search{
+                margin-top: 250px;
+                border: none;
+                border-radius: 2px;
+                background-color: #f1f1f1;
+                color: #888;
+                width: 200px;
+                font-size: 20px;
+                transition: width 0.4s ease;
+                margin-right: 50px;
+            }
+            .content{
+                display: flex;
+                gap: 15px;
+            }
+            .category-card {
+                width: 300px;
+                height: 200px;
+                border: 2px solid #ccc;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                box-sizing: border-box;
+                background-color: #fff;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+              }
+              
+              .category-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+              }
+              
+              .category-card img {
+                max-width: 100px;
+                margin-bottom: 0.5rem;
+              }
+              
+              .category-card p {
+                margin: 0;
+                font-weight: bold;
+              }
+              
+              .pagination {
+                text-align: center;
+                margin-top: 1rem;
+              }
+              
+              .pagination button {
+                margin: 0 0.25rem;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+              }
+
+        </style>
+    </head>
+    <body>
+        <div>
+            <div class="LOGO">
+                <img class="LOGO" src="./images/favicon.ico" alt=""  >
+            </div>
+            <div class="Navbar">
+
+            </div>
+        </div>
+        <div class="background" ><img src="" alt="">
+            <input type="text" placeholder="Search" class="search">
+            <input type="text" placeholder="Search-by-Location" class="search">
+        </div>
+        <h2>Browse</h2>
+        <div class="content">
+            <div class="category-card">
+                <img src="images/blank.png" alt="concert Icon">
+                <p>concert</p>
+              </div>
+              <div class="category-card">
+                <img src="images/blank.png" alt="exhibition Icon">
+                <p>exhibition</p>
+              </div>
+              <div class="category-card">
+                <img src="images/blank.png" alt="TEDx Icon">
+                <p>TEDx</p>
+              </div>
+              <div class="category-card">
+                <img src="images/blank.png" alt="Health-camp icon">
+                <p>Health-camp</p>
+              </div>
+        </div>
+        <div class="pagination">
+            <button>«</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>»</button>
+          </div>
+    </body>
+</html>
