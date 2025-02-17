@@ -13,30 +13,88 @@
                 display: block;
                 width: 20px
             }
+
+            body {
+              background-image: url('images/background-pattern.png');
+              background-size: auto 100vh;
+              background-repeat: repeat-x; 
+              /* to repeat the bg img only on horizontal, fit on background */
+              background-attachment: fixed;
+            }
+
+            body h2{
+                text-align: center;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                color: white;
+            }
+
             .background {
-/*                background-image: url('images/bg-image.png');*/
-                /* background-repeat: no-repeat; */
-                background-color: rgb(91, 235, 183);
+                /* background-image: url('images/bg-image.png');
+                background: rgb(2,0,36);
+                background: linear-gradient(40deg, rgba(2,0,36,0) 8%, rgba(91,235,183,0) 47%);
+                background-repeat: no-repeat;
                 background-size: cover;
                 width: 100%;
                 height: 50vh;
                 background-position: center;
-                /* position: fixed; for  background to remain fixed while scrolling*/
-                object-fit: contain;
+                position: fixed; for  background to remain fixed while scrolling
+                object-fit: contain; */
 
+                border: 2px solid #5bebc7;
+                border-radius: 15px;
+                background: none;
             }
-            .search{
-                margin-top: 250px;
+            
+            .hero-text {
+                text-align: center;
+                color: white;
+                padding: 50px;
+              }
+
+              .hero-text h1 {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+              }
+
+              .hero-text p {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+              }
+
+              .cta-button {
+                background-color: #5bebc7;
+                color: black;
                 border: none;
-                border-radius: 2px;
-                background-color: #f1f1f1;
-                color: #888;
-                width: 200px;
-                font-size: 15px;
-                padding: 5px;
-                transition: width 0.4s;
-                margin-right: 50px;
+                padding: 15px 30px;
+                font-size: 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+              }
+
+              .cta-button:hover {
+                background-color: #2f826a;
+              }
+
+
+            .search{
+                margin-top: 10px;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                margin-right: 30px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #4ac9a6;
+                background-color: rgba(0, 0, 0, 0);
+                color: white;
             }
+
+            .search::placeholder{
+                color: rgba(133, 129, 129, 0.846);
+            }
+
             .content{
                 display: flex;
                 gap: 15px;
@@ -107,6 +165,15 @@
             </div>
         </div>
         <div class="background" ><img src="" alt="">
+            <div class="hero-text">
+              <h1>Welcome to EventMaster</h1>
+              <p>Your ultimate solution for seamless event management. Plan, organize, and execute events with ease and efficiency.</p>
+              <button class="cta-button">Get Started</button>
+            </div>
+
+            
+          
+
             <input type="text" placeholder="Search" class="search">
             <input type="text" placeholder="Search-by-Location" class="search">
         </div>
