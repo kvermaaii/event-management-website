@@ -1,55 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title>
+    <%= title %>
+  </title>
   <style>
+    .Header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .LOGO {
+      display: block;
+      width: 30px;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-image: url('images/background-pattern.png');
+      background-size: auto 100vh;
+      background-repeat: repeat-x;
+      /* to repeat the bg img only on horizontal, fit on background */
+      background-attachment: fixed;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .full-width-form {
+      width: 100%;
+      padding: 2rem;
     }
 
     .navbar {
       display: flex;
       justify-content: flex-end;
-      background-color: #fff;
       padding: 0.5rem 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+      height: 3rem;
     }
 
     .navbar a {
       text-decoration: none;
-      color: #333;
+      color: #ffffff;
       font-weight: bold;
-      padding: 0.5rem 1rem;
+      padding: 1rem 2rem;
       margin-left: 0.5rem;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      font-size: 1rem;
+      display: inline-block;
     }
 
     .navbar a:hover {
-      background-color: #007bff;
-      color: #fff;
-      border-color: #007bff;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      transform: scale(1.1);
     }
 
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      background-color: #fff;
+    .content {
+      display: flex;
+      height: calc(100vh - 3rem);
+      /* Adjust height to account for navbar */
+    }
+
+    .left-side {
+      flex: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('images/login-bg.png');
+      background-size: cover;
+      background-position: center;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      padding: 100px;
+      margin-left: 50px;
+      /* Add margin to create space from the borders */
+      margin-bottom: 70px;
+      margin-top: 20px;
+    }
+
+    .right-side {
+      flex: 2;
+      justify-content: auto;
+      align-items: center;
       padding: 2rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 1);
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+
+
+      margin-right: 50px;
+      /* Add margin to create space from the borders */
+      margin-bottom: 70px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      /* Add shadow */
     }
 
-    h2 {
+    .right-side form {
+      width: 80%;
+    }
+
+    /* h2 {
       text-align: center;
       margin-bottom: 1.5rem;
-    }
+    } */
 
     .form-group {
       margin-bottom: 1rem;
@@ -59,52 +123,71 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: bold;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      ;
     }
 
     input {
       width: 100%;
+      /* Adjust width to account for padding and border */
       padding: 0.75rem;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 1rem;
+      box-sizing: border-box;
+      /* Ensure padding and border are included in the element's total width and height */
     }
 
     input:focus {
-      border-color: #007bff;
+      border-color: #5bebc7;
       outline: none;
-      box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
     }
 
     .btn {
       display: block;
       width: 100%;
       padding: 0.75rem;
-      background-color: #007bff;
+      background-color: #44ac92;
       color: #fff;
       border: none;
       border-radius: 5px;
       font-size: 1rem;
       cursor: pointer;
       margin-top: 1rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
 
     .btn:hover {
-      background-color: #0056b3;
+      background-color: #5bebc7;
+      transition: background-color 0.3s ease, transform 0.3s ease;
     }
   </style>
 </head>
+
 <body>
-  <nav class="navbar">
-    <a href="/">Home</a>
-    <% if (showLogin) { %>
+  <div class="Header">
+    <div class="LOGO">
+      <img class="LOGO" src="./images/favicon.ico" alt="">
+    </div>
+    <nav class="navbar">
+      <a href="/">Home</a>
+      <% if (showLogin) { %>
         <a href="/login">Login</a>
-      <% } %>
-      <% if (showSignup) { %>
-        <a href="/sign-up">Sign Up</a>
-      <% } %>
-  </nav>
-  <div class="container">
-    <%- include(content) %>
+        <% } %>
+          <% if (showSignup) { %>
+            <a href="/sign-up">Sign Up</a>
+            <% } %>
+    </nav>
+  </div>
+  <div class="content">
+    <div class="left-side"></div>
+    <div class="right-side">
+
+      <%- include(content) %>
+
+    </div>
   </div>
 </body>
+
 </html>
