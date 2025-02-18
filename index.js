@@ -21,6 +21,10 @@ app.get('/sign-up', (req, res) => {
     showSignup: false });
 })
 
+app.get('/payments', (req, res) => {
+  res.render('payments.ejs');
+})
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

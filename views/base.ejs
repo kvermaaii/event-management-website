@@ -14,8 +14,8 @@
       padding: 10px;
       align-items: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+      background-color: #333;
+      }
 
     .LOGO {
       display: block;
@@ -44,18 +44,20 @@
       display: flex;
       justify-content: flex-end;
       padding: 0.5rem 1rem;
-      
+      padding: 0.5rem 1rem;
       height: 3rem;
     }
 
     .navbar a {
       text-decoration: none;
-      color: #ffffff;
-      font-weight: bold;
-      padding: 1rem 2rem;
-      margin-left: 0.5rem;
-      font-size: 1rem;
-      display: inline-block;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 1rem 2rem;
+        margin-left: 0.5rem;
+        font-size: 1rem;
+        display: inline-block;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        border-radius: 10px;
     }
 
     .navbar a:hover {
@@ -63,6 +65,7 @@
       color: #ffffff;
       transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
       transform: scale(1.1);
+      border-radius: 10px;
     }
 
     .content {
