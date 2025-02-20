@@ -4,22 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <style>
-    .Header {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 20px;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #333;
-    }
-
-    .LOGO {
-        display: block;
-        width: 40px;
-    }
-
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -32,42 +19,113 @@
         overflow: hidden;
     }
 
-    .navbar {
-        display: flex;
-        justify-content: flex-end;
-        padding: 0.5rem 1rem;
-        height: 3rem;
+    .content {
+      display: flex;
+      height: calc(100vh - 3rem);
+      /* Adjust height to account for navbar */
     }
 
-    .navbar a {
-        text-decoration: none;
-        color: #ffffff;
-        font-weight: bold;
-        padding: 1rem 2rem;
-        margin-left: 0.5rem;
-        font-size: 1rem;
-        display: inline-block;
-        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        border-radius: 10px;
+    .left-side {
+      flex: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('images/login-bg.png');
+      background-size: cover;
+      background-position: center;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      padding: 100px;
+      margin-left: 50px;
+      /* Add margin to create space from the borders */
+      margin-bottom: 70px;
+      margin-top: 20px;
     }
 
-    .navbar a:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: #ffffff;
+    .right-side {
+      flex: 2;
+      justify-content: auto;
+      align-items: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 1);
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+
+
+      margin-right: 50px;
+      /* Add margin to create space from the borders */
+      margin-bottom: 70px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      /* Add shadow */
+    }
+
+    .right-side form {
+      width: 80%;
+    }
+
+    .payment-form {
+        width: 50%;
+        margin: auto;
+        padding: 2rem;
+        background-color: #fff;
         border-radius: 10px;
-        transform: scale(1.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .payment-form h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .payment-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .payment-form input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .payment-form button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .payment-form button:hover {
+        background-color: #555;
     }
 </style>
 <body>
-    <div class="Header">
-        <div class="LOGO">
-          <img class="LOGO" src="./images/favicon.ico" alt="">
+    <div class="content">
+        <div class="payment-form">
+            <h1>Payment Details</h1>
+            <form action="/confirm-payment" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required><br><br>
+
+                <label for="card">Card Number:</label>
+                <input type="text" id="card" name="card" required><br><br>
+
+                <label for="expiry">Expiry Date:</label>
+                <input type="month" id="expiry" name="expiry" required><br><br>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required><br><br>
+
+                <button type="submit">Confirm Payment</button>
+            </form>
         </div>
-        <nav class="navbar">
-          <a href="/">Home</a>
-          <!-- <a href="/login">Login</a>
-          <a href="/sign-up">Sign Up</a> -->
-        </nav>
-      </div>
+    </div>
 </body>
 </html>
