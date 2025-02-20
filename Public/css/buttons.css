@@ -47,5 +47,41 @@
            inset 0 0 .5em .25em var(--glow-color);
    }
 
+   /* Pill and Inward Curved Buttons */
+   .button-group {
+       display: flex;
+     }
+ 
+     .btn {
+       padding: 10px 25px;
+       border: none;
+       font-size: 16px;
+       cursor: pointer;
+       /* transition: 0.3s; */
+     }
+ 
+     .btn-signup {
+       background-color: rgb(100, 61, 136);
+       color: white;
+       border-radius: 50px; /* Pill shape */
+       margin-right: -14px; /* Overlap the Log in button slightly */
+       z-index: 1; /* Ensure it stays on top */
+     }
+ 
+     .btn-login {
+       background-color: #83838a57;
+       color: black;
+       opacity: 0.6;
+       border-top-right-radius: 25px;
+       border-bottom-right-radius: 25px;
+       padding-left: 30px;
+       padding-right: 30px;
+     }
+ 
+     .btn:hover {
+       opacity: 0.9;
+     }
 
-   
+     .btn-login:hover {
+       background-color: rgb(89, 42, 133);
+     }
