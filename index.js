@@ -25,6 +25,11 @@ app.get('/payments', (req, res) => {
   res.render('payments.ejs');
 })
 
+// Handle 404 errors
+app.use((req, res, next) => {
+    res.status(404).render('404');
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
