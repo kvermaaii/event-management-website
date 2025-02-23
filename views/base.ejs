@@ -7,20 +7,12 @@
   <title>
     <%= title %>
   </title>
-  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/buttons.css">
+  <link rel="stylesheet" href="/css/background.css">
+  <link rel="stylesheet" href="/css/search.css">
+  <link rel="stylesheet" href="/css/home_navbar.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-image: url('images/background-pattern.png');
-      background-size: auto 100vh;
-      background-repeat: repeat-x;
-      /* to repeat the bg img only on horizontal, fit on background */
-      background-attachment: fixed;
-      height: 100vh;
-      overflow: hidden;
-    }
+   
 
     .full-width-form {
       width: 100%;
@@ -28,6 +20,7 @@
     }
 
     .content {
+      margin-top: 70px;
       display: flex;
       height: calc(100vh - 3rem);
       /* Adjust height to account for navbar */
@@ -127,7 +120,7 @@
   </style>
 </head>
 
-<body>
+<body class="background-container">
   <div class="Header">
     <div class="LOGO">
       <img class="LOGO" src="./images/favicon.ico" alt="">
