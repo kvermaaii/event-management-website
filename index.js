@@ -1,4 +1,5 @@
 import express from 'express';
+import ejsLint from 'ejs-lint';
 const app = express();
 const port = 3000;
 
@@ -24,6 +25,22 @@ app.get('/sign-up', (req, res) => {
 app.get('/payments', (req, res) => {
   res.render('payments.ejs');
 })
+
+app.get('/concert', (req, res) => {
+  res.render('concert.ejs');
+});
+
+app.get('/exhibition', (req, res) => {
+  res.render('exhibition.ejs');
+});
+
+app.get('/tedx', (req, res) => {
+  res.render('tedx.ejs');
+});
+
+app.get('/health-camp', (req, res) => {
+  res.render('health-camp.ejs');
+});
 
 // Handle 404 errors
 app.use((req, res, next) => {
