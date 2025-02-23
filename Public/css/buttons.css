@@ -4,7 +4,7 @@
     --enhanced-glow-color: rgb(231, 206, 255);
     --btn-color: rgb(100, 61, 136);
     border: .25em solid var(--glow-color);
-    padding: 1em 3em;
+    padding: 0.75em 2.5em;
     color: var(--glow-color);
     font-size: 15px;
     font-weight: bold;
@@ -17,6 +17,7 @@
     text-shadow: 0 0 .5em var(--glow-color);
     position: relative;
     transition: all 0.3s;
+    cursor: pointer;
    }
    
    .cta-button::after {
@@ -47,7 +48,7 @@
            inset 0 0 .5em .25em var(--glow-color);
    }
 
-   /* Pill and Inward Curved Buttons */
+   /* Pill and Inward Curved Buttons for Login/Signup group*/
    .button-group {
        display: flex;
      }
@@ -57,7 +58,7 @@
        border: none;
        font-size: 16px;
        cursor: pointer;
-       /* transition: 0.3s; */
+       transition: 0.3s;
      }
  
      .btn-signup {
@@ -70,7 +71,7 @@
  
      .btn-login {
        background-color: #83838a57;
-       color: black;
+       color: rgb(255, 255, 255);
        opacity: 0.6;
        border-top-right-radius: 25px;
        border-bottom-right-radius: 25px;
@@ -80,8 +81,10 @@
  
      .btn:hover {
        opacity: 0.9;
+       background-color: rgb(217, 176, 255)
      }
 
      .btn-login:hover {
-       background-color: rgb(89, 42, 133);
+       background-color: rgb(217, 176, 255);
+       
      }
