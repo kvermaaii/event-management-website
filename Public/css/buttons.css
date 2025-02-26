@@ -53,7 +53,7 @@
      }
  
      .btn {
-       padding: 10px 25px;
+       padding: 10px 20px;
        border: none;
        font-size: 16px;
        cursor: pointer;
@@ -75,7 +75,7 @@
        border-top-right-radius: 25px;
        border-bottom-right-radius: 25px;
        padding-left: 30px;
-       padding-right: 30px;
+       padding-right: 25px;
      }
  
      .btn:hover {
