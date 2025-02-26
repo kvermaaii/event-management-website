@@ -1,0 +1,117 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.payment-container {
+    flex: 0 0 45%;
+    padding: 20px;
+    position: relative;
+}
+
+.payment-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.event-details {
+    flex: 0 0 55%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    /* border-left: 1px solid #ccc; */
+}
+
+.event-details h3 {
+    margin-top: 0;
+}
+
+.event-details p {
+    margin: 5px 0;
+}
+
+.total-amount {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    position: absolute; /* Add this line */
+    bottom: 20px; /* Add this line */
+    left: 20px; /* Add this line */
+}
+
+.number-picker {
+    display: flex;
+    align-items: center;
+}
+
+.number-picker button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.number-picker input {
+    text-align: center;
+    width: 50px;
+    margin: 0 5px;
+    appearance: textfield;
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+/* Hide arrows in input number for Chrome, Safari, Edge, Opera */
+.number-picker input::-webkit-outer-spin-button,
+.number-picker input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide arrows in input number for Firefox */
+.number-picker input[type=number] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .payment-container,
+    .event-details {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}

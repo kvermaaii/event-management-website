@@ -1,4 +1,3 @@
-
 /* body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -67,6 +66,12 @@
 .search::placeholder {
   color: rgba(133, 129, 129, 0.846);
 } Unused code, refer search.css*/
+
+.home-heading {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+}
 
 .content {
   display: flex;

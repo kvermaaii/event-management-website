@@ -3,129 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/navbar.css">
+    <title>EventMaster</title>
+
+    <!-- <link rel="stylesheet" href="/css/search.css"> Not needed-->
+    <link rel="stylesheet" href="/css/background.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/payments.css">
+    <link rel="stylesheet" href="/css/home_navbar.css">
+
 </head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-image: url('images/background-pattern.png');
-        background-size: auto 100vh;
-        background-repeat: repeat-x;
-        background-attachment: fixed;
-        height: 100vh;
-        overflow: hidden;
-    }
+<body class="background-container">
 
-    .content {
-      display: flex;
-      height: calc(100vh - 3rem);
-      /* Adjust height to account for navbar */
-    }
+    <!-- Navbar -->
+    <div class="Header">
+        <div class="LOGO">
+          <img class="LOGO" src="./images/favicon.ico" alt="">
+        </div>
+        <div class="navbar">
+          <div class="button-group">
+            <button class="btn btn-signup" onclick="window.location.href = '/' ">Home</button>
+            <button class="btn btn-login" onclick="window.location.href = '/login' ">Log in</button>
+          </div>
+        </div>
+      </div>
 
-    .left-side {
-      flex: 3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('images/login-bg.png');
-      background-size: cover;
-      background-position: center;
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
-      padding: 100px;
-      margin-left: 50px;
-      /* Add margin to create space from the borders */
-      margin-bottom: 70px;
-      margin-top: 20px;
-    }
+    <div class="blank-space-20px" style="height: 20px;"></div>
 
-    .right-side {
-      flex: 2;
-      justify-content: auto;
-      align-items: center;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 1);
-      border-top-right-radius: 20px;
-      border-bottom-right-radius: 20px;
+    <div class="container">
+        <div class="payment-container">
+            <h2>Confirm Your Details</h2>
+            <form action="/process-payment" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="Shriansh Jain"> <!-- user.name to be put later -->
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="shriansh.j23@iiits.in" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number:</label>
+                    <input type="text" id="mobile" name="mobile" value="8310236848" pattern="\d{10}" title="Please enter a valid 10-digit mobile number" required>
+                </div>
+                <!--Number picker-->
+                <div class="form-group">
+                    <label for="tickets">Number of Tickets:</label>
+                    <div class="number-picker">
+                        <button type="add-sub-button" onclick="changeTickets(-1)">-</button>
+                        <input type="number" id="tickets" name="tickets" min="1" max="10" step="1" value="1" required>
+                        <button type="add-sub-button" onclick="changeTickets(1)">+</button>
+                    </div>
+                </div>
 
-
-      margin-right: 50px;
-      /* Add margin to create space from the borders */
-      margin-bottom: 70px;
-      margin-top: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      /* Add shadow */
-    }
-
-    .right-side form {
-      width: 80%;
-    }
-
-    .payment-form {
-        width: 50%;
-        margin: auto;
-        padding: 2rem;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .payment-form h1 {
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .payment-form label {
-        display: block;
-        margin-bottom: 0.5rem;
-    }
-    .payment-form input {
-        width: 100%;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    .payment-form button {
-        width: 100%;
-        padding: 0.75rem;
-        background-color: #333;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .payment-form button:hover {
-        background-color: #555;
-    }
-</style>
-<body>
-    <div class="content">
-        <div class="payment-form">
-            <h1>Payment Details</h1>
-            <form action="/confirm-payment" method="POST">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required><br><br>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br><br>
-
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" required><br><br>
-
-                <label for="card">Card Number:</label>
-                <input type="text" id="card" name="card" required><br><br>
-
-                <label for="expiry">Expiry Date:</label>
-                <input type="month" id="expiry" name="expiry" required><br><br>
-
-                <label for="cvv">CVV:</label>
-                <input type="text" id="cvv" name="cvv" required><br><br>
-
-                <button type="submit">Confirm Payment</button>
+                <button class="payment-btn">
+                    <span>Confirm</span>
+                  </button>
             </form>
         </div>
+        <div class="event-details" style="position: relative;">
+            <h3>Event Details</h3>
+            <p>Event Name: Sample Event</p>
+            <p>Date: 25th December 2023</p>
+            <p>Venue: Sample Venue</p>
+            <p class="total-amount">Total Amount: $<span id="total-amount">100</span></p>
+        </div>
     </div>
+
+    <script>
+        function changeTickets(amount) {
+            var input = document.getElementById('tickets');
+            var currentValue = parseInt(input.value);
+            var newValue = currentValue + amount;
+            if (newValue >= parseInt(input.min) && newValue <= parseInt(input.max)) {
+                input.value = newValue;
+                updateTotalAmount(newValue);
+            }
+        }
+
+        function updateTotalAmount(tickets) {
+            var pricePerTicket = 100; // Example price per ticket
+            var totalAmount = tickets * pricePerTicket;
+            document.getElementById('total-amount').textContent = totalAmount;
+        }
+    </script>
 </body>
 </html>
