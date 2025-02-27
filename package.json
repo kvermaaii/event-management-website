@@ -18,6 +18,7 @@
   "homepage": "https://github.com/kvermaaii/event-management-website#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "ejs": "^3.1.10",
     "express": "^4.21.2"
   }

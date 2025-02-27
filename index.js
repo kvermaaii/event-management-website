@@ -1,5 +1,4 @@
 import express from 'express';
-import ejsLint from 'ejs-lint';
 const app = express();
 const port = 3000;
 
@@ -8,6 +7,8 @@ app.use(express.urlencoded({extended: true}));;
 
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
+
+let users = [];  // In-memory database for storing users
 
 app.use(express.static("Public"))
 
@@ -20,9 +21,39 @@ app.get('/login', (req, res) => {
     showSignup: true  });
 })
 
+// app.post('/login', (req, res) => {
+//   console.log(req.body);
+//   res.redirect('/profile');
+// })
+
 app.get('/sign-up', (req, res) => {
   res.render('base', { title: 'Sign-up', content: 'sign-up', showLogin: true, 
     showSignup: false });
+})
+
+app.post("/sign-up", (req, res) => {
+  const { email, firstName, password1, password2 } = req.body;
+
+  // Validate input
+  if (users.find((user) => user.email === email)) {
+    return res.status(400).send("Email already registered.");
+  }
+
+  if (!email || !firstName || !password1 || !password2) {
+    return res.status(400).send("All fields are required.");
+  }
+  if (password1 !== password2) {
+    return res.status(400).send("Passwords do not match.");
+  }
+
+  // Hash the password
+
+
+  // Add user to the in-memory database
+  users.push({ email, firstName, password: password1 });
+
+  //redirect user to home page
+  res.redirect('/');
 })
 
 app.get('/payments', (req, res) => {

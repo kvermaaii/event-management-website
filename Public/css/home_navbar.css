@@ -18,6 +18,16 @@
     width: 20px;
 }
 
+.lI { /*Logo image*/
+    float: left;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.lI:hover {
+    transform: scaleX(-1);
+}
+
 /* Styling for the navigation bar */
 .navbar {
     float: right;
