@@ -3,9 +3,12 @@ const app = express();
 const port = 3000;
 import { v4 as uuidv4 } from 'uuid';
 import { setUser } from './services/auth.js';
+import cookieParser from 'cookie-parser';
+import {isAuth} from './middlewares/auth.js';
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
@@ -110,7 +113,7 @@ const categories = {
   ]
 };
 
-app.get('/:category', (req, res) => {
+app.get('/:category', isAuth, (req, res) => {
   const category = req.params.category;
   const cards = categories[category];
   if (cards) {
@@ -128,3 +131,4 @@ app.use((req, res, next) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+

@@ -1,11 +1,28 @@
-import { getUser } from './services/auth.js';
-async function isAuth(req, res, next){
-    const userId = req.cookies.uid;
-    const user = getUser(userId);
-    if(!userId) return res.redirect("/login");
-    if(!user) return res.redirect("/login");
+import { getUser } from '../services/auth.js';
 
+async function isAuth(req, res, next) {
+    const userId = req.cookies.uid;
+
+    // If no userId is found in cookies, redirect to login
+    if (!userId) {
+        return res.redirect("/login");
+    }
+
+    // Fetch user from the in-memory store
+    const user = getUser(userId);
+
+    // If no user is found, redirect to login
+    if (!user) {
+        return res.redirect("/login");
+    }
+
+    // Attach the user to the request object for downstream use
     req.user = user;
+
+    // Proceed to the next middleware
     next();
 }
+
+export {isAuth};
+
 
