@@ -31,7 +31,7 @@ app.get('/sign-up', (req, res) => {
     showSignup: false });
 })
 
-app.post("/sign-up", (req, res) => {
+app.post("/sign-up", async (req, res) => {
   const { email, firstName, password1, password2 } = req.body;
 
   // Validate input
@@ -53,6 +53,15 @@ app.post("/sign-up", (req, res) => {
   users.push({ email, firstName, password: password1 });
 
   //redirect user to home page
+  res.redirect('/');
+})
+
+app.post("/login", async (req, res) => {
+  const {email, password} = req.body;
+
+  if(!users.find((user) => user.email == email && user.password == password)){
+    return res.status(401).send("Invalid email or password");
+  } 
   res.redirect('/');
 })
 
