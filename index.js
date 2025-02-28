@@ -1,6 +1,8 @@
 import express from 'express';
 const app = express();
 const port = 3000;
+import { v4 as uuidv4 } from 'uuid';
+import { setUser } from './services/auth.js';
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
@@ -61,7 +63,12 @@ app.post("/login", async (req, res) => {
 
   if(!users.find((user) => user.email == email && user.password == password)){
     return res.status(401).send("Invalid email or password");
-  } 
+  }
+  const user = users.find((user) => user.email === email);
+
+  const sesionId = uuidv4();
+  setUser(sesionId, user);
+  res.cookie("uid",sesionId);
   res.redirect('/');
 })
 
