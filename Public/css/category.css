@@ -24,6 +24,8 @@
   position: relative;
   cursor: pointer;
   transition: border 0.1s ease, transform 0.1s ease;
+  border: 3px solid rgba(100, 61, 136, 0);;
+
 }
 
 .category-card img {
