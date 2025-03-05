@@ -79,6 +79,10 @@ app.get('/payments', (req, res) => {
   res.render('payments.ejs');
 })
 
+app.get('/admin', (req, res) => {
+  res.render("admin.ejs");
+});
+
 const categories = {
   concert: [
     { title: 'Concert 1', image: '/images/blank.png' },
@@ -122,6 +126,7 @@ app.get('/:category', isAuth, (req, res) => {
     res.status(404).render('404');
   }
 });
+
 
 // Handle 404 errors
 app.use((req, res, next) => {
