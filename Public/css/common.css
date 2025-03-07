@@ -17,9 +17,6 @@ html {
     overflow-x: hidden;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
-}
 
 /*Search bar*/
 /* Use search-container to make them horizontal*/ 
@@ -34,7 +31,7 @@ html {
     --width-of-input: 200px;
     --border-height: 1px;
     --border-before-color: rgba(221, 221, 221, 0.39);
-    --border-after-color: rgb(217, 176, 255);
+    --border-after-color: #d9b0ff;
     --input-hovered-color: #4985e01f;
     position: relative;
     width: var(--width-of-input);

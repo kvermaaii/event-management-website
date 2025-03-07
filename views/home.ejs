@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/home.css">
   <title>EventMaster - Home</title>
 </head>
 
@@ -13,7 +14,7 @@
   
     <%- include('partials/navbar') %>
 
-    <div class="blank-space-20px" style="height: 20px;"></div>
+    <!-- <div class="blank-space-20px" style="height: 20px;"></div> -->
     <div class="hero"><img src="" alt="">
       <div class="hero-text">
         <h1>Welcome to EventMaster</h1>
@@ -27,19 +28,19 @@
     <!-- Search by location and normal-->
     <div class="search-container">
       <div class="search-box">
-        <input class="input" placeholder="Search" required="" type="text">
-        <span class="input-border"></span>
+      <input class="input" placeholder="Search" required="" type="text">
+      <span class="input-border"></span>
       </div>
 
       <div class="search-box">
-        <input class="input" placeholder="Search by location" required="" type="text">
-        <span class="input-border"></span>
+      <input class="input" placeholder="Search by location" required="" type="text">
+      <span class="input-border"></span>
       </div>
     </div>
 
 
     <h2 class="home-heading">Browse</h2>
-    <div class="content">
+    <div class="cards-container">
       <div class="category-card" onclick="window.location.href = '/concert'">
         <img src="images/blank.png" alt="concert Icon">
         <p>concert</p>
