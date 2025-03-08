@@ -100,21 +100,6 @@ input:focus ~ .input-border {
     justify-content: center;
 }
 
-/* Responsive adjustments */
-.cards-container, .search-container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1em;
-    padding: 0 15px;
-}
-
-.category-card {
-    max-width: 100%;
-}
-
-
 /* Buttons */
 /*glowing button for hero page */
 .glow-button {
