@@ -1,0 +1,116 @@
+.content {
+      margin-top: 70px;
+      display: flex;
+      flex-wrap: wrap;
+      height: calc(100vh - 3rem);
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 0 10px;
+    }
+
+    .left-side {
+      flex: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('images/login-bg.png');
+      background-size: cover;
+      background-position: center;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      padding: 50px;
+      margin-left: 20px;
+      margin-bottom: 70px;
+      margin-top: 20px;
+      min-width: 200px;
+    }
+
+    .right-side {
+      flex: 2;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 1);
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      margin-right: 20px;
+      margin-bottom: 70px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right-side form {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: #5bebc7;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #44ac92;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .submit-btn:hover {
+      background-color: #5bebc7;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+        height: auto;
+      }
+      
+      .left-side {
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 0;
+        margin-right: 20px;
+        min-height: 200px;
+      }
+      
+      .right-side {
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 20px;
+        margin-left: 20px;
+      }
+    }

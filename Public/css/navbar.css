@@ -1,47 +1,208 @@
-/* Navbar styles */
-.Header {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #333;
-}
-.LOGO {
-  display: block;
-  width: 40px;
-  padding-left: 10px;
-}
-
+/* Navbar */
 .navbar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.5rem 1rem;
-  height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7em;
+    background-color: #222222;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed; /* Added to establish a stacking context */
+    top: 0;
+    z-index: 100; /* Added to ensure proper stacking order */
 }
 
-.navbar a {
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: bold;
-  padding: 1rem 2rem;
-  margin-left: 0.5rem;
-  font-size: 1rem;
-  display: inline-block;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  border-radius: 10px;
+body
+{
+padding-top: 65px;
 }
 
-.navbar a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  transform: scale(1.1);
-  border-radius: 10px;
+.navbar-left {
+    display: flex;
+    align-items: center;
 }
 
-.LOGO {
-  display: block;
-  width: 40px;
-  padding-left: 10px;
+.navbar-left .LOGO {
+    margin-right: 1em;
+    max-height: 40px;
+}
+
+.navbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    position: relative; /* Added to establish a stacking context */
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.navbar .nav-links a:hover {
+    background-color: #555;
+}
+
+.navbar .button-group {
+    display: flex;
+    gap: 1em;
+}
+
+/*Pill shaped button for navbar*/
+/* Pill and Inward Curved Buttons for Login/Signup group*/
+.button-group {
+    display: flex;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-signup {
+    background-color: rgb(100, 61, 136);
+    color: white;
+    border-radius: 50px; /* Pill shape */
+    margin-right: -34px; /* Overlap the Log in button slightly */
+    z-index: 1; /* Ensure it stays on top */
+  }
+
+  .btn-login {
+    background-color: #83838a57;
+    color: rgb(255, 255, 255);
+    opacity: 0.6;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding-left: 30px;
+    padding-right: 25px;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+    background-color: rgb(217, 176, 255)
+  }
+
+  .btn-login:hover {
+    background-color: rgb(217, 176, 255);
+    
+  }
+
+/* Dropdown styles */
+.navbar .dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 2; /* Ensure dropdown is above other content */
+}
+
+.navbar .dropbtn {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.navbar .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position it right below the dropdown button */
+    left: 0;
+    background-color: #444;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 3; /* Ensure dropdown content is above other content */
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+
+.navbar .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 0;
+}
+
+.navbar .dropdown-content a:hover {
+    background-color: #555;
+}
+
+.navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar .dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1em 0;
+    }
+    
+    .navbar-left {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 1em;
+        margin-bottom: 1em;
+    }
+    
+    .navbar .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5em;
+    }
+    
+    .navbar .nav-links a,
+    .navbar .dropdown .dropbtn {
+        width: 100%;
+        text-align: center;
+        padding: 0.75em;
+    }
+    
+    .navbar .dropdown {
+        width: 100%;
+    }
+    
+    .navbar .dropdown-content {
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+    
+    .navbar-right {
+        width: 100%;
+        justify-content: center;
+        margin: 0;
+        padding: 0 1em;
+    }
+    
+    .navbar .button-group {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .navbar .btn-login, 
+    .navbar .btn-signup {
+        flex: 1;
+        text-align: center;
+    }
 }

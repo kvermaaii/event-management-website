@@ -7,119 +7,21 @@
   <title>
     <%= title %>
   </title>
+  <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/buttons.css">
   <link rel="stylesheet" href="/css/background.css">
-  <link rel="stylesheet" href="/css/search.css">
-  <link rel="stylesheet" href="/css/home_navbar.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/forms.css">
+
   <style>
-    .content {
-      margin-top: 70px;
-      display: flex;
-      height: calc(100vh - 3rem);
-      /* Adjust height to account for navbar */
-    }
-
-    .left-side {
-      flex: 3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('images/login-bg.png');
-      background-size: cover;
-      background-position: center;
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
-      padding: 100px;
-      margin-left: 50px;
-      /* Add margin to create space from the borders */
-      margin-bottom: 70px;
-      margin-top: 20px;
-    }
-
-    .right-side {
-      flex: 2;
-      justify-content: auto;
-      align-items: center;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 1);
-      border-top-right-radius: 20px;
-      border-bottom-right-radius: 20px;
-      margin-right: 50px;
-      /* Add margin to create space from the borders */
-      margin-bottom: 70px;
-      margin-top: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      /* Add shadow */
-    }
-
-    .right-side form {
-      width: 80%;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    input {
-      width: 100%;
-      /* Adjust width to account for padding and border */
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-      box-sizing: border-box;
-      /* Ensure padding and border are included in the element's total width and height */
-    }
-
-    input:focus {
-      border-color: #5bebc7;
-      outline: none;
-      box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #44ac92;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 1rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .btn:hover {
-      background-color: #5bebc7;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
+    
   </style>
 </head>
 
 <body class="background-container">
-  <div class="Header">
-    <div class="LOGO">
-      <img class="LOGO" src="./images/favicon.ico" alt="">
-    </div>
-    <nav class="navbar">
-      <a href="/">Home</a>
-      <% if (showLogin) { %>
-        <a href="/login">Login</a>
-        <% } %>
-          <% if (showSignup) { %>
-            <a href="/sign-up">Sign Up</a>
-            <% } %>
-    </nav>
-  </div>
+  <div class="el"></div> <!--Background- refer forms.css-->
+  <%- include('partials/navbar') %>
+  
   <div class="content">
     <div class="left-side"></div>
     <div class="right-side">
@@ -128,6 +30,7 @@
 
     </div>
   </div>
+  <%- include('partials/footer') %>
 </body>
 
 </html>

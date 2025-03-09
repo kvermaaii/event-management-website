@@ -117,7 +117,7 @@ const categories = {
   ]
 };
 
-app.get('/:category', isAuth, (req, res) => {
+app.get('/:category', (req, res) => {
   const category = req.params.category;
   const cards = categories[category];
   if (cards) {

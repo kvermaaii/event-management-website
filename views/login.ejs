@@ -1,13 +1,20 @@
-<h2 style="text-align: center; font-family: Verdana, Geneva, Tahoma, sans-serif;">Login</h2>
-<form action="/login" method="POST" class="full-width-form">
-  <div class="form-group">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" placeholder="Enter email" required>
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Enter password" required>
-  </div>
-  <button type="submit" class="btn">Login</button>
-</form>
+<link rel="stylesheet" href="/css/navbar.css">
+<!-- <h2 style="text-align: center; font-family: Verdana, Geneva, Tahoma, sans-serif;">Login</h2> -->
 
+
+<div class="form-container">
+  <form class="form">
+    <h1 style="text-align: center;">Login</h1>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+    <button class="form-submit-btn" type="submit">Submit</button>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

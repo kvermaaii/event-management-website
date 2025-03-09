@@ -4,35 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/home_navbar.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="/css/search.css">
-  <link rel="stylesheet" href="/css/background.css">
-  <link rel="stylesheet" href="/css/buttons.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <title>EventMaster - Home</title>
 </head>
 
 <body class="background-container"> 
   
-    <div class="Header">
-      <div class="LOGO">
-        <img class="lI" src="./images/favicon.ico" alt="">
-      </div>
-      <div class="navbar">
-        <div class="button-group">
-          <button class="btn btn-signup" onclick="window.location.href = '/sign-up' ">Sign Up</button>
-          <button class="btn btn-login" onclick="window.location.href = '/login' ">Log in</button>
-        </div>
-      </div>
-    </div>
+    <%- include('partials/navbar') %>
 
-
-    <div class="blank-space-20px" style="height: 20px;"></div>
+    <!-- <div class="blank-space-20px" style="height: 20px;"></div> -->
     <div class="hero"><img src="" alt="">
       <div class="hero-text">
         <h1>Welcome to EventMaster</h1>
         <p>Your ultimate solution for seamless event management. Plan, organize, and execute events with ease and
           efficiency.</p>
-        <button class="cta-button">Get Started</button>
+        <br>
+        <button class="glow-button">Get Started</button>
       </div>
 
     </div>
@@ -40,19 +30,19 @@
     <!-- Search by location and normal-->
     <div class="search-container">
       <div class="search-box">
-        <input class="input" placeholder="Search" required="" type="text">
-        <span class="input-border"></span>
+      <input class="input" placeholder="Search" required="" type="text">
+      <span class="input-border"></span>
       </div>
 
       <div class="search-box">
-        <input class="input" placeholder="Search by location" required="" type="text">
-        <span class="input-border"></span>
+      <input class="input" placeholder="Search by location" required="" type="text">
+      <span class="input-border"></span>
       </div>
     </div>
 
 
     <h2 class="home-heading">Browse</h2>
-    <div class="content">
+    <div class="cards-container">
       <div class="category-card" onclick="window.location.href = '/concert'">
         <img src="images/blank.png" alt="concert Icon">
         <p>concert</p>
@@ -78,6 +68,7 @@
       <button>»</button>
     </div>
   
+    <%- include('partials/footer') %>
 </body>
 
 </html>
