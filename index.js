@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { setUser } from './services/auth.js';
 import cookieParser from 'cookie-parser';
 import {isAuth} from './middlewares/auth.js';
+import authRouter from './routes/authentication.js';
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
@@ -13,7 +14,7 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
 
-let users = [];  // In-memory database for storing users
+export const users = [];  // In-memory database for storing users
 
 app.use(express.static("Public"))
 
@@ -21,59 +22,8 @@ app.get('/', (req, res) => {
   res.render("home.ejs");
 })
 
-app.get('/login', (req, res) => {
-  res.render('base', { title: 'Login', content: 'login', showLogin: false, 
-    showSignup: true  });
-})
+app.use('/',authRouter);
 
-// app.post('/login', (req, res) => {
-//   console.log(req.body);
-//   res.redirect('/profile');
-// })
-
-app.get('/sign-up', (req, res) => {
-  res.render('base', { title: 'Sign-up', content: 'sign-up', showLogin: true, 
-    showSignup: false });
-})
-
-app.post("/sign-up", async (req, res) => {
-  const { email, firstName, password1, password2 } = req.body;
-
-  // Validate input
-  if (users.find((user) => user.email === email)) {
-    return res.status(400).send("Email already registered.");
-  }
-
-  if (!email || !firstName || !password1 || !password2) {
-    return res.status(400).send("All fields are required.");
-  }
-  if (password1 !== password2) {
-    return res.status(400).send("Passwords do not match.");
-  }
-
-  // Hash the password
-
-
-  // Add user to the in-memory database
-  users.push({ email, firstName, password: password1 });
-
-  //redirect user to home page
-  res.redirect('/');
-})
-
-app.post("/login", async (req, res) => {
-  const {email, password} = req.body;
-
-  if(!users.find((user) => user.email == email && user.password == password)){
-    return res.status(401).send("Invalid email or password");
-  }
-  const user = users.find((user) => user.email === email);
-
-  const sesionId = uuidv4();
-  setUser(sesionId, user);
-  res.cookie("uid",sesionId);
-  res.redirect('/');
-})
 
 app.get('/payments', (req, res) => {
   res.render('payments.ejs');
