@@ -84,11 +84,6 @@ to {box-shadow: 0 0 100px 15px #F72A3B; }
 #two
 {
 	width: 90%;
-	/*animation*/
-	-webkit-animation: two 4s ease-in-out infinite alternate;
-	-moz-animation: two 4s ease-in-out infinite alternate;
-	-ms-animation: two 4s ease-in-out infinite alternate;
-	-o-animation: two 4s ease-in-out infinite alternate;
 	animation: two 4s ease-in-out infinite alternate;
 }
 @-webkit-keyframes 
