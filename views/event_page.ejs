@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/event_page.css">
+
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <header class="event-header">
+        <img src="/images/random_bg.png" alt="Event Picture">
+        <div class="event-info">
+            <h1><%= title %></h1>
+            <p>Type | Language | Event Time</p>
+            <p><strong>Date:</strong> Date</p>
+            <p><strong>Location:</strong> Location</p>
+            <p><strong>Price:</strong> Price</p>
+            <button class="book-now-btn">Book Now</button>
+        </div>
+    </header>
+
+    <div class="event-container">
+        <section class="event-details">
+            <h2>Event Details</h2>
+            <p>Join us for an unforgettable experience featuring live performances and engaging activities.</p>
+        </section>
+
+        <section class="artist-lineup">
+            <h2>Guests</h2>
+            <div class="artist-grid">
+                <div class="artist"><img src="/images/guest.png" alt="Guest 1"><p>Guest 1</p></div>
+                <div class="artist"><img src="/images/guest.png" alt="Guest 2"><p>Guest 2</p></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

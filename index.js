@@ -83,6 +83,11 @@ app.get('/admin', (req, res) => {
   res.render("admin.ejs");
 });
 
+app.get('/event', (req, res) => {
+    const { title } = req.query;
+    res.render('event_page', { title });
+});
+
 const categories = {
   concert: [
     { title: 'Concert 1', image: '/images/blank.png' },

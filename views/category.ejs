@@ -34,6 +34,14 @@
             <% }); %>
     </div>
     <%- include('partials/footer') %>
+
+    <script>
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = `/event?title=${encodeURIComponent(card.querySelector('p').textContent)}`;
+            });
+        });
+    </script>
 </body>
 
 </html>

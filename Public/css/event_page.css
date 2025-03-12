@@ -1,0 +1,67 @@
+body {
+    color: #fff;
+}
+
+.event-header {
+    display: flex;
+    background: #2c2c2c;
+    padding: 50px;
+    align-items: center;
+    border-bottom: 3px solid #333;
+    gap: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(191, 123, 255, 0.781);
+    margin: 40px auto;
+    width: 80%;
+    max-width: 1200px;
+}
+.event-header img {
+    width: 50%;
+    border-radius: 12px;
+}
+.event-info {
+    max-width: 50%;
+}
+.event-info h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.event-container {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    padding: 50px;
+    margin-top: 30px;
+    width: calc(100% - 80px);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.event-details, .artist-lineup {
+    flex: 0 0 40%;
+    background: #2c2c2c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(191, 123, 255, 0.781);
+}
+.event-details h2, .artist-lineup h2 {
+    font-size: 28px;
+}
+.artist-grid {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.artist {
+    text-align: center;
+    background: grey;
+    padding: 25px;
+    border-radius: 12px;
+}
+.artist img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
