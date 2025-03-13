@@ -4,31 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/category.css">
+
     <title>
         <%= category %> - EventMaster
     </title>
-    <link rel="stylesheet" href="/css/home_navbar.css">
-    <link rel="stylesheet" href="/css/category.css">
-    <link rel="stylesheet" href="/css/search.css">
-    <link rel="stylesheet" href="/css/background.css">
-    <link rel="stylesheet" href="/css/buttons.css">
 </head>
 
 <body class="background-container">
-    <div class="Header">
-        <div class="LOGO">
-            <img class="LOGO" src="./images/favicon.ico" alt="">
-        </div>
-        <div class="navbar">
-            <div class="button-group">
-                <button class="btn btn-signup" onclick="window.location.href = '/sign-up' ">Sign Up</button>
-                <button class="btn btn-login" onclick="window.location.href = '/login' ">Log in</button>
-            </div>
-        </div>
-    </div>
+    <%- include('partials/navbar') %>
 
-    <div class="blank-space-20px" style="height: 20px;"></div>
-    <div class="blank-space-20px" style="height: 20px;"></div>
+    <!-- <div class="blank-space-20px" style="height: 20px;"></div>
+    <div class="blank-space-20px" style="height: 20px;"></div> -->
 
     <h1 class="home-heading">
         <%= category %>
@@ -44,6 +33,15 @@
             </div>
             <% }); %>
     </div>
+    <%- include('partials/footer') %>
+
+    <script>
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = `/event?title=${encodeURIComponent(card.querySelector('p').textContent)}`;
+            });
+        });
+    </script>
 </body>
 
 </html>

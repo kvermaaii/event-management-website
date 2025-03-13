@@ -1,0 +1,66 @@
+body {
+    color: #fff;
+}
+
+.event-header {
+    display: flex;
+    background: #2c2c2c;
+    padding: 50px;
+    align-items: center;
+    border-bottom: 3px solid #333;
+    gap: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(191, 123, 255, 0.781);
+    margin: 20px auto; /* Changed margin from 40px auto; to 20px auto; for consistency */
+    width: 80%;
+    max-width: 1200px;
+}
+.event-header img {
+    width: 30%;
+    border-radius: 12px;
+}
+.event-info {
+    max-width: 50%;
+}
+.event-info h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.event-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px; 
+    margin-top: 20px; 
+    width: calc(100% - 60px); 
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.event-details, .artist-lineup {
+    flex: 0 0 40%;
+    background: #2c2c2c;
+    padding: 30px; 
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(191, 123, 255, 0.781);
+}
+.event-details h2, .artist-lineup h2 {
+    font-size: 28px;
+}
+.artist-grid {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.artist {
+    text-align: center;
+    background: grey;
+    padding: 25px;
+    border-radius: 12px;
+}
+.artist img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}

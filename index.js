@@ -29,6 +29,15 @@ app.get('/payments', (req, res) => {
   res.render('payments.ejs');
 })
 
+app.get('/admin', (req, res) => {
+  res.render("admin.ejs");
+});
+
+app.get('/event', (req, res) => {
+    const { title } = req.query;
+    res.render('event_page', { title });
+});
+
 const categories = {
   concert: [
     { title: 'Concert 1', image: '/images/blank.png' },
@@ -63,7 +72,7 @@ const categories = {
   ]
 };
 
-app.get('/:category', isAuth, (req, res) => {
+app.get('/:category', (req, res) => {
   const category = req.params.category;
   const cards = categories[category];
   if (cards) {
@@ -72,6 +81,7 @@ app.get('/:category', isAuth, (req, res) => {
     res.status(404).render('404');
   }
 });
+
 
 // Handle 404 errors
 app.use((req, res, next) => {

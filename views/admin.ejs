@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ByeWind</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#">Overview</a></li>
+                <li><a href="#">eCommerce</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">User Profile</a></li>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Corporate</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Social</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input class="input" type="text" placeholder="Search...">
+                            <div class="input-border"></div>
+                        </div>
+                        <button>Notifications</button>
+                    </div>
+                    <button id="toggle-sidebar">Toggle Sidebar</button>
+                </div>
+            </header>
+            <section class="stats">
+                <div class="stat">
+                    <h3>Views</h3>
+                    <p>7,265</p>
+                </div>
+                <div class="stat">
+                    <h3>Visits</h3>
+                    <p>3,671</p>
+                </div>
+                <div class="stat">
+                    <h3>New Users</h3>
+                    <p>156</p>
+                </div>
+                <div class="stat">
+                    <h3>Active Users</h3>
+                    <p>2,318</p>
+                </div>
+            </section>
+            <section class="charts">
+                <div class="chart" id="total-users-chart">
+                    <h3>Total Users Chart</h3>
+                    <img src="/images/line_chart.png" alt="Total Users Chart">
+                </div>
+                <div class="chart" id="traffic-by-website-chart">
+                    <h3>Traffic by Website Chart</h3>
+                    <img src="/images/bar_chart.png" alt="Traffic by Website Chart">
+                </div>
+                <div class="chart" id="traffic-by-device-chart">
+                    <h3>Traffic by Device Chart</h3>
+                    <img src="/images/pie_chart.png" alt="Traffic by Device Chart">
+                </div>
+                <div class="chart" id="traffic-by-location-chart">
+                    <h3>Traffic by Location Chart</h3>
+                    <img src="/images/traffic_chart.png" alt="Traffic by Location Chart">
+                </div>
+            </section>
+            <section class="activities">
+                <h2>Activities</h2>
+                <ul>
+                    <li>Changed the style. Just now</li>
+                    <li>Released a new version. 59 minutes ago</li>
+                    <li>Submitted a bug. 12 hours ago</li>
+                    <li>Modified a data in Page X. Today, 11:59 AM</li>
+                    <li>Deleted a page in Project X. Feb 2, 2023</li>
+                </ul>
+            </section>
+            <section class="contacts">
+                <h2>Contacts</h2>
+                <ul>
+                    <li>Natal Craig</li>
+                    <li>Drew Cano</li>
+                    <li>Andi Lane</li>
+                    <li>Koray Okumus</li>
+                    <li>Kate Morrison</li>
+                    <li>Melody Macey</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    <%- include('partials/footer') %>
+    <script src="/js/sidebar.js"></script>
+</body>
+</html>
