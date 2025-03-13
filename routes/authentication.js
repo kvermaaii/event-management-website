@@ -2,9 +2,8 @@ import express from 'express';
 const router = express.Router();
 import authController from "../controllers/authController.js";
 router.get('/login', (req, res) => {
-    res.render('base', { title: 'Login', content: 'login', showLogin: false, 
-      showSignup: true  });
-  })
+    res.render('base', { title: 'Login', content: 'login'});
+});
   
   // app.post('/login', (req, res) => {
   //   console.log(req.body);
@@ -12,9 +11,12 @@ router.get('/login', (req, res) => {
   // })
   
 router.get('/sign-up', (req, res) => {
-    res.render('base', { title: 'Sign-up', content: 'sign-up', showLogin: true, 
-      showSignup: false });
-})
+    res.render('base', { title: 'Sign-up', content: 'sign-up'});
+});
+
+router.get('/host', (req, res) => {
+  res.render('base', { title: 'Host', content: 'host_with_us'});
+});
   
 router.post("/sign-up", authController.userSignUp);
   
