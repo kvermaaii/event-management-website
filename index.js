@@ -70,15 +70,15 @@ const categories = {
   ]
 };
 
-// app.get('/:category', isAuth, (req, res) => {
-//   const category = req.params.category;
-//   const cards = categories[category];
-//   if (cards) {
-//     res.render('category', { category, cards });
-//   } else {
-//     res.status(404).render('404');
-//   }
-// });
+app.get('/:category', (req, res) => {
+  const category = req.params.category;
+  const cards = categories[category];
+  if (cards) {
+    res.render('category', { category, cards });
+  } else {
+    res.status(404).render('404');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
