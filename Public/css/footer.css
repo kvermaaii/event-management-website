@@ -1,25 +1,10 @@
 /* CSS for Footer */
 
-/* Remove conflicting styles that affect the entire document */
-/* * {
-	padding: 0px;
-	margin: 0px;
-} */
-
-/* Remove conflicting styles for html and body */
-/* html,
-body {
-	background: #000;
-	width: 100%;
-	height: 100%;
-} */
-
 /* Add wrapper for positioning context */
 .footer-wrapper {
 	position: relative;
 	width: 100%;
 	margin-top: 20px;
-	clear: both; /* Clear any floats above the footer */
 }
 
 #wrap {
@@ -39,7 +24,6 @@ body {
 	width: 100%;
 }
 
-/* ... existing code... */
 section {
 	/*border-radius*/
 	-webkit-border-radius: 50%;
@@ -57,7 +41,6 @@ section>p {
 	font-size: 1000px;
 }
 
-/* ... existing code... */
 #one {
 	/*animation*/
 	-webkit-animation: one 5s ease-in-out infinite alternate;
@@ -96,7 +79,6 @@ section>p {
 /* ... existing code... */
 #three {
 	width: 80%;
-	/*animation*/
 	-webkit-animation: three 3s ease-in-out infinite alternate;
 	-moz-animation: three 3s ease-in-out infinite alternate;
 	-ms-animation: three 3s ease-in-out infinite alternate;
@@ -119,7 +101,6 @@ section>p {
 /* ... existing code... */
 #four {
 	width: 70%;
-	/*animation*/
 	-webkit-animation: four 2s ease-in-out infinite alternate;
 	-moz-animation: four 2s ease-in-out infinite alternate;
 	-ms-animation: four 2s ease-in-out infinite alternate;
