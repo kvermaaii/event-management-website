@@ -143,6 +143,7 @@ section>p {
 
 /*Css for the footer content*/
 footer {
+	font-family: "Quicksand", sans-serif;
 	color: #fff;
 	padding: 20px 0;
 	text-align: center;

@@ -46,7 +46,7 @@ body {
     border: 2px solid transparent;
     padding: 24px 24px; 
     font-size: 14px;
-    font-family: inherit;
+    font-family: "Quicksand", sans-serif;
     color: white;
     display: flex;
     flex-direction: column;
