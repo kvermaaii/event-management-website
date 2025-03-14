@@ -3,6 +3,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { setUser } from '../services/auth.js';
 
 class authController {
+    
+    async loadSignUpPage (req, res){
+      res.render('base', { title: 'Sign-up', content: 'sign-up', showLogin: true, 
+        showSignup: false });
+    }
+
+    async loadLoginPage (req, res){
+      res.render('base', { title: 'Login', content: 'login', showLogin: false, 
+        showSignup: true  });
+    }
     async userSignUp  (req, res) {
         const { email, firstName, password1, password2 } = req.body;
       

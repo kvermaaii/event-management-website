@@ -8,6 +8,7 @@ import {isAuth} from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
 import paymentRouter from './routes/payment.js'
 import eventRouter from './routes/event.js';
+import adminRouter from './routes/admin.js'
 import handle404 from './controllers/errorController.js';
 
 app.use(express.json());
@@ -26,10 +27,7 @@ app.get('/', (req, res) => {
 app.use('/',authRouter);
 app.use('/payments', paymentRouter);
 app.use('/events', eventRouter);
-
-app.get('/admin', (req, res) => {
-  res.render("admin.ejs");
-});
+app.use('/admin', adminRouter);
 
 app.get('/event', (req, res) => {
     const { title } = req.query;
