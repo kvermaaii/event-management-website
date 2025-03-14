@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/admin.css"> <!-- Reusing admin styles with customization -->
+    <title>User Dashboard</title>
+    <style>
+        /* Custom styles for user dashboard */
+        .booking-card {
+            background-color: #3a3a4f;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .booking-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .booking-date {
+            color: #a0a0b0;
+            font-size: 14px;
+        }
+        
+        .booking-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-completed {
+            background-color: #2d4f3e;
+            color: #4cd37b;
+        }
+        
+        .status-upcoming {
+            background-color: #3a4d6d;
+            color: #5b9cf5;
+        }
+        
+        .status-cancelled {
+            background-color: #5d3a3a;
+            color: #f55b5b;
+        }
+        
+        .booking-details {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .booking-detail {
+            margin-right: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            color: #a0a0b0;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+        }
+        
+        .booking-actions {
+            display: flex;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        
+        .booking-actions button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .view-ticket-btn {
+            background-color: #3a6bc5;
+            color: white;
+        }
+        
+        .cancel-booking-btn {
+            background-color: #6c3a3a;
+            color: white;
+        }
+        
+        .profile-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        
+        .profile-image {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .profile-details h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a0b0;
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #4e4e6a;
+            border-radius: 6px;
+            background-color: #2d2d3d;
+            color: #c7c7d1;
+            font-size: 14px;
+        }
+        
+        .form-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .save-btn {
+            padding: 10px 24px;
+            background-color: #3a6bc5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .cancel-btn {
+            padding: 10px 24px;
+            background-color: transparent;
+            color: #c7c7d1;
+            border: 1px solid #4e4e6a;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #4e4e6a;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .password-change-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #4e4e6a;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-image {
+                max-width: 180px;
+                margin: 0 auto 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>My Account</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#bookings">My Bookings</a></li>
+                <li><a href="#profile">Profile Settings</a></li>
+                <li><a href="#notifications">Notifications</a></li>
+                <li><a href="#saved-events">Saved Events</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <h1>User Dashboard</h1>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input class="input" type="text" placeholder="Search bookings...">
+                            <div class="input-border"></div>
+                        </div>
+                        <button class="notification-btn">Notifications</button>
+                    </div>
+                    <button id="toggle-sidebar">Toggle Sidebar</button>
+                </div>
+            </header>
+
+            <section id="bookings" class="dashboard-section tab-content active">
+                <h2 class="section-title">My Bookings</h2>
+                
+                <div class="bookings-filter">
+                    <select id="booking-filter">
+                        <option value="all">All Bookings</option>
+                        <option value="upcoming">Upcoming Events</option>
+                        <option value="past">Past Events</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                
+                <div class="bookings-list">
+                    <!-- Booking cards would be generated dynamically -->
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div>
+                                <h3 class="booking-title">Tech Conference 2023</h3>
+                                <p class="booking-date">Booked on May 1, 2023</p>
+                            </div>
+                            <span class="booking-status status-completed">Completed</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <p class="detail-label">Date & Time</p>
+                                <p class="detail-value">June 15, 2023 • 9:00 AM</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Location</p>
+                                <p class="detail-value">Convention Center, San Francisco</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Type</p>
+                                <p class="detail-value">VIP Pass</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Price</p>
+                                <p class="detail-value">$75.00</p>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="view-ticket-btn">View Ticket</button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div>
+                                <h3 class="booking-title">Music Festival</h3>
+                                <p class="booking-date">Booked on June 10, 2023</p>
+                            </div>
+                            <span class="booking-status status-upcoming">Upcoming</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <p class="detail-label">Date & Time</p>
+                                <p class="detail-value">July 28, 2023 • 4:00 PM</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Location</p>
+                                <p class="detail-value">Central Park, New York</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Type</p>
+                                <p class="detail-value">Weekend Pass</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Price</p>
+                                <p class="detail-value">$120.00</p>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="view-ticket-btn">View Ticket</button>
+                            <button class="cancel-booking-btn">Cancel Booking</button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div>
+                                <h3 class="booking-title">Business Workshop</h3>
+                                <p class="booking-date">Booked on April 5, 2023</p>
+                            </div>
+                            <span class="booking-status status-cancelled">Cancelled</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <p class="detail-label">Date & Time</p>
+                                <p class="detail-value">April 20, 2023 • 10:00 AM</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Location</p>
+                                <p class="detail-value">Business Center, Chicago</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Type</p>
+                                <p class="detail-value">Standard</p>
+                            </div>
+                            <div class="booking-detail">
+                                <p class="detail-label">Ticket Price</p>
+                                <p class="detail-value">$45.00</p>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="view-ticket-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="profile" class="dashboard-section tab-content">
+                <h2 class="section-title">Profile Settings</h2>
+                
+                <div class="profile-section">
+                    <div class="profile-sidebar">
+                        <div class="profile-image">
+                            <img src="/images/guest.png" alt="User Profile">
+                        </div>
+                        <button class="change-photo-btn">Change Photo</button>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <h3>Personal Information</h3>
+                        <form id="profile-form" action="/user/update-profile" method="POST">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" id="first-name" name="firstName" value="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" name="lastName" value="Doe" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" value="john.doe@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" value="(555) 123-4567">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" name="username" value="johndoe123" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="date-of-birth">Date of Birth</label>
+                                    <input type="date" id="date-of-birth" name="dateOfBirth" value="1990-05-15">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn">Save Changes</button>
+                                <button type="reset" class="cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                        
+                        <div class="password-change-section">
+                            <h3>Change Password</h3>
+                            <form id="password-form" action="/user/change-password" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="current-password">Current Password</label>
+                                        <input type="password" id="current-password" name="currentPassword" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="new-password">New Password</label>
+                                        <input type="password" id="new-password" name="newPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm New Password</label>
+                                        <input type="password" id="confirm-password" name="confirmPassword" required>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="save-btn">Change Password</button>
+                                    <button type="reset" class="cancel-btn">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="notifications" class="dashboard-section tab-content">
+                <h2 class="section-title">Notifications</h2>
+                <div class="notifications-container">
+                    <!-- This would be populated with user's notifications -->
+                    <p>No new notifications.</p>
+                </div>
+            </section>
+
+            <section id="saved-events" class="dashboard-section tab-content">
+                <h2 class="section-title">Saved Events</h2>
+                <div class="saved-events-container">
+                    <!-- This would be populated with user's saved events -->
+                    <p>You haven't saved any events yet.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab navigation
+            const menuItems = document.querySelectorAll('.sidebar-menu li a');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const target = this.getAttribute('href').substring(1);
+                        
+                        // Hide all tab contents and deactivate all menu items
+                        tabContents.forEach(tab => tab.classList.remove('active'));
+                        menuItems.forEach(item => item.parentElement.classList.remove('active'));
+                        
+                        // Show target tab content and activate current menu item
+                        document.getElementById(target).classList.add('active');
+                        this.parentElement.classList.add('active');
+                    }
+                });
+            });
+            
+            // Booking filter functionality
+            const bookingFilter = document.getElementById('booking-filter');
+            const bookingCards = document.querySelectorAll('.booking-card');
+            
+            bookingFilter.addEventListener('change', function() {
+                const filterValue = this.value;
+                
+                bookingCards.forEach(card => {
+                    const status = card.querySelector('.booking-status').className.split(' ')[1];
+                    
+                    if (filterValue === 'all' || 
+                        (filterValue === 'upcoming' && status === 'status-upcoming') ||
+                        (filterValue === 'past' && status === 'status-completed') ||
+                        (filterValue === 'cancelled' && status === 'status-cancelled')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Form submission handling
+            const profileForm = document.getElementById('profile-form');
+            const passwordForm = document.getElementById('password-form');
+            
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would typically send the form data to the server
+                // For now, just show a success message
+                alert('Profile updated successfully!');
+            });
+            
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match!');
+                    return;
+                }
+                
+                // Here you would typically send the form data to the server
+                // For now, just show a success message
+                alert('Password changed successfully!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
