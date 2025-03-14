@@ -9,6 +9,8 @@ import authRouter from './routes/authentication.js';
 import paymentRouter from './routes/payment.js'
 import eventRouter from './routes/event.js';
 import adminRouter from './routes/admin.js'
+import userRouter from './routes/user.js';
+import organizerRouter from './routes/organizer.js';
 import handle404 from './controllers/errorController.js';
 
 app.use(express.json());
@@ -28,11 +30,8 @@ app.use('/',authRouter);
 app.use('/payments', paymentRouter);
 app.use('/events', eventRouter);
 app.use('/admin', adminRouter);
-
-app.get('/event', (req, res) => {
-    const { title } = req.query;
-    res.render('event_page', { title });
-});
+app.use('/user', userRouter);
+app.use('/organizer', organizerRouter);
 
 const categories = {
   concert: [
