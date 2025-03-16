@@ -44,6 +44,10 @@ app.use('/admin', adminRouter);
 app.use('/user', userRouter);
 app.use('/organizer', organizerRouter);
 
+app.get('/host', (req, res) => {
+  res.render('base', { page: 'host_with_us', title: 'Host With Us', content: 'host_with_us' });
+});
+
 const categories = {
   concert: [
     { title: 'Concert 1', image: '/images/blank.png' },
