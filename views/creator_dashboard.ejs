@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Creator Dashboard</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #0b070e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            padding: 0;
+            padding-top: 80px !important; /* Increased padding-top to ensure content starts below navbar */
+        }
+        .dashboard-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            margin-top: 30px; /* Increased margin-top for more space after navbar */
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 1400px; /* Added max-width for better responsive behavior */
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease-in-out;
+            min-height: 150px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .box:hover {
+            transform: translateY(-5px);
+        }
+        .large-table {
+            grid-column: span 4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: left;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            z-index: 10;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+        .modal button {
+            padding: 8px 12px;
+            background: #0b070e;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .modal button:hover {
+            background: #1a1a1a;
+        }
+        .box img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        .box p {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="dashboard-container">
+        <div class="dashboard">
+            <div class="box action-box" onclick="openModal('createEventModal')">Create New Event</div>
+            <div class="box action-box" onclick="openModal('editEventModal')">Edit Event</div>
+            <div class="box action-box" onclick="openModal('updateProfileModal')">Update Profile</div>
+
+            <div class="box large-table">
+                <table id="eventsTable">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Created By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Website Launch</td>
+                            <td>John Doe</td>
+                            <td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>Product Update</td>
+                            <td>Jane Smith</td>
+                            <td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box">
+                <img src="https://marvel-b1-cdn.bc0a.com/f00000000283357/web-assets.domo.com/blog/wp-content/uploads/2021/08/product-content-chart-pie-1.png" alt="Analytics">
+            </div>
+            <div class="box">
+                <img src="https://www.hubspot.com/hs-fs/hubfs/Google%20Drive%20Integration/types%20of%20charts_32023-May-22-2023-10-17-24-4537-PM.png?width=600&height=451&name=types%20of%20charts_32023-May-22-2023-10-17-24-4537-PM.png" alt="User Management">
+                
+            </div>
+            <div class="box">
+                <img src="https://www150.statcan.gc.ca/edu/power-pouvoir/c-g/c-g05-2-4-eng.png" alt="Settings">
+                
+            </div>
+            <div class="box">
+                <img src="https://www.tableau.com/sites/default/files/2021-09/PieChartAlternative2%402x.png" alt="Reports">
+            </div>
+        </div>
+    </div>
+
+    <div id="createEventModal" class="modal">
+        <h3>Create New Event</h3>
+        <input type="text" id="newEventName" placeholder="Event Name">
+        <input type="text" id="createdBy" placeholder="Created By">
+        <button onclick="createEvent()">Create</button>
+        <button onclick="closeModal('createEventModal')">Cancel</button>
+    </div>
+
+    <div id="editEventModal" class="modal">
+        <h3>Edit Event</h3>
+        <input type="text" id="editEventName" placeholder="Event Name">
+        <button onclick="editEvent()">Save</button>
+        <button onclick="closeModal('editEventModal')">Cancel</button>
+    </div>
+
+    <div id="updateProfileModal" class="modal">
+        <h3>Update Profile</h3>
+        <input type="text" id="profileName" placeholder="Your Name">
+        <input type="email" id="profileEmail" placeholder="Your Email">
+        <button onclick="updateProfile()">Update</button>
+        <button onclick="closeModal('updateProfileModal')">Cancel</button>
+    </div>
+    <%- include('partials/footer') %>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add("active");
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove("active");
+        }
+
+        function createEvent() {
+            let eventName = document.getElementById("newEventName").value;
+            let createdBy = document.getElementById("createdBy").value;
+
+            if (eventName.trim() === "" || createdBy.trim() === "") {
+                alert("Please enter event details.");
+                return;
+            }
+
+            let table = document.getElementById("eventsTable").getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td>${eventName}</td><td>${createdBy}</td><td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>`;
+
+            closeModal("createEventModal");
+        }
+
+        function editEvent() {
+            alert("Edit functionality to be implemented.");
+            closeModal("editEventModal");
+        }
+
+        function updateProfile() {
+            alert("Profile updated.");
+            closeModal("updateProfileModal");
+        }
+    </script>
+</body>
+</html>

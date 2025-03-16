@@ -57,7 +57,7 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: "Quicksand", sans-serif;
     }
 
     input {
@@ -86,7 +86,7 @@
       font-size: 1rem;
       cursor: pointer;
       margin-top: 1rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: "Quicksand", sans-serif;
     }
 
     .submit-btn:hover {

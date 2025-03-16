@@ -3,107 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Override any navbar container styles */
+        .Header {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+        
+        .navbar {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+        
+        body {
+            background-color: #0b070e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh; 
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-top: 75px !important; /* Important padding to ensure content starts below navbar */
+        }
+
+        /* DASHBOARD TITLE */
+        .dashboard-title {
+            padding: 20px 0;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        /* DASHBOARD GRID */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1.2fr 1fr 1fr;
+            gap: 10px;
+            width: 90vw;
+            max-width: 1600px; /* Added max-width for larger screens */
+            height: 70vh;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s;
+            flex-direction: column;
+        }
+        .box:hover {
+            transform: scale(1.02);
+        }
+
+        .large-table {
+            grid-column: span 2;
+            grid-row: span 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .tall-box {
+            grid-column: span 1;
+            grid-row: span 2;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content at top */
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        /* STATISTICS HEADING */
+        
+
+        /* STATISTICS LIST */
+        .statistics-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .statistics-list li {
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            width: 90%;
+            margin-left: 5px;
+        }
+
+        .short-box {
+            grid-column: span 1;
+            grid-row: span 1;
+            font-size: 20px;
+        }
+        .contact-box {
+            grid-column: span 1;
+            grid-row: span 2;
+            font-size: 20px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 18px;
+        }
+        th, td {
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: left;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+        tbody tr:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* IMAGE STYLES */
+        .box img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        /* BUTTON CONTAINER */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        /* ADD & EDIT EVENT BUTTONS */
+        .add-event-btn, .edit-event-btn {
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 150px;
+        }
+
+        .add-event-btn {
+            background: #ffcc00;
+            color: black;
+        }
+
+        .add-event-btn:hover {
+            background: #e6b800;
+        }
+
+        .edit-event-btn {
+            background: #00ccff;
+            color: white;
+            margin-left: 15px;
+        }
+
+        .edit-event-btn:hover {
+            background: #0099cc;
+        }
+        h1{
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+        .footer {
+            width: 97%;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.2);
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 20px; /* Added margin at the bottom */
+        }
+    </style>
 </head>
 <body>
+
     <%- include('partials/navbar') %>
-    
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>ByeWind</h2>
+  
+    <!-- DASHBOARD TITLE -->
+    <div class="dashboard-title">Admin Dashboard</div>
+
+    <!-- DASHBOARD GRID -->
+    <div class="dashboard">
+        
+        <!-- Large Table with Add and Edit Event Buttons -->
+        <div class="box large-table">
+            <div style="width: 100%;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Creator Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Event 1</td><td>Creator1</td></tr>
+                        <tr><td>Event 2</td><td>Creator2</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- Buttons Container -->
+                <div class="button-container">
+                    <button class="add-event-btn">Add Event</button>
+                    <button class="edit-event-btn">Edit Event</button>
+                </div>
             </div>
-            <ul class="sidebar-menu">
-                <li><a href="#">Overview</a></li>
-                <li><a href="#">eCommerce</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">User Profile</a></li>
-                <li><a href="#">Account</a></li>
-                <li><a href="#">Corporate</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Social</a></li>
+        </div>
+
+        <!-- Statistics Box with Heading at the Top -->
+        <div class="box tall-box">
+            <h1>Statistics</h1>
+            <ul class="statistics-list">
+                <li>Total Events: <span id="total-events">1</span></li>
+                <li>Active Users: <span id="active-users">10</span></li>
+                <li>Event Creators: <span id="event-creators">5</span></li>
+                <li>Total Revenue: <span id="Total-revenue">10,000</span></li>
             </ul>
-        </aside>
-        <main class="main-content">
-            <header class="header">
-                <h1>Dashboard</h1>
-                <div class="header-actions">
-                    <div class="search-container">
-                        <div class="search-box">
-                            <input class="input" type="text" placeholder="Search...">
-                            <div class="input-border"></div>
-                        </div>
-                        <button>Notifications</button>
-                    </div>
-                    <button id="toggle-sidebar">Toggle Sidebar</button>
-                </div>
-            </header>
-            <section class="stats">
-                <div class="stat">
-                    <h3>Views</h3>
-                    <p>7,265</p>
-                </div>
-                <div class="stat">
-                    <h3>Visits</h3>
-                    <p>3,671</p>
-                </div>
-                <div class="stat">
-                    <h3>New Users</h3>
-                    <p>156</p>
-                </div>
-                <div class="stat">
-                    <h3>Active Users</h3>
-                    <p>2,318</p>
-                </div>
-            </section>
-            <section class="charts">
-                <div class="chart" id="total-users-chart">
-                    <h3>Total Users Chart</h3>
-                    <img src="/images/line_chart.png" alt="Total Users Chart">
-                </div>
-                <div class="chart" id="traffic-by-website-chart">
-                    <h3>Traffic by Website Chart</h3>
-                    <img src="/images/bar_chart.png" alt="Traffic by Website Chart">
-                </div>
-                <div class="chart" id="traffic-by-device-chart">
-                    <h3>Traffic by Device Chart</h3>
-                    <img src="/images/pie_chart.png" alt="Traffic by Device Chart">
-                </div>
-                <div class="chart" id="traffic-by-location-chart">
-                    <h3>Traffic by Location Chart</h3>
-                    <img src="/images/traffic_chart.png" alt="Traffic by Location Chart">
-                </div>
-            </section>
-            <section class="activities">
-                <h2>Activities</h2>
-                <ul>
-                    <li>Changed the style. Just now</li>
-                    <li>Released a new version. 59 minutes ago</li>
-                    <li>Submitted a bug. 12 hours ago</li>
-                    <li>Modified a data in Page X. Today, 11:59 AM</li>
-                    <li>Deleted a page in Project X. Feb 2, 2023</li>
-                </ul>
-            </section>
-            <section class="contacts">
-                <h2>Contacts</h2>
-                <ul>
-                    <li>Natal Craig</li>
-                    <li>Drew Cano</li>
-                    <li>Andi Lane</li>
-                    <li>Koray Okumus</li>
-                    <li>Kate Morrison</li>
-                    <li>Melody Macey</li>
-                </ul>
-            </section>
-        </main>
+        </div>
+
+        <!-- Image Box -->
+        <div class="box short-box">
+            <img src="https://www.slideteam.net/media/catalog/product/cache/330x186/m/o/monthly_gantt_chart_for_event_management_slide01.jpg" alt="Chart">
+        </div>
+
+        <div class="box contact-box"></div>
+
+        <div class="box">
+            <img src="https://www.thebritishacademy.ac.uk/media/images/Infographics_Update_.width-1000.jpg" alt="Service Chart">
+        </div>
+        <div class="box">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE5ZUThnQQlDFr4VksrWrlOyyIeQBNJOBlUQ&s" alt="Data Graph">
+        </div>
+        <div class="box">
+            <img src="https://cdn.eventespresso.com/wp-content/uploads/2024/02/27191651/Pie-Chart-1024x576.jpg" alt="Pie Chart">
+        </div>
     </div>
-<<<<<<< Updated upstream
+
     <%- include('partials/footer') %>
-=======
->>>>>>> Stashed changes
-    <script src="/js/sidebar.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addEventBtn = document.querySelector(".add-event-btn");
+            const editEventBtn = document.querySelector(".edit-event-btn");
+            let selectedRow = null;
+            
+            // Get statistics elements
+            let totalEvents = document.getElementById("total-events");
+            let eventCreators = document.getElementById("event-creators");
+    
+            // Function to make table rows selectable
+            function makeRowsSelectable() {
+                document.querySelectorAll("table tbody tr").forEach(row => {
+                    row.addEventListener("click", function () {
+                        selectRow(row);
+                    });
+                });
+            }
+    
+            // Make initial rows selectable
+            makeRowsSelectable();
+    
+            // Function to select a row
+            function selectRow(row) {
+                if (selectedRow) {
+                    selectedRow.style.backgroundColor = "";
+                }
+                selectedRow = row;
+                row.style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+            }
+    
+            // Function to add a new event
+            addEventBtn.addEventListener("click", function () {
+                let eventName = prompt("Enter the Event Name:");
+                let creatorName = prompt("Enter the Creator Name:");
+    
+                if (eventName && creatorName) {
+                    let tableBody = document.querySelector("table tbody");
+                    let newRow = document.createElement("tr");
+    
+                    newRow.innerHTML = `<td>${eventName}</td><td>${creatorName}</td>`;
+                    tableBody.appendChild(newRow);
+    
+                    // Make the new row selectable
+                    newRow.addEventListener("click", function () {
+                        selectRow(newRow);
+                    });
+    
+                    // Update statistics dynamically
+                    totalEvents.textContent = tableBody.children.length;
+                    eventCreators.textContent = new Set([...tableBody.querySelectorAll("tr td:nth-child(2)")].map(td => td.innerText)).size;
+                } else {
+                    alert("Event Name and Creator Name are required!");
+                }
+            });
+    
+            // Edit Event Function
+            editEventBtn.addEventListener("click", function () {
+                if (!selectedRow) {
+                    alert("Please select an event to edit.");
+                    return;
+                }
+    
+                let currentEventName = selectedRow.cells[0].innerText;
+                let currentCreatorName = selectedRow.cells[1].innerText;
+    
+                let newEventName = prompt("Edit Event Name:", currentEventName);
+                let newCreatorName = prompt("Edit Creator Name:", currentCreatorName);
+    
+                if (newEventName && newCreatorName) {
+                    selectedRow.cells[0].innerText = newEventName;
+                    selectedRow.cells[1].innerText = newCreatorName;
+                    selectedRow.style.backgroundColor = "";
+                    selectedRow = null;
+                } else {
+                    alert("Event Name and Creator Name are required!");
+                }
+            });
+        });
+    </script>
+    
 </body>
 </html>

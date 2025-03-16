@@ -8,6 +8,7 @@ import {isAuth} from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
 import paymentRouter from './routes/payment.js'
 import eventRouter from './routes/event.js';
+import dashboardRouter from './routes/dashboard.js';
 import handle404 from './controllers/errorController.js';
 
 app.use(express.json());
@@ -26,10 +27,12 @@ app.get('/', (req, res) => {
 app.use('/',authRouter);
 app.use('/payments', paymentRouter);
 app.use('/events', eventRouter);
+app.use('/dashboard', dashboardRouter); // Register dashboard routes
 
-app.get('/admin', (req, res) => {
-  res.render("admin.ejs");
-});
+// Remove the old admin route since it's now handled by dashboardRouter
+// app.get('/admin', (req, res) => {
+//   res.render("admin.ejs");
+// });
 
 app.get('/event', (req, res) => {
     const { title } = req.query;
