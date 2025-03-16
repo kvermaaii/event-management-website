@@ -1,6 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import adminController from '../controllers/adminController.js'
+import {isAuth} from '../middlewares/auth.js';
+
+router.use(isAuth);
 
 router.get('/dashboard', adminController.loadDashboard);
 router.get('/users',adminController.getAllUsers);

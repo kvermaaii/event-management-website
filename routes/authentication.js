@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import authController from "../controllers/authController.js";
+
 router.get('/login', authController.loadLoginPage);
   // app.post('/login', (req, res) => {
   //   console.log(req.body);
