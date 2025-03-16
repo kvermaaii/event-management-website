@@ -118,8 +118,7 @@
 .pagination {
   position: relative;
   height: 60px;
-  background: #222222;
-  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,8 +136,13 @@
   text-decoration: none;
   color: #FFF;
   font-weight: 500;
+  border: 1px solid rgb(217, 176, 255);
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
-.container .pagination li a:hover {
-  background: rgba(255, 255, 255, 0.2);
+.pagination li a:hover {
+  background-color: rgb(231, 206, 255);
+  color: #212121;
+  box-shadow: 0 0 10px rgba(191, 123, 255, 0.781);
 }
