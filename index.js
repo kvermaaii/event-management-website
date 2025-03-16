@@ -37,6 +37,12 @@ app.use(express.static("Public"));
 app.get('/', (req, res) => {
   res.render("home.ejs");
 })
+
+// Route for Contact Us page
+app.get('/contact', (req, res) => {
+  res.render("contact.ejs");
+})
+
 app.use('/',authRouter);
 app.use('/payments', paymentRouter);
 app.use('/events', eventRouter);
@@ -91,4 +97,3 @@ app.get('/:category', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-

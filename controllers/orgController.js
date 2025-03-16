@@ -1,6 +1,6 @@
 class orgController{
     async loadDashboard (req, res){
-
+        res.render('creator_dashboard.ejs')
     }
     async getOrgEvents (req, res){
 
