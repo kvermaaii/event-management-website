@@ -111,8 +111,8 @@ class authController {
         });
     
         console.log("user inserted");
-        res.redirect('/');
-        res.status(201).send("User registered successfully.");
+        // Only send one response - using redirect
+        return res.redirect('/');
       } catch (error) {
         console.error(error);
         res.status(500).send("An error occurred during sign-up.");
