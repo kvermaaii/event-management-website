@@ -5,19 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/admin.css"> <!-- Reusing admin styles with customization -->
+    <link rel="stylesheet" href="/css/footer.css">
     <title>User Dashboard</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #0b070e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            padding: 0;
+            padding-top: 80px !important;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            margin-top: 30px;
+            position: relative;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            position: sticky;
+            top: 100px; /* Adjusted to account for navbar */
+            height: calc(100vh - 120px); /* Set height to viewport minus navbar and some padding */
+            align-self: flex-start;
+            overflow-y: auto; /* In case sidebar content is too tall */
+        }
+        
+        .sidebar-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li.active a {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow-y: auto; /* Allow content to scroll if needed */
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 140px); /* Ensure it takes up most of the viewport height */
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-right: 15px;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-right: 10px;
+        }
+        
+        .search-box input {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 200px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
         /* Custom styles for user dashboard */
         .booking-card {
-            background-color: #3a3a4f;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             transition: transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
         }
         
         .booking-card:hover {
@@ -52,17 +179,17 @@
         }
         
         .status-completed {
-            background-color: #2d4f3e;
+            background-color: rgba(76, 211, 123, 0.2);
             color: #4cd37b;
         }
         
         .status-upcoming {
-            background-color: #3a4d6d;
+            background-color: rgba(91, 156, 245, 0.2);
             color: #5b9cf5;
         }
         
         .status-cancelled {
-            background-color: #5d3a3a;
+            background-color: rgba(245, 91, 91, 0.2);
             color: #f55b5b;
         }
         
@@ -103,13 +230,21 @@
         }
         
         .view-ticket-btn {
-            background-color: #3a6bc5;
+            background: rgba(58, 107, 197, 0.6);
             color: white;
         }
         
+        .view-ticket-btn:hover {
+            background: rgba(58, 107, 197, 0.8);
+        }
+        
         .cancel-booking-btn {
-            background-color: #6c3a3a;
+            background: rgba(108, 58, 58, 0.6);
             color: white;
+        }
+        
+        .cancel-booking-btn:hover {
+            background: rgba(108, 58, 58, 0.8);
         }
         
         .profile-section {
@@ -157,10 +292,10 @@
         .form-group select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #4e4e6a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 6px;
-            background-color: #2d2d3d;
-            color: #c7c7d1;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
             font-size: 14px;
         }
         
@@ -172,7 +307,7 @@
         
         .save-btn {
             padding: 10px 24px;
-            background-color: #3a6bc5;
+            background: rgba(58, 107, 197, 0.6);
             color: white;
             border: none;
             border-radius: 6px;
@@ -181,11 +316,15 @@
             transition: background-color 0.2s;
         }
         
+        .save-btn:hover {
+            background: rgba(58, 107, 197, 0.8);
+        }
+        
         .cancel-btn {
             padding: 10px 24px;
             background-color: transparent;
             color: #c7c7d1;
-            border: 1px solid #4e4e6a;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
@@ -193,7 +332,7 @@
         }
         
         .cancel-btn:hover {
-            background-color: #4e4e6a;
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
         }
         
@@ -208,10 +347,44 @@
         .password-change-section {
             margin-top: 40px;
             padding-top: 30px;
-            border-top: 1px solid #4e4e6a;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .bookings-filter {
+            margin-bottom: 20px;
+        }
+        
+        .bookings-filter select {
+            padding: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Dashboard sections with padding to ensure content fits within container */
+        .dashboard-section {
+            padding-bottom: 30px;
+        }
+        
+        /* Fixed footer position */
+        footer {
+            margin-top: auto;
         }
         
         @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            
             .profile-section {
                 grid-template-columns: 1fr;
             }
@@ -251,7 +424,6 @@
                     <div class="search-container">
                         <div class="search-box">
                             <input class="input" type="text" placeholder="Search bookings...">
-                            <div class="input-border"></div>
                         </div>
                         <button class="notification-btn">Notifications</button>
                     </div>
@@ -544,6 +716,16 @@
                 alert('Password changed successfully!');
                 this.reset();
             });
+            
+            // Toggle sidebar functionality for mobile
+            const toggleSidebar = document.getElementById('toggle-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (toggleSidebar) {
+                toggleSidebar.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
         });
     </script>
 </body>
