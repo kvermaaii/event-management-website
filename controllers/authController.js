@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { setUser } from '../services/auth.js';
+import { getUser } from '../services/auth.js';
 import cookieParser from 'cookie-parser';
 import db from '../connection.js';
 import bcrypt from 'bcrypt';
@@ -196,7 +197,62 @@ class authController {
       }
     }
     
+    async orgLogin(req,res) {
+      const sessionId = req.cookies.uid;
+      const user = getUser(sessionId);
+    
+      try {
+        const organizer = await new Promise((resolve, reject) => {
+          db.get(`SELECT * FROM Organizer WHERE userId = ?`, [user.userId], (err, row) => {
+            if (err) return reject(err);
+            resolve(row);
+          });
+        });
+    
+        if (organizer) {
+          // User is already an organizer
+          return res.redirect('/organizer/dashboard'); // Redirect to the organizer's dashboard
+        }
+    
+        // User is authenticated but not an organizer, show the organizer form
+        res.render('base', { title: 'Host with us', content: 'host_with_us', showLogin: false, 
+          showSignup: false });
+        // res.render('host_with_us', { title: 'Host with Us', user });
+      } catch (error) {
+        console.error('Error checking organizer status:', error);
+        res.status(500).send('An error occurred.');
+      }
+    }
 
+    async orgRegistration(req,res) {
+      const sessionId = req.cookies.uid;
+      const user = getUser(sessionId);
+      const { orgName, description, mobile } = req.body;
+
+      if (!orgName || !mobile) {
+        return res.status(400).send('Organization name and contact number are required.');
+      }
+    
+      try {
+        await new Promise((resolve, reject) => {
+          db.run(
+            `INSERT INTO Organizer (userId, organizationName, description, contactNo) VALUES (?, ?, ?, ?)`,
+            [user.userId, orgName, description, mobile],
+            (err) => {
+              if (err) return reject(err);
+              resolve();
+            }
+          );
+        });
+    
+        res.redirect('/organizer/dashboard'); // Redirect to organizer dashboard after successful registration
+      } catch (error) {
+        console.error('Error saving organizer details:', error);
+        res.status(500).send('An error occurred.');
+      }
+    }
+
+    
     
 };
 

@@ -1,6 +1,6 @@
 import { getUser } from '../services/auth.js';
 
-async function authenticateUser(req, res, next) {
+async function isAuth(req, res, next) {
     const userId = req.cookies.uid;
 
     // If no userId is found in cookies, redirect to login
@@ -24,6 +24,6 @@ async function authenticateUser(req, res, next) {
 }
 
 // Export the function with both names for backward compatibility
-export { authenticateUser, authenticateUser as isAuth };
+export  {isAuth};
 
 
