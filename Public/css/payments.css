@@ -1,0 +1,135 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 100%;
+}
+
+.payment-container, .event-details {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 100%;
+    transition: box-shadow 0.3s ease;
+}
+
+.payment-container:hover, .event-details:hover {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.form-group input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 3px solid transparent;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+/* Form field hover effect */
+.form-group input:hover {
+    border-color: rgb(194, 129, 255);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgb(194, 129, 255);
+    box-shadow: 0 0 5px rgba(68, 172, 146, 0.5);
+}
+
+.number-picker {
+    display: flex;
+    align-items: center;
+}
+
+.number-picker button {
+    padding: 5px 10px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.number-picker button:hover {
+    background-color: #555;
+}
+
+.number-picker input {
+    width: 60px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+/* Remove default number input arrows */
+.number-picker input[type="number"]::-webkit-inner-spin-button,
+.number-picker input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.payment-btn {
+    background-color: #44ac92;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 93%;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.payment-btn:hover {
+    background-color: rgb(231, 206, 255);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color:#643d88
+}
+
+.payment-btn:hover:before {
+    left: 100%;
+}
+
+.payment-btn:active {
+    transform: translateY(0);
+}
+
+.event-details {
+    color: white;
+}
+
+.total-amount {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+h2, h3 {
+    color: white;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
