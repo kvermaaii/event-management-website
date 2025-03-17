@@ -44,6 +44,11 @@ app.use('/admin', adminRouter);
 app.use('/user', userRouter);
 app.use('/organizer', organizerRouter);
 
+app.get('/create-event', (req, res) => {
+  res.render('base', { title: 'Create Event', content: 'create_event' });
+});
+
+
 const categories = {
   concert: [
     { title: 'Concert 1', image: '/images/blank.png' },
