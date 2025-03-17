@@ -9,7 +9,7 @@
     color: white;
     width: 100%;
     box-sizing: border-box;
-    position: fixed; /* Added to establish a stacking context */
+    position: fixed;
     top: 0;
     z-index: 100; /* Added to ensure proper stacking order */
 }
@@ -60,29 +60,27 @@ padding-top: 65px;
     gap: 1em;
 }
 
-/*Pill shaped button for navbar*/
-/* Pill and Inward Curved Buttons for Login/Signup group*/
 .button-group {
     display: flex;
-  }
+}
 
-  .btn {
+.btn {
     padding: 10px 20px;
     border: none;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-  }
+}
 
-  .btn-signup {
+.btn-signup {
     background-color: rgb(100, 61, 136);
     color: white;
     border-radius: 50px; /* Pill shape */
     margin-right: -34px; /* Overlap the Log in button slightly */
     z-index: 1; /* Ensure it stays on top */
-  }
+}
 
-  .btn-login {
+.btn-login {
     background-color: #83838a57;
     color: rgb(255, 255, 255);
     opacity: 0.6;
@@ -90,17 +88,16 @@ padding-top: 65px;
     border-bottom-right-radius: 25px;
     padding-left: 30px;
     padding-right: 25px;
-  }
+}
 
-  .btn:hover {
+.btn:hover {
     opacity: 0.9;
     background-color: rgb(217, 176, 255)
-  }
+}
 
-  .btn-login:hover {
+.btn-login:hover {
     background-color: rgb(217, 176, 255);
-    
-  }
+}
 
 /* Dropdown styles */
 .navbar .dropdown {
@@ -152,58 +149,146 @@ padding-top: 65px;
     background-color: #555;
 }
 
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5em;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
+}
+
+.hamburger-line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px 0;
+    background-color: white;
+    transition: transform 0.3s ease-in-out;
+}
+
 /* Responsive navbar */
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column;
-        padding: 1em 0;
+        padding: 0.7em;
     }
-    
+
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+
     .navbar-left {
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 0 1em;
-        margin-bottom: 1em;
     }
-    
-    .navbar .nav-links {
+
+    .navbar-left .nav-links {
+        display: none;
+    }
+
+    .navbar-right {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #222222;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+        padding: 2em;
+        margin: 0;
+        z-index: 100;
+    }
+
+    .navbar-right.active {
+        display: flex;
+    }
+
+    .navbar-right .nav-links {
+        display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 0.5em;
+        gap: 1em;
+        align-items: center;
     }
-    
+
+    .navbar-right.active .nav-links {
+        display: flex;
+    }
+
     .navbar .nav-links a,
     .navbar .dropdown .dropbtn {
         width: 100%;
         text-align: center;
         padding: 0.75em;
     }
-    
+
     .navbar .dropdown {
         width: 100%;
     }
-    
+
     .navbar .dropdown-content {
+        position: static;
         width: 100%;
-        position: relative;
-        top: 0;
+        background-color: #333;
     }
-    
-    .navbar-right {
-        width: 100%;
-        justify-content: center;
-        margin: 0;
-        padding: 0 1em;
-    }
-    
+
     .navbar .button-group {
+        flex-direction: column;
         width: 100%;
-        justify-content: center;
+        max-width: 300px;
+        gap: 1em;
     }
-    
-    .navbar .btn-login, 
-    .navbar .btn-signup {
-        flex: 1;
+
+    .btn-signup {
+        /* Reset desktop-specific styles */
+        margin-right: 0;
+        width: 100%;
+        border-radius: 25px;
         text-align: center;
+        background-color: rgb(100, 61, 136);
+    }
+
+    .btn-login {
+        margin: 0;
+        width: 100%;
+        border-radius: 25px; 
+        padding: 10px 20px;
+        text-align: center;
+        background-color: transparent;
+        border: 2px solid rgb(100, 61, 136);
+        color: rgb(100, 61, 136);
+    }
+
+    .btn-login:hover {
+        background-color: rgba(100, 61, 136, 0.1);
+        color: rgb(100, 61, 136);
+    }
+
+    /* Remove the z-index and overlap styling in mobile */
+    .btn-signup, .btn-login {
+        position: relative;
+        z-index: auto;
     }
 }
