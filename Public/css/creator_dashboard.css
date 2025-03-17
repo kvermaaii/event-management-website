@@ -1,0 +1,344 @@
+/* Creator Dashboard Styles */
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #fff;
+  max-width: 96%;
+  margin: 0 auto; /* Centers the container horizontally */
+}
+
+.dashboard-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto minmax(150px, 200px) minmax(150px, 1fr); /* Reduced from 2 rows to 1 */
+  gap: 16px;
+  background-color: rgba(30, 30, 30, 0.7);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  margin: 20px 0; /* Reduced top/bottom margin from 40px to 20px */
+}
+
+.bento-box {
+  font-family: 'Quicksand', sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.bento-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.box-title {
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Box Styles */
+.salmon-box {
+  grid-column: span 4;
+  background-color: rgba(255, 182, 193, 0.2);
+  padding: 10px;
+}
+
+.broccoli-box {
+  grid-column: span 1;
+  grid-row: span 1;
+  background-color: rgba(173, 255, 47, 0.2);
+}
+
+.tamago-box {
+  grid-column: span 3;
+  grid-row: span 1;
+  background-color: rgba(255, 255, 224, 0.2);
+}
+
+.pork-box {
+  grid-column: span 2;
+  grid-row: span 1;
+  background-color: rgba(210, 180, 140, 0.2);
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+  max-height: 215px; /* Updated to match edamame and tomato boxes */
+}
+
+.edamame-box {
+  grid-column: span 1;
+  grid-row: span 1;
+  background-color: rgba(144, 238, 144, 0.2);
+  max-height: 215px;
+  padding: 10px; 
+  overflow: hidden; 
+}
+
+.tomato-box {
+  grid-column: span 1;
+  grid-row: span 1;
+  background-color: rgba(255, 160, 122, 0.2);
+  max-height: 215px;
+  padding: 10px; 
+  overflow: hidden; 
+}
+
+.tofu-box {
+  grid-column: span 4;
+  grid-row: span 1;
+  background-color: rgba(245, 245, 245, 0.15);
+  padding: 15px;
+  overflow: auto;
+  display: block;
+  margin-bottom: 0; 
+}
+
+/* Event Carousel */
+.event-carousel {
+  width: 100%;
+  position: relative;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.carousel-item {
+  min-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.event-card {
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-card h4 {
+  margin-top: 0;
+  color: #d9b0ff;
+}
+
+.event-card p {
+  font-size: 0.9em;
+  margin: 5px 0;
+  color: #eee;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(217, 176, 255, 0.3);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s;
+}
+
+.carousel-control:hover {
+  background: rgba(217, 176, 255, 0.7);
+}
+
+.carousel-control.prev {
+  left: 5px;
+}
+
+.carousel-control.next {
+  right: 5px;
+}
+
+/* Event Management Table */
+.event-management {
+  width: 100%;
+  margin-top: 20px; /* Add some space between grid and table */
+}
+
+.event-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.event-management h3 {
+  margin: 0;
+  color: #d9b0ff;
+  font-weight: 600;
+}
+
+.create-event-btn {
+  background-color: #644088;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  box-shadow: 0 0 5px rgba(217, 176, 255, 0.5);
+}
+
+.create-event-btn:hover {
+  background-color: #7b4dab;
+  box-shadow: 0 0 10px rgba(217, 176, 255, 0.7);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.event-table thead tr {
+  background-color: #644088;
+  color: #ffffff;
+}
+
+.event-table th, .event-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.event-table th:last-child, .event-table td:last-child {
+  text-align: center;
+}
+
+.event-table tbody tr {
+  border-bottom: 1px solid #333;
+  background-color: rgba(30, 30, 30, 0.8);
+}
+
+.event-table tbody tr:hover {
+  background-color: rgba(60, 60, 60, 0.8);
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: white;
+}
+
+.status-upcoming {
+  background-color: #4CAF50;
+}
+
+.status-ongoing {
+  background-color: #2196F3;
+}
+
+.status-completed {
+  background-color: #9E9E9E;
+}
+
+.status-cancelled {
+  background-color: #F44336;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit-btn {
+  background-color: #FFC107;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: #e6ac00;
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background-color: #F44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto repeat(4, minmax(150px, auto));
+  }
+  
+  .salmon-box {
+    grid-column: span 2;
+  }
+  
+  .broccoli-box {
+    grid-column: span 1;
+  }
+  
+  .tamago-box {
+    grid-column: span 1;
+  }
+  
+  .pork-box {
+    grid-column: span 2;
+  }
+  
+  .edamame-box, .tomato-box {
+    grid-column: span 1;
+  }
+  
+  .tofu-box {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .salmon-box, .broccoli-box, .tamago-box, .pork-box, .edamame-box, .tomato-box, .tofu-box {
+    grid-column: span 1;
+  }
+}

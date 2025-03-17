@@ -1,235 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Creator Dashboard</title>
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #0b070e;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            width: 100%;
-            padding: 0;
-            padding-top: 80px !important; /* Increased padding-top to ensure content starts below navbar */
-        }
-        .dashboard-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 20px;
-            margin-top: 30px; /* Increased margin-top for more space after navbar */
-        }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 1400px; /* Added max-width for better responsive behavior */
-        }
-        .box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease-in-out;
-            min-height: 150px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .box:hover {
-            transform: translateY(-5px);
-        }
-        .large-table {
-            grid-column: span 4;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: left;
-        }
-        th {
-            background: rgba(255, 255, 255, 0.2);
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 300px;
-            z-index: 10;
-        }
-        .modal.active {
-            display: block;
-        }
-        .modal input {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid gray;
-            border-radius: 5px;
-        }
-        .modal button {
-            padding: 8px 12px;
-            background: #0b070e;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .modal button:hover {
-            background: #1a1a1a;
-        }
-        .box img {
-            width: 100%;
-            height: auto;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-        .box p {
-            margin-top: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creator Dashboard | EventMaster</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/creator_dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <%- include('partials/navbar') %>
-    <div class="dashboard-container">
-        <div class="dashboard">
-            <div class="box action-box" onclick="openModal('createEventModal')">Create New Event</div>
-            <div class="box action-box" onclick="openModal('editEventModal')">Edit Event</div>
-            <div class="box action-box" onclick="openModal('updateProfileModal')">Update Profile</div>
+  <!-- Include navbar partial -->
+  <%- include('partials/navbar') %>
 
-            <div class="box large-table">
-                <table id="eventsTable">
-                    <thead>
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Created By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Website Launch</td>
-                            <td>John Doe</td>
-                            <td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>
-                        </tr>
-                        <tr>
-                            <td>Product Update</td>
-                            <td>Jane Smith</td>
-                            <td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="box">
-                <img src="https://marvel-b1-cdn.bc0a.com/f00000000283357/web-assets.domo.com/blog/wp-content/uploads/2021/08/product-content-chart-pie-1.png" alt="Analytics">
-            </div>
-            <div class="box">
-                <img src="https://www.hubspot.com/hs-fs/hubfs/Google%20Drive%20Integration/types%20of%20charts_32023-May-22-2023-10-17-24-4537-PM.png?width=600&height=451&name=types%20of%20charts_32023-May-22-2023-10-17-24-4537-PM.png" alt="User Management">
-                
-            </div>
-            <div class="box">
-                <img src="https://www150.statcan.gc.ca/edu/power-pouvoir/c-g/c-g05-2-4-eng.png" alt="Settings">
-                
-            </div>
-            <div class="box">
-                <img src="https://www.tableau.com/sites/default/files/2021-09/PieChartAlternative2%402x.png" alt="Reports">
-            </div>
+  <div class="dashboard-container">
+    <div class="dashboard-grid">
+    
+      <div class="bento-box salmon-box">
+        <h2 class="box-title">Creator Dashboard</h2>
+      </div>
+    
+      <div class="bento-box broccoli-box">
+        <div style="text-align: center;">
+          <h3 style="margin-top: 0;">Total Events</h3>
+          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">8</p>
+          <p style="font-size: 0.9em; color: #aaa;">2 active events</p>
         </div>
+      </div>
+    
+      <div class="bento-box tamago-box">
+        <div style="width: 100%; padding: 15px; display: flex; justify-content: space-around;">
+          <div style="text-align: center;">
+            <h4>Revenue</h4>
+            <p style="font-size: 1.8em; font-weight: bold;">₹47,500</p>
+            <span style="color: #4CAF50; font-size: 0.8em;">↑ 12% vs last month</span>
+          </div>
+          <div style="text-align: center;">
+            <h4>Attendees</h4>
+            <p style="font-size: 1.8em; font-weight: bold;">324</p>
+            <span style="color: #4CAF50; font-size: 0.8em;">↑ 8% vs last month</span>
+          </div>
+          <div style="text-align: center;">
+            <h4>Avg. Rating</h4>
+            <p style="font-size: 1.8em; font-weight: bold;">4.7<span style="font-size: 0.6em; vertical-align: super;">★</span></p>
+            <span style="color: #4CAF50; font-size: 0.8em;">↑ 0.2 vs last month</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="bento-box pork-box">
+        <!-- Event Carousel -->
+        <div class="event-carousel">
+          <h3 style="margin-top: 0; color: #d9b0ff;">Upcoming Events</h3>
+          <div class="carousel-container">
+            <div class="carousel-item">
+              <div class="event-card">
+                <h4>Tech Conference 2023</h4>
+                <p><i class="fas fa-calendar"></i> June 15, 2023</p>
+                <p><i class="fas fa-map-marker-alt"></i> Convention Center</p>
+                <p><i class="fas fa-users"></i> 120 registered</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="event-card">
+                <h4>Music Festival</h4>
+                <p><i class="fas fa-calendar"></i> July 8, 2023</p>
+                <p><i class="fas fa-map-marker-alt"></i> Central Park</p>
+                <p><i class="fas fa-users"></i> 85 registered</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="event-card">
+                <h4>Startup Meetup</h4>
+                <p><i class="fas fa-calendar"></i> July 22, 2023</p>
+                <p><i class="fas fa-map-marker-alt"></i> Innovation Hub</p>
+                <p><i class="fas fa-users"></i> 45 registered</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
+          <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
+        </div>
+      </div>
+    
+      <div class="bento-box edamame-box">
+        <div style="text-align: center;">
+          <h3 style="margin-top: 0;">Conversion</h3>
+          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">62%</p>
+          <p style="font-size: 0.9em; color: #aaa;">From page visits</p>
+        </div>
+      </div>
+    
+      <div class="bento-box tomato-box">
+        <div style="text-align: center;">
+          <h3 style="margin-top: 0;">Feedback</h3>
+          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">58</p>
+          <p style="font-size: 0.9em; color: #aaa;">New reviews</p>
+        </div>
+      </div>
+    
+      <div class="bento-box tofu-box">
+        <div class="event-management">
+          <div class="event-management-header">
+            <h3>Event Management</h3>
+            <button class="create-event-btn">
+              <i class="fas fa-plus"></i> Create Event
+            </button>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="event-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Date</th>
+                  <th>Venue</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tech Conference 2023</td>
+                  <td>June 15, 2023</td>
+                  <td>Convention Center</td>
+                  <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="1"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="1"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Music Festival</td>
+                  <td>July 8, 2023</td>
+                  <td>Central Park</td>
+                  <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="2"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="2"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Startup Meetup</td>
+                  <td>July 22, 2023</td>
+                  <td>Innovation Hub</td>
+                  <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="3"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="3"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Web Development Workshop</td>
+                  <td>May 10, 2023</td>
+                  <td>Tech Campus</td>
+                  <td><span class="status-badge status-completed">Completed</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="4"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="4"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Design Conference</td>
+                  <td>April 5, 2023</td>
+                  <td>Art Gallery</td>
+                  <td><span class="status-badge status-completed">Completed</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="5"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="5"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Product Launch</td>
+                  <td>March 20, 2023</td>
+                  <td>City Hall</td>
+                  <td><span class="status-badge status-completed">Completed</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="6"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="6"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Charity Gala</td>
+                  <td>August 12, 2023</td>
+                  <td>Grand Hotel</td>
+                  <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="7"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="7"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Business Summit</td>
+                  <td>June 5, 2023</td>
+                  <td>Financial District</td>
+                  <td><span class="status-badge status-ongoing">Ongoing</span></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="edit-btn" data-id="8"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="delete-btn" data-id="8"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
     </div>
+  </div>
 
-    <div id="createEventModal" class="modal">
-        <h3>Create New Event</h3>
-        <input type="text" id="newEventName" placeholder="Event Name">
-        <input type="text" id="createdBy" placeholder="Created By">
-        <button onclick="createEvent()">Create</button>
-        <button onclick="closeModal('createEventModal')">Cancel</button>
-    </div>
+  <!-- Include footer partial -->
+  <%- include('partials/footer') %>
 
-    <div id="editEventModal" class="modal">
-        <h3>Edit Event</h3>
-        <input type="text" id="editEventName" placeholder="Event Name">
-        <button onclick="editEvent()">Save</button>
-        <button onclick="closeModal('editEventModal')">Cancel</button>
-    </div>
-
-    <div id="updateProfileModal" class="modal">
-        <h3>Update Profile</h3>
-        <input type="text" id="profileName" placeholder="Your Name">
-        <input type="email" id="profileEmail" placeholder="Your Email">
-        <button onclick="updateProfile()">Update</button>
-        <button onclick="closeModal('updateProfileModal')">Cancel</button>
-    </div>
-    <%- include('partials/footer') %>
-
-    <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add("active");
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove("active");
-        }
-
-        function createEvent() {
-            let eventName = document.getElementById("newEventName").value;
-            let createdBy = document.getElementById("createdBy").value;
-
-            if (eventName.trim() === "" || createdBy.trim() === "") {
-                alert("Please enter event details.");
-                return;
-            }
-
-            let table = document.getElementById("eventsTable").getElementsByTagName('tbody')[0];
-            let newRow = table.insertRow();
-            newRow.innerHTML = `<td>${eventName}</td><td>${createdBy}</td><td><button class="edit-btn" onclick="openModal('editEventModal')">Edit</button></td>`;
-
-            closeModal("createEventModal");
-        }
-
-        function editEvent() {
-            alert("Edit functionality to be implemented.");
-            closeModal("editEventModal");
-        }
-
-        function updateProfile() {
-            alert("Profile updated.");
-            closeModal("updateProfileModal");
-        }
-    </script>
+  <script>
+    // Event Carousel
+    let currentIndex = 0;
+    const items = document.querySelectorAll('.carousel-item');
+    
+    function moveCarousel(direction) {
+      const container = document.querySelector('.carousel-container');
+      const itemCount = items.length;
+      
+      if (itemCount <= 1) return;
+      
+      currentIndex = (currentIndex + direction + itemCount) % itemCount;
+      container.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+    
+    // Event handlers for buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create event button
+      const createBtn = document.querySelector('.create-event-btn');
+      if (createBtn) {
+        createBtn.addEventListener('click', function() {
+          window.location.href = '/event/create';
+        });
+      }
+      
+      // Edit buttons
+      const editBtns = document.querySelectorAll('.edit-btn');
+      editBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const eventId = this.getAttribute('data-id');
+          window.location.href = `/event/edit/${eventId}`;
+        });
+      });
+      
+      // Delete buttons
+      const deleteBtns = document.querySelectorAll('.delete-btn');
+      deleteBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const eventId = this.getAttribute('data-id');
+          if (confirm('Are you sure you want to delete this event?')) {
+            fetch(`/event/${eventId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert('Event deleted successfully');
+                window.location.reload();
+              } else {
+                alert('Failed to delete event');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('An error occurred while deleting the event');
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
