@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form method="POST" action="/sign-up" class="full-width-form">
+  <form method="POST" action="/sign-up" class="full-width-form" id="signupForm">
 
     <h1 style="text-align: center;">Sign-up</h1>
 
@@ -11,6 +11,9 @@
         id="email"
         name="email"
         placeholder="Enter email"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        title="Please enter a valid email address"
+        required
       />
     </div>
     <div class="form-group">
@@ -21,6 +24,10 @@
         id="name"
         name="name"
         placeholder="Enter name"
+        pattern="^[A-Za-z\s]{1,50}$"
+        title="Name should contain only letters and spaces, maximum 50 characters"
+        maxlength="50"
+        required
       />
     </div>
     <div class="form-group">
@@ -31,6 +38,11 @@
         id="password1"
         name="password1"
         placeholder="Enter password"
+        minlength="8"
+        maxlength="64"
+        title="Password must be at least 8 characters long"
+        required
+        oninput="checkPasswordMatch();"
       />
     </div>
     <div class="form-group">
@@ -41,9 +53,49 @@
         id="password2"
         name="password2"
         placeholder="Confirm password"
+
+        minlength="8"
+        maxlength="64"
+        title="Passwords must match"
+        required
+        oninput="checkPasswordMatch();"
       />
+      <span id="passwordMatchError" style="color: red; display: none;">Passwords do not match</span>
     </div>
     <br />
     <button type="submit" class="submit-btn form-submit-btn">Submit</button>
   </form>
 </div>
+
+<script>
+  function checkPasswordMatch() {
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
+    const passwordMatchError = document.getElementById('passwordMatchError');
+    const submitBtn = document.querySelector('.form-submit-btn');
+    
+    if (password1 && password2) {
+      if (password1 !== password2) {
+        passwordMatchError.style.display = 'block';
+        password2.setCustomValidity("Passwords must match");
+        submitBtn.disabled = true;
+      } else {
+        passwordMatchError.style.display = 'none';
+        document.getElementById('password2').setCustomValidity('');
+        submitBtn.disabled = false;
+      }
+    } else {
+      passwordMatchError.style.display = 'none';
+    }
+  }
+
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
+    
+    if (password1 !== password2) {
+      e.preventDefault();
+      document.getElementById('passwordMatchError').style.display = 'block';
+    }
+  });
+</script>
