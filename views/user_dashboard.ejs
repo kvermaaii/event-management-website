@@ -97,24 +97,7 @@
             align-items: center;
         }
         
-        .search-container {
-            display: flex;
-            margin-right: 15px;
-        }
-        
-        .search-box {
-            position: relative;
-            margin-right: 10px;
-        }
-        
-        .search-box input {
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            width: 200px;
-        }
+        /* Removing custom search-container and search-box styles to use common.css */
         
         button {
             padding: 8px 12px;
@@ -425,15 +408,12 @@
                         <div class="search-box">
                             <input class="input" type="text" placeholder="Search bookings...">
                         </div>
-                        <button class="notification-btn">Notifications</button>
                     </div>
-                    <button id="toggle-sidebar">Toggle Sidebar</button>
                 </div>
             </header>
 
             <section id="bookings" class="dashboard-section tab-content active">
                 <h2 class="section-title">My Bookings</h2>
-                
                 <div class="bookings-filter">
                     <select id="booking-filter">
                         <option value="all">All Bookings</option>
@@ -442,7 +422,6 @@
                         <option value="cancelled">Cancelled</option>
                     </select>
                 </div>
-                
                 <div class="bookings-list">
                     <!-- Booking cards would be generated dynamically -->
                     <div class="booking-card">
@@ -475,7 +454,6 @@
                             <button class="view-ticket-btn">View Ticket</button>
                         </div>
                     </div>
-                    
                     <div class="booking-card">
                         <div class="booking-header">
                             <div>
@@ -507,7 +485,6 @@
                             <button class="cancel-booking-btn">Cancel Booking</button>
                         </div>
                     </div>
-                    
                     <div class="booking-card">
                         <div class="booking-header">
                             <div>
@@ -543,7 +520,6 @@
 
             <section id="profile" class="dashboard-section tab-content">
                 <h2 class="section-title">Profile Settings</h2>
-                
                 <div class="profile-section">
                     <div class="profile-sidebar">
                         <div class="profile-image">
@@ -551,21 +527,15 @@
                         </div>
                         <button class="change-photo-btn">Change Photo</button>
                     </div>
-                    
                     <div class="profile-details">
                         <h3>Personal Information</h3>
                         <form id="profile-form" action="/user/update-profile" method="POST">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="first-name">First Name</label>
-                                    <input type="text" id="first-name" name="firstName" value="John" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="last-name">Last Name</label>
-                                    <input type="text" id="last-name" name="lastName" value="Doe" required>
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" value="John Doe" required>
                                 </div>
                             </div>
-                            
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="email">Email Address</label>
@@ -576,24 +546,11 @@
                                     <input type="tel" id="phone" name="phone" value="(555) 123-4567">
                                 </div>
                             </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" name="username" value="johndoe123" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="date-of-birth">Date of Birth</label>
-                                    <input type="date" id="date-of-birth" name="dateOfBirth" value="1990-05-15">
-                                </div>
-                            </div>
-                            
                             <div class="form-actions">
                                 <button type="submit" class="save-btn">Save Changes</button>
                                 <button type="reset" class="cancel-btn">Cancel</button>
                             </div>
                         </form>
-                        
                         <div class="password-change-section">
                             <h3>Change Password</h3>
                             <form id="password-form" action="/user/change-password" method="POST">
@@ -615,6 +572,37 @@
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="save-btn">Change Password</button>
+                                    <button type="reset" class="cancel-btn">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="password-change-section">
+                            <h3>Change Email Address</h3>
+                            <form id="email-form" action="/user/change-email" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="current-email">Current Email</label>
+                                        <input type="email" id="current-email" name="currentEmail" value="john.doe@example.com" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="new-email">New Email Address</label>
+                                        <input type="email" id="new-email" name="newEmail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-email">Confirm New Email</label>
+                                        <input type="email" id="confirm-email" name="confirmEmail" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="password-for-email">Current Password</label>
+                                        <input type="password" id="password-for-email" name="passwordForEmail" required placeholder="Enter your password to confirm">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="save-btn">Change Email</button>
                                     <button type="reset" class="cancel-btn">Cancel</button>
                                 </div>
                             </form>
@@ -691,12 +679,12 @@
             // Form submission handling
             const profileForm = document.getElementById('profile-form');
             const passwordForm = document.getElementById('password-form');
+            const emailForm = document.getElementById('email-form');
             
             profileForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 // Here you would typically send the form data to the server
-                // For now, just show a success message
                 alert('Profile updated successfully!');
             });
             
@@ -715,6 +703,27 @@
                 // For now, just show a success message
                 alert('Password changed successfully!');
                 this.reset();
+            });
+            
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newEmail = document.getElementById('new-email').value;
+                const confirmEmail = document.getElementById('confirm-email').value;
+                
+                if (newEmail !== confirmEmail) {
+                    alert('New email addresses do not match!');
+                    return;
+                }
+                
+                // Here you would typically send the form data to the server
+                // For now, just show a success message
+                alert('Email address changed successfully!');
+                this.reset();
+                
+                // Update the displayed email in the profile form and current email field
+                document.getElementById('email').value = newEmail;
+                document.getElementById('current-email').value = newEmail;
             });
             
             // Toggle sidebar functionality for mobile
