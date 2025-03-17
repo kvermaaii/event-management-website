@@ -1,0 +1,89 @@
+<style>
+.wide-form {
+  width: 700px;
+}
+</style>
+
+<div class="form-container wide-form">
+  <form method="POST" action="/create-event" class="full-width-form">
+
+    <h1 style="text-align: center;">Create Event</h1>
+
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        placeholder="Enter event title"
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="Enter event description"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="startDateTime">Start Date Time</label>
+      <input
+        type="datetime-local"
+        class="form-control"
+        id="startDateTime"
+        name="startDateTime"
+      />
+    </div>
+    <div class="form-group">
+      <label for="endDateTime">End Date Time</label>
+      <input
+        type="datetime-local"
+        class="form-control"
+        id="endDateTime"
+        name="endDateTime"
+      />
+    </div>
+    <div class="form-group">
+      <label for="venue">Venue</label>
+      <input
+        type="text"
+        class="form-control"
+        id="venue"
+        name="venue"
+        placeholder="Enter event venue"
+      />
+    </div>
+    <div class="form-group">
+      <label for="capacity">Capacity</label>
+      <input
+        type="number"
+        class="form-control"
+        id="capacity"
+        name="capacity"
+        placeholder="Enter event capacity"
+      />
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        name="price"
+        placeholder="Enter event price"
+      />
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select class="form-control" id="status" name="status">
+        <option value="start_selling">Start Selling</option>
+        <option value="not_selling">Not Selling</option>
+      </select>
+    </div>
+    <br />
+    <button type="submit" class="submit-btn form-submit-btn">Submit</button>
+  </form>
+</div>
