@@ -3,6 +3,10 @@ class eventController {
 
     }
 
+    async createEventForm (req,res) {
+        res.render('create_event.ejs')
+    }
+
     async getEventById (req, res) {
         
     }

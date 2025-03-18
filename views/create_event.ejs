@@ -5,11 +5,21 @@
 </style>
 
 <div class="form-container wide-form">
-  <form method="POST" action="/create-event" class="full-width-form">
+  <form method="POST" action="/organizer/events" class="full-width-form">
 
     <h1 style="text-align: center;">Create Event</h1>
 
     <div class="form-group">
+      <label for="category">Category</label>
+      <input
+        type="text"
+        class="form-control"
+        id="category"
+        name="category"
+        placeholder="Enter event category"
+        maxlength="100"
+        required
+      />
       <label for="title">Title</label>
       <input
         type="text"

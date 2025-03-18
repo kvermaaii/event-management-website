@@ -1,6 +1,6 @@
 class userController {
     async loadDashboard (req, res){
-
+        res.render('user_dashboard.ejs')
     }
     async getUserEvents (req, res){
 

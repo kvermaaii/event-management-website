@@ -190,7 +190,7 @@ class authController {
     
         setUser(sessionId, user);
         res.cookie("uid", sessionId);
-        res.redirect('/');
+        res.redirect('/user/dashboard');
       } catch (error) {
         console.error("Error during login:", error);
         res.status(500).send("An error occurred during login.");
@@ -227,6 +227,7 @@ class authController {
     async orgRegistration(req,res) {
       const sessionId = req.cookies.uid;
       const user = getUser(sessionId);
+      console.log("User id : ",user)
       const { orgName, description, mobile } = req.body;
 
       if (!orgName || !mobile) {

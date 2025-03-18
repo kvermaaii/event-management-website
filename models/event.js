@@ -4,6 +4,7 @@ const createEventTable = async () => {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS Event (
       eventId INTEGER PRIMARY KEY AUTOINCREMENT,
+      category TEXT NOT NULL,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       startDateTime DATETIME NOT NULL,
