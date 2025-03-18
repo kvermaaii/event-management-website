@@ -15,7 +15,7 @@
   display: grid;
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto minmax(150px, 200px) minmax(150px, 1fr); /* Reduced from 2 rows to 1 */
+  grid-template-rows: auto minmax(150px, 200px) minmax(150px, 1fr);
   gap: 16px;
   background-color: rgba(30, 30, 30, 0.7);
   padding: 16px;

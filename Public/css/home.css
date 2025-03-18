@@ -49,29 +49,39 @@
 
 .category-card {
   width: 15%;
-  /* Further reduced width to make cards smaller */
-  background-color: #fff;
+  height: 180px; /* Fixed height for consistency */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   text-align: center;
-  padding: 20px;
   position: relative;
   cursor: pointer;
-  transition: border 0.1s ease, transform 0.1s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 3px solid rgba(100, 61, 136, 0);
-  ;
-
 }
 
 .category-card img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .category-card p {
-  margin: 10px 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 15px 0;
   font-size: 1.2em;
+  color: white;
+  font-weight: bold;
+  z-index: 3;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .category-card::before {
@@ -81,35 +91,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.category-card:hover::before {
-  opacity: 1;
-}
-
-.category-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.category-card:hover::after {
-  opacity: 1;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.1) 100%);
+  z-index: 2;
 }
 
 .category-card:hover {
+  transform: translateY(-5px);
   border: 3px solid rgb(100, 61, 136);
-  box-shadow: 0 0 10px rgba(191, 123, 255, 0.781);
+  box-shadow: 0 10px 15px rgba(100, 61, 136, 0.4);
+}
+
+.category-card:hover::before {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(100, 61, 136, 0.3) 100%);
 }
 
 
