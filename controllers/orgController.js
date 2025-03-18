@@ -8,36 +8,50 @@ import bcrypt from 'bcrypt';
 class orgController{
     async loadDashboard (req, res){
         try {
+            // Retrieve session information
             const sessionId = req.cookies.uid;
             const user = getUser(sessionId);
-        
+    
             if (!user) {
-              return res.redirect('/login');
+                return res.status(401).json({ message: 'Unauthorized' });
             }
-        
-            // Get the organizer's details
+    
+            // Fetch the organizer details
             const organizer = await new Promise((resolve, reject) => {
-              db.get(
-                'SELECT * FROM Organizer WHERE userId = ?',
-                [user.userId],
-                (err, row) => {
-                  if (err) return reject(err);
-                  resolve(row);
-                }
-              );
+                db.get(
+                    'SELECT * FROM Organizer WHERE userId = ?',
+                    [user.userId],
+                    (err, row) => {
+                        if (err) return reject(err);
+                        resolve(row);
+                    }
+                );
             });
-
+    
+            if (!organizer) {
+                return res.status(403).json({ message: 'You are not registered as an organizer.' });
+            }
+    
+            // Fetch all events created by this organizer
             const events = await new Promise((resolve, reject) => {
-                db.get('SELECT * FROM Event WHERE organizerId = ?',[organizer.organizerId], (err, row) => {
-                    if(err) return reject(err);
-                    resolve(row);
-                })
-            }); 
-
-            res.render('creator_dashboard.ejs',{events});
+                db.all(
+                    'SELECT * FROM Event WHERE organizerId = ?',
+                    [organizer.organizerId],
+                    (err, rows) => {
+                        if (err) return reject(err);
+                        resolve(rows);
+                    }
+                );
+            });
+    
+            // Return the events as a JSON response or render a view
+            // res.status(200).json({ events });
+            console.log("EVENTS: ", events);
+            // OR render a view
+            res.render('creator_dashboard.ejs', { events });
         } catch (error) {
-            console.error('Error loading organizer dashboard:', error);
-            res.status(500).send('An error occurred while loading the dashboard.');
+            console.error('Error retrieving organizer events:', error);
+            res.status(500).json({ message: 'An error occurred while retrieving events.' });
         }
     }
     async getOrgEvents (req, res){
@@ -60,10 +74,11 @@ class orgController{
                 }
               );
             });
+            console.log("Organizer ID:", organizer.organizerId);
 
             const events = await new Promise((resolve, reject) => {
                 db.all(
-                  'SELECT * FROM Events WHERE organizerId = ?',
+                  'SELECT * FROM Event WHERE organizerId = ?',
                   [organizer.organizerId],
                   (err, rows) => {
                     if (err) return reject(err);
@@ -71,6 +86,8 @@ class orgController{
                   }
                 );
               });
+              console.log("Events: ", events)
+              res.render("creator_dashboard.ejs",{events});
 
         } catch (error) {
             console.error('Error loading organizer dashboard:', error);
@@ -112,7 +129,7 @@ class orgController{
                 }
             );
         });        
-        res.status(201).json({ message: 'Event created successfully!' });
+        // res.status(201).json({ message: 'Event created successfully!' });
         res.redirect('/organizer/dashboard');
         } catch(error){
             console.error('Error creating event:', error);

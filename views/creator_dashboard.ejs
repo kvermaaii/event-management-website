@@ -120,7 +120,24 @@
                 </tr>
               </thead>
               <tbody>
-
+                <% events.forEach(event => { %>
+                  <tr>
+                    <td><%= event.title %></td>
+                    <td><%= event.date %></td>
+                    <td><%= event.venue %></td>
+                    <td>
+                      <span class="status-badge <%= event.status === 'Upcoming' ? 'status-upcoming' : 'status-past' %>">
+                        <%= event.status %>
+                      </span>
+                    </td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="edit-btn" data-id="<%= event.id %>"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="delete-btn" data-id="<%= event.id %>"><i class="fas fa-trash"></i> Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
                 <tr>
                   <td>Tech Conference 2023</td>
                   <td>June 15, 2023</td>
@@ -133,7 +150,7 @@
                     </div>
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>Music Festival</td>
                   <td>July 8, 2023</td>
                   <td>Central Park</td>
@@ -193,7 +210,7 @@
                       <button class="delete-btn" data-id="6"><i class="fas fa-trash"></i> Delete</button>
                     </div>
                   </td>
-                </tr>
+                </tr> -->
 
               </tbody>
             </table>
