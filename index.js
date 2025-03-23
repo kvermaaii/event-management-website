@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 const port = 3000;
 import { v4 as uuidv4 } from 'uuid';
-import { setUser } from './services/auth.js';
+import { setUser, getUser } from './services/auth.js';
 import cookieParser from 'cookie-parser';
 import {isAuth, optionalAuth} from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
@@ -18,6 +18,7 @@ import createUserTable from './models/user.js'
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
 app.use(cookieParser());
+
 
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');

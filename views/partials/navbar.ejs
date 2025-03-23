@@ -1,7 +1,7 @@
 <div class="header">
   <div class="navbar">
     <div class="logo">
-      <img src="images/favicon.ico" alt="Logo">
+      <img src="images/logo.png" alt="Logo">
     </div>
 
     <div class="nav-links">
@@ -26,7 +26,13 @@
     <div class="right-side">
       <% if (isAuth) { %>
       <div class="profile-pic">
-        <img src="/images/guest.png" alt="Profile Picture">
+        <div class="dropdown">
+          <img src="/images/guest.png" alt="Profile Picture">
+        <div class="dropdown-content">
+          <a href="/user/dashboard">Dashboard</a>
+          <a href="/">Logout</a>   
+        </div>
+      </div>
       </div>
       <% } else { %>
       <div class="button-set">

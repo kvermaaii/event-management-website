@@ -89,6 +89,12 @@ body {
     transform: translateY(10px);
 }
 
+/* Special positioning for profile picture dropdown to prevent it from going off-screen */
+.profile-pic .dropdown-content {
+    left: auto;
+    right: 0;
+}
+
 .dropdown:hover .dropdown-content {
     visibility: visible;
     opacity: 1;
