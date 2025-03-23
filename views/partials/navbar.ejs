@@ -24,15 +24,16 @@
     </div> -->
 
     <div class="right-side">
-      
+      <% if (isAuth) { %>
       <div class="profile-pic">
         <img src="/images/guest.png" alt="Profile Picture">
       </div>
-
+      <% } else { %>
       <div class="button-set">
         <button class="btn btn-signup" onclick="window.location.href = '/sign-up'">Sign Up</button>
         <button class="btn btn-login" onclick="window.location.href = '/login'">Log in</button>
       </div>
+      <% } %>
     </div>
 
   </div>
