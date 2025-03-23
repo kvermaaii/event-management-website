@@ -4,7 +4,7 @@ const port = 3000;
 import { v4 as uuidv4 } from 'uuid';
 import { setUser, getUser } from './services/auth.js';
 import cookieParser from 'cookie-parser';
-import {isAuth} from './middlewares/auth.js';
+import {isAuth, optionalAuth} from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
 import paymentRouter from './routes/payment.js';
 import eventRouter from './routes/event.js';
@@ -19,17 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
 app.use(cookieParser());
 
-// Add middleware to check for user and add to locals
-app.use((req, res, next) => {
-  const userId = req.cookies.uid;
-  if (userId) {
-    const user = getUser(userId);
-    if (user) {
-      res.locals.user = user;
-    }
-  }
-  next();
-});
 
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
@@ -46,7 +35,13 @@ app.use(express.static("Public"));
 //   }
 // })();
 
-app.get('/', (req, res) => {
+// Global middleware ensures isAuth is always available
+app.use((req, res, next) => {
+  res.locals.isAuth = false; // Default value
+  res.locals.user = null;   // Default value
+  next();
+});
+app.get('/', optionalAuth, (req, res) => {
   res.render("home.ejs");
 })
 

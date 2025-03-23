@@ -18,12 +18,31 @@ async function isAuth(req, res, next) {
 
     // Attach the user to the request object for downstream use
     req.user = user;
+    res.locals.isAuth = !!user;
 
     // Proceed to the next middleware
     next();
 }
 
-// Export the function with both names for backward compatibility
-export  {isAuth};
+async function optionalAuth(req, res, next) {
+    const userId = req.cookies.uid;
+
+    // Try to fetch the user if the session exists
+    if (userId) {
+        const user = getUser(userId);
+        if (user) {
+            req.user = user;
+            // res.locals.user = user; // Optional: Make user globally available in templates
+            res.locals.isAuth = true;
+        }
+    }
+
+    // If no user is found, just proceed without redirect
+    res.locals.isAuth = !!req.user;
+
+    // Proceed to the next middleware
+    next();
+}
+export  {isAuth,optionalAuth};
 
 
