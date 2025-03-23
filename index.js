@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 const port = 3000;
 import { v4 as uuidv4 } from 'uuid';
-import { setUser } from './services/auth.js';
+import { setUser, getUser } from './services/auth.js';
 import cookieParser from 'cookie-parser';
 import {isAuth} from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
@@ -18,6 +18,18 @@ import createUserTable from './models/user.js'
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
 app.use(cookieParser());
+
+// Add middleware to check for user and add to locals
+app.use((req, res, next) => {
+  const userId = req.cookies.uid;
+  if (userId) {
+    const user = getUser(userId);
+    if (user) {
+      res.locals.user = user;
+    }
+  }
+  next();
+});
 
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
