@@ -1,42 +1,129 @@
 /*CSS for Hero*/
 .hero {
-  position: relative;
-  width: 100%;
-  height: 400px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #000;
   color: #fff;
-  text-align: center;
-  margin-bottom: 15px;
-  box-shadow: 0px 20px 207px 10px rgba(100, 61, 136, 0.3);
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, #212121), url('../images/background-pattern.png');
+  padding: 20px;
+  overflow: hidden;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
 }
 
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  gap: 20px;
+}
 
 .hero-text {
-  position: relative;
-  z-index: 2;
+  text-align: left;
+  margin-top: 20px;
+  padding-left: 30px;
+
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+.hero-text h1
+{
+  font-family: "Parkinsans";
 }
 
-.home-heading {
-  font-size: 2.5em;
-  font-weight: bold;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 20px 0;
+.hero-text button {
+  display: block;
+  margin: 20px auto 0;
+}
+
+.hero img {
+  max-width: 60%;
+  height: auto;
+  margin-right: -10%;
+}
+
+.hero-image
+{
+  margin-top: 75px;
+  border-radius: 10px;
+
+}
+
+.hero-logo
+{
+  border-radius: 0;
+}
+
+/* FAQ Accordion Styles */
+.faq-accordion {
+  border-radius: 10px;
+  padding: 15px;
+  margin-left: 15px;
+  margin-top: 90px; /* Increased margin to move it further down */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(100, 61, 136, 0.3);
+}
+
+.faq-accordion h3 {
+  color: rgb(217, 176, 255);
+  margin-bottom: 15px;
+  font-size: 1.4em;
   text-align: center;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accordion-item {
+  border-radius: 8px;
+  overflow: hidden;
+  /* border: 1px solid rgba(100, 61, 136, 0.5); */
+  transition: all 0.3s ease;
+}
+
+.accordion-header {
+  background-color: transparent;
+  padding: 12px 15px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s;
+  /* border-bottom: 1px solid rgba(100, 61, 136, 0.3); */
+}
+
+.accordion-header:hover {
+  color: rgb(217, 176, 255);
+}
+
+.accordion-header::after {
+  content: '+';
+  position: absolute;
+  right: 15px;
+  transition: transform 0.3s;
+}
+
+.accordion-item.active .accordion-header::after {
+  content: '-';
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: transparent;
+}
+
+.accordion-item.active .accordion-content {
+  max-height: 150px;
+  padding: 12px 15px;
+}
+
+.accordion-content p {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.4;
 }
 
 /* Css for category cards*/
@@ -104,7 +191,6 @@
 .category-card:hover::before {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(100, 61, 136, 0.3) 100%);
 }
-
 
 /*Css for pagination*/
 
