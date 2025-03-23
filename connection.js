@@ -1,5 +1,5 @@
 import sqlite3 from 'sqlite3';
-// i ma importing all the models to be initiallized in connection.js so that table is created after the db is init
+// i am importing all the models to be initiallized in connection.js so that table is created after the db is init
 import createUserTable from './models/user.js';
 import createOrganizerTable from './models/organizer.js';
 import createEventTable from './models/event.js';
