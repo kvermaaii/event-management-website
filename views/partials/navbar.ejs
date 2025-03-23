@@ -26,7 +26,13 @@
     <div class="right-side">
       <% if (locals.user) { %>
         <div class="profile-pic">
-          <img src="<%= user.profilePic || '/images/guest.png' %>" alt="Profile Picture">
+          <div class="dropdown">
+              <img src="<%= user.profilePic || '/images/guest.png' %>" alt="Profile Picture">
+            <div class="dropdown-content">
+              <a href="/user/dashboard">Dashboard</a>
+              <a href="/">Logout</a>   
+            </div>
+          </div>
         </div>
       <% } else { %>
         <div class="button-set">
