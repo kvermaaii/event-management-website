@@ -126,6 +126,48 @@
   line-height: 1.4;
 }
 
+.heading-content
+{
+  display: flex;
+  font-family: 'Parkinsans', sans-serif;
+  color: #FFF;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+
+.image-card
+{
+width: 333px;
+height: 380px;
+flex-shrink: 0;
+
+border-radius: 0;
+background: url('images/tedx.jpg') lightgray 50% / cover no-repeat;
+}
+
+.image-card .bottom-text
+{
+  display: flex;
+width: 333px;
+padding: 12px;
+justify-content: space-between;
+align-items: center;
+
+position: absolute;
+bottom: 0px;
+
+border-top: 1px solid var(--colors-layout-divider, rgba(255, 255, 255, 0.15));
+background: rgba(255, 255, 255, 0.16);
+backdrop-filter: blur(10px);
+}
+
 /* Css for category cards*/
 .cards-container {
   display: flex;
@@ -135,8 +177,8 @@
 }
 
 .category-card {
-  width: 15%;
-  height: 180px; /* Fixed height for consistency */
+  width: 20%;
+  height: 200px; /* Fixed height for consistency */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -145,6 +187,7 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 3px solid rgba(100, 61, 136, 0);
+  font-family: 'Parkinsans', sans-serif;
 }
 
 .category-card img {
@@ -183,13 +226,12 @@
 }
 
 .category-card:hover {
-  transform: translateY(-5px);
-  border: 3px solid rgb(100, 61, 136);
-  box-shadow: 0 10px 15px rgba(100, 61, 136, 0.4);
+  /* transform: translateY(-2px); */
+  box-shadow: 0 8px 20px rgba(147, 83, 211, 0.4);
 }
 
 .category-card:hover::before {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(100, 61, 136, 0.3) 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(100, 61, 136, 0.3) 100%);
 }
 
 /*Css for pagination*/
