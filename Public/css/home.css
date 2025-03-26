@@ -59,8 +59,8 @@
   padding: 15px;
   margin-left: 15px;
   margin-top: 90px; /* Increased margin to move it further down */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(100, 61, 136, 0.3);
+  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(100, 61, 136, 0.3); */
 }
 
 .faq-accordion h3 {
