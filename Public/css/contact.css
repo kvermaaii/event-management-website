@@ -114,6 +114,26 @@ form textarea {
     height: 100px;
     resize: none;
 }
+.map-box {
+    background-color: #222222;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(100, 61, 136, 0.5);
+    height: 100%;
+
+    width: 100%;
+    max-height: 450px;
+    max-width: 450px;
+
+    position: absolute;
+    pointer-events: none;
+    top: var(--gradient-top-position);
+    left: var(--gradient-left-position);
+    transform: rotate(var(--gradient-rotation));
+    z-index: -1;
+    opacity: 0.8;
+    animation: morphing 10s ease-in-out infinite;
+}
 
 form input:focus,
 form textarea:focus {
