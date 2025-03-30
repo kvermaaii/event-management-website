@@ -1,365 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/user_dashboard.css">
-    <title>User Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/user_dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <%- include('partials/navbar') %>
+  <!-- Include navbar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Dashboard starts here, directly after navbar -->
+  <div class="dashboard-container">
+    <!-- Gradient blobs for background design -->
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+    <div class="gradient-blob blob-3"></div>
     
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>My Account</h2>
+    <!-- Dashboard content -->
+    <div class="dashboard-content">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="user-info">
+          <div class="profile-image">
+            <img src="/images/guest.png" alt="Profile Picture">
+          </div>
+
+          <h3>John Doe</h3>
+          <p>@johndoe123</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <ul>
+            <li class="active" data-section="bookings">
+              <i class="fas fa-ticket-alt"></i> My Bookings
+            </li>
+            <li data-section="profile">
+              <i class="fas fa-user"></i> Profile
+            </li>
+            <li data-section="saved">
+              <i class="fas fa-bookmark"></i> Saved Events
+            </li>
+            <li>
+              <i class="fas fa-sign-out-alt"></i> <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      
+      <!-- Main Content Area -->
+      <div class="main-content">
+        <!-- Bookings Section -->
+        <section id="bookings" class="dashboard-section active">
+          <h2>My Bookings</h2>
+          
+          <div class="booking-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+          </div>
+          
+          <div class="bookings-list">
+           
+            <!-- Sample booking cards for preview -->
+            <div class="booking-card upcoming">
+              <div class="booking-header">
+                <h3>Tech Conference 2025</h3>
+                <span class="status-badge upcoming">upcoming</span>
+              </div>
+              
+              <div class="booking-details">
+                <div class="detail-item">
+                  <i class="fas fa-calendar"></i>
+                  <span>April 15, 2025</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-clock"></i>
+                  <span>9:00 AM</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Convention Center, San Francisco</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-ticket-alt"></i>
+                  <span>VIP Pass</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-money-bill-wave"></i>
+                  <span>$75.00</span>
+                </div>
+              </div>
+              
+              <div class="booking-actions">
+                <button class="btn view-details">View Details</button>
+                <button class="btn cancel-booking">Cancel Booking</button>
+              </div>
             </div>
-            <ul class="sidebar-menu">
-                <li class="active"><a href="#bookings">My Bookings</a></li>
-                <li><a href="#profile">Profile Settings</a></li>
-                <li><a href="#notifications">Notifications</a></li>
-                <li><a href="#saved-events">Saved Events</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </aside>
-        <main class="main-content">
-            <header class="header">
-                <h1>User Dashboard</h1>
-                <div class="header-actions">
-                    <div class="search-container">
-                        <div class="search-box">
-                            <input class="input" type="text" placeholder="Search bookings...">
-                        </div>
-                    </div>
-                </div>
-            </header>
 
-            <section id="bookings" class="dashboard-section tab-content active">
-                <h2 class="section-title">My Bookings</h2>
-                <div class="bookings-filter">
-                    <select id="booking-filter">
-                        <option value="all">All Bookings</option>
-                        <option value="upcoming">Upcoming Events</option>
-                        <option value="past">Past Events</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+            <div class="booking-card completed">
+              <div class="booking-header">
+                <h3>Music Festival</h3>
+                <span class="status-badge completed">completed</span>
+              </div>
+              
+              <div class="booking-details">
+                <div class="detail-item">
+                  <i class="fas fa-calendar"></i>
+                  <span>March 10, 2025</span>
                 </div>
-                <div class="bookings-list">
-                    <!-- Booking cards would be generated dynamically -->
-                    <div class="booking-card">
-                        <div class="booking-header">
-                            <div>
-                                <h3 class="booking-title">Tech Conference 2023</h3>
-                                <p class="booking-date">Booked on May 1, 2023</p>
-                            </div>
-                            <span class="booking-status status-completed">Completed</span>
-                        </div>
-                        <div class="booking-details">
-                            <div class="booking-detail">
-                                <p class="detail-label">Date & Time</p>
-                                <p class="detail-value">June 15, 2023 • 9:00 AM</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">Convention Center, San Francisco</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Type</p>
-                                <p class="detail-value">VIP Pass</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Price</p>
-                                <p class="detail-value">$75.00</p>
-                            </div>
-                        </div>
-                        <div class="booking-actions">
-                            <button class="view-ticket-btn">View Ticket</button>
-                        </div>
-                    </div>
-                    <div class="booking-card">
-                        <div class="booking-header">
-                            <div>
-                                <h3 class="booking-title">Music Festival</h3>
-                                <p class="booking-date">Booked on June 10, 2023</p>
-                            </div>
-                            <span class="booking-status status-upcoming">Upcoming</span>
-                        </div>
-                        <div class="booking-details">
-                            <div class="booking-detail">
-                                <p class="detail-label">Date & Time</p>
-                                <p class="detail-value">July 28, 2023 • 4:00 PM</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">Central Park, New York</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Type</p>
-                                <p class="detail-value">Weekend Pass</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Price</p>
-                                <p class="detail-value">$120.00</p>
-                            </div>
-                        </div>
-                        <div class="booking-actions">
-                            <button class="view-ticket-btn">View Ticket</button>
-                            <button class="cancel-booking-btn">Cancel Booking</button>
-                        </div>
-                    </div>
-                    <div class="booking-card">
-                        <div class="booking-header">
-                            <div>
-                                <h3 class="booking-title">Business Workshop</h3>
-                                <p class="booking-date">Booked on April 5, 2023</p>
-                            </div>
-                            <span class="booking-status status-cancelled">Cancelled</span>
-                        </div>
-                        <div class="booking-details">
-                            <div class="booking-detail">
-                                <p class="detail-label">Date & Time</p>
-                                <p class="detail-value">April 20, 2023 • 10:00 AM</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">Business Center, Chicago</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Type</p>
-                                <p class="detail-value">Standard</p>
-                            </div>
-                            <div class="booking-detail">
-                                <p class="detail-label">Ticket Price</p>
-                                <p class="detail-value">$45.00</p>
-                            </div>
-                        </div>
-                        <div class="booking-actions">
-                            <button class="view-ticket-btn">View Details</button>
-                        </div>
-                    </div>
+                <div class="detail-item">
+                  <i class="fas fa-clock"></i>
+                  <span>4:00 PM</span>
                 </div>
-            </section>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Central Park, New York</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-ticket-alt"></i>
+                  <span>Weekend Pass</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-money-bill-wave"></i>
+                  <span>$120.00</span>
+                </div>
+              </div>
+              
+              <div class="booking-actions">
+                <button class="btn view-details">View Details</button>
+              </div>
+            </div>
 
-            <section id="profile" class="dashboard-section tab-content">
-                <h2 class="section-title">Profile Settings</h2>
-                <div class="profile-section">
-                    <div class="profile-sidebar">
-                        <div class="profile-image">
-                            <img src="/images/guest.png" alt="User Profile">
-                        </div>
-                        <button class="change-photo-btn">Change Photo</button>
-                    </div>
-                    <div class="profile-details">
-                        <h3>Personal Information</h3>
-                        <form id="profile-form" action="/user/update-profile" method="POST">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" id="name" name="name" value="John Doe" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="email">Email Address</label>
-                                    <input type="email" id="email" name="email" value="john.doe@example.com" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone" value="(555) 123-4567">
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="save-btn">Save Changes</button>
-                                <button type="reset" class="cancel-btn">Cancel</button>
-                            </div>
-                        </form>
-                        <div class="password-change-section">
-                            <h3>Change Password</h3>
-                            <form id="password-form" action="/user/change-password" method="POST">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="current-password">Current Password</label>
-                                        <input type="password" id="current-password" name="currentPassword" required>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="new-password">New Password</label>
-                                        <input type="password" id="new-password" name="newPassword" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="confirm-password">Confirm New Password</label>
-                                        <input type="password" id="confirm-password" name="confirmPassword" required>
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    <button type="submit" class="save-btn">Change Password</button>
-                                    <button type="reset" class="cancel-btn">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="password-change-section">
-                            <h3>Change Email Address</h3>
-                            <form id="email-form" action="/user/change-email" method="POST">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="current-email">Current Email</label>
-                                        <input type="email" id="current-email" name="currentEmail" value="john.doe@example.com" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="new-email">New Email Address</label>
-                                        <input type="email" id="new-email" name="newEmail" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="confirm-email">Confirm New Email</label>
-                                        <input type="email" id="confirm-email" name="confirmEmail" required>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="password-for-email">Current Password</label>
-                                        <input type="password" id="password-for-email" name="passwordForEmail" required placeholder="Enter your password to confirm">
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    <button type="submit" class="save-btn">Change Email</button>
-                                    <button type="reset" class="cancel-btn">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <div class="booking-card cancelled">
+              <div class="booking-header">
+                <h3>Business Workshop</h3>
+                <span class="status-badge cancelled">cancelled</span>
+              </div>
+              
+              <div class="booking-details">
+                <div class="detail-item">
+                  <i class="fas fa-calendar"></i>
+                  <span>February 20, 2025</span>
                 </div>
-            </section>
-
-            <section id="notifications" class="dashboard-section tab-content">
-                <h2 class="section-title">Notifications</h2>
-                <div class="notifications-container">
-                    <!-- This would be populated with user's notifications -->
-                    <p>No new notifications.</p>
+                <div class="detail-item">
+                  <i class="fas fa-clock"></i>
+                  <span>10:00 AM</span>
                 </div>
-            </section>
-
-            <section id="saved-events" class="dashboard-section tab-content">
-                <h2 class="section-title">Saved Events</h2>
-                <div class="saved-events-container">
-                    <!-- This would be populated with user's saved events -->
-                    <p>You haven't saved any events yet.</p>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Business Center, Chicago</span>
                 </div>
-            </section>
-        </main>
+                <div class="detail-item">
+                  <i class="fas fa-ticket-alt"></i>
+                  <span>Standard</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-money-bill-wave"></i>
+                  <span>$45.00</span>
+                </div>
+              </div>
+              
+              <div class="booking-actions">
+                <button class="btn view-details">View Details</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Profile Section -->
+        <section id="profile" class="dashboard-section">
+          <h2>My Profile</h2>
+          
+          <div class="profile-container">
+            <form id="profile-form" class="profile-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" name="firstName" value="John">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" value="Doe">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" value="shriansh.j23@iiits.in" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input type="text" id="phone" name="phone" value="+91 8310236848">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" value="Shriansh">
+                </div>
+                <div class="form-group">
+                  <label for="dateOfBirth">Date of Birth</label>
+                  <input type="date" id="dateOfBirth" name="dateOfBirth" value="2005-08-08">
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn save-profile">Save Changes</button>
+              </div>
+            </form>
+            
+            <div class="password-section">
+              <h3>Change Password</h3>
+              <form id="password-form" class="password-form">
+                <div class="form-group">
+                  <label for="currentPassword">Current Password</label>
+                  <input type="password" id="currentPassword" name="currentPassword">
+                </div>
+                <div class="form-group">
+                  <label for="newPassword">New Password</label>
+                  <input type="password" id="newPassword" name="newPassword">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm New Password</label>
+                  <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn change-password">Update Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Saved Events Section -->
+        <section id="saved" class="dashboard-section">
+          <h2>Saved Events</h2>
+          
+          <div class="saved-events-list">
+            <!-- This would be populated with actual saved events from the database -->
+            <div class="no-saved-events">
+              <p>You don't have any saved events yet.</p>
+              <a href="/" class="btn explore-events">Explore Events</a>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-
-    <%- include('partials/footer') %>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tab navigation
-            const menuItems = document.querySelectorAll('.sidebar-menu li a');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            menuItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (this.getAttribute('href').startsWith('#')) {
-                        e.preventDefault();
-                        const target = this.getAttribute('href').substring(1);
-                        
-                        // Hide all tab contents and deactivate all menu items
-                        tabContents.forEach(tab => tab.classList.remove('active'));
-                        menuItems.forEach(item => item.parentElement.classList.remove('active'));
-                        
-                        // Show target tab content and activate current menu item
-                        document.getElementById(target).classList.add('active');
-                        this.parentElement.classList.add('active');
-                    }
-                });
-            });
-            
-            // Booking filter functionality
-            const bookingFilter = document.getElementById('booking-filter');
-            const bookingCards = document.querySelectorAll('.booking-card');
-            
-            bookingFilter.addEventListener('change', function() {
-                const filterValue = this.value;
-                
-                bookingCards.forEach(card => {
-                    const status = card.querySelector('.booking-status').className.split(' ')[1];
-                    
-                    if (filterValue === 'all' || 
-                        (filterValue === 'upcoming' && status === 'status-upcoming') ||
-                        (filterValue === 'past' && status === 'status-completed') ||
-                        (filterValue === 'cancelled' && status === 'status-cancelled')) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-            
-            // Form submission handling
-            const profileForm = document.getElementById('profile-form');
-            const passwordForm = document.getElementById('password-form');
-            const emailForm = document.getElementById('email-form');
-            
-            profileForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Here you would typically send the form data to the server
-                alert('Profile updated successfully!');
-            });
-            
-            passwordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const newPassword = document.getElementById('new-password').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
-                
-                if (newPassword !== confirmPassword) {
-                    alert('New passwords do not match!');
-                    return;
-                }
-                
-                // Here you would typically send the form data to the server
-                // For now, just show a success message
-                alert('Password changed successfully!');
-                this.reset();
-            });
-            
-            emailForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const newEmail = document.getElementById('new-email').value;
-                const confirmEmail = document.getElementById('confirm-email').value;
-                
-                if (newEmail !== confirmEmail) {
-                    alert('New email addresses do not match!');
-                    return;
-                }
-                
-                // Here you would typically send the form data to the server
-                // For now, just show a success message
-                alert('Email address changed successfully!');
-                this.reset();
-                
-                // Update the displayed email in the profile form and current email field
-                document.getElementById('email').value = newEmail;
-                document.getElementById('current-email').value = newEmail;
-            });
-            
-            // Toggle sidebar functionality for mobile
-            const toggleSidebar = document.getElementById('toggle-sidebar');
-            const sidebar = document.querySelector('.sidebar');
-            
-            if (toggleSidebar) {
-                toggleSidebar.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
-                });
-            }
-        });
-    </script>
+  </div>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/user_dashboard.js"></script>
 </body>
 </html>
