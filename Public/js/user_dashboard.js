@@ -169,8 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // For now, we'll just update the UI for demonstration
                 bookingCard.querySelector('.status-badge').textContent = 'cancelled';
                 bookingCard.querySelector('.status-badge').className = 'status-badge cancelled';
-                bookingCard.className = 'booking-card cancelled';
-                
+                bookingCard.classList.add('cancelled');
                 // Remove cancel button
                 this.remove();
                 
