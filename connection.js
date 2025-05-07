@@ -34,24 +34,17 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const dbURI = 'mongodb+srv://kshitijv23:pi5m78dJ7ux7kA3z@cluster0.mongodb.net/EventManagement?retryWrites=true&w=majority';
-
-    // Replace placeholders with your credentials
-    // const username = process.env.MONGOUSERNAME;
-    // const password = process.env.MONGOPASSWORD;
-    // const database = 'EventManagement';
+    const username = process.env.MONGO_USERNAME;
+    const password = encodeURIComponent(process.env.MONGO_PASSWORD); // Encode special characters
     
-    // // Construct the final connection string
-    // const cloudDBURI = dbURI
-    //     .replace('<username>', username)
-    //     .replace('<password>', password)
-    //     .replace('<database>', database);
-
-    await mongoose.connect(dbURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
+    // Construct the MongoDB connection string using environment variables
+    const dbURI = `mongodb+srv://${username}:${password}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`;
+    
+    // Use local MongoDB as fallback if credentials aren't available
+    const fallbackURI = 'mongodb://127.0.0.1:27017/EventManagement';
+    
+    await mongoose.connect(username && password ? dbURI : fallbackURI);
+    
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
@@ -60,3 +53,4 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+ṅ

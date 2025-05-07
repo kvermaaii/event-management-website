@@ -16,8 +16,10 @@ import connectDB from './connection.js';
 
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-
+dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
@@ -34,11 +36,11 @@ connectDB();
 
 app.use(
   session({
-    secret: "your_secret_key", // Replace with a strong secret key
+    secret: "your_secret_key", // Simple hardcoded secret
     resave: false, // Prevents session being saved repeatedly if not modified
     saveUninitialized: false, // Don't save uninitialized sessions
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/EventManagement", // MongoDB URL
+      mongoUrl: `mongodb+srv://${process.env.MONGO_USERNAME}:${encodeURIComponent(process.env.MONGO_PASSWORD)}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day

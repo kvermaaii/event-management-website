@@ -264,6 +264,7 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import User from "../models/user.js"; // Assuming User is a Mongoose model
 import Organizer from "../models/organizer.js"; // Assuming Organizer is a Mongoose model
+import { setUser } from '../services/auth.js';
 
 class authController {
   async loadSignUpPage(req, res) {
