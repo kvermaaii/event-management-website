@@ -47,9 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-    });
-    
-    // Profile update form submission
+    });    // Profile update form submission
     const profileForm = document.getElementById('profile-form');
     if (profileForm) {
         profileForm.addEventListener('submit', function(e) {
@@ -58,16 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const formData = new FormData(profileForm);
             const profileData = {
-                firstName: formData.get('firstName'),
-                lastName: formData.get('lastName'),
-                email: formData.get('email'),
+                name: formData.get('name'),
                 phone: formData.get('phone'),
-                dateOfBirth: formData.get('dateOfBirth')
+                username: formData.get('username')
             };
             
             // Send data to server (AJAX request)
-            fetch('/api/user/profile', {
-                method: 'POST',
+            fetch('/user/profile', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -77,8 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     showNotification('Profile updated successfully!', 'success');
+                    // Reload page to reflect the changes
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
                 } else {
-                    showNotification('Failed to update profile. Please try again.', 'error');
+                    showNotification(data.message || 'Failed to update profile. Please try again.', 'error');
                 }
             })
             .catch(error => {
@@ -110,9 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('Password must be at least 8 characters long!', 'error');
                 return;
             }
-            
-            // Send data to server (AJAX request)
-            fetch('/api/user/change-password', {
+              // Send data to server (AJAX request)
+            fetch('/user/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

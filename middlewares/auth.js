@@ -1,7 +1,7 @@
 import { getUser } from '../services/auth.js';
 
 async function isAuth(req, res, next) {
-    const userId = req.cookies.uid;
+    const userId = req.session.userId;
 
     // If no userId is found in cookies, redirect to login
     if (!userId) {

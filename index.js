@@ -12,17 +12,43 @@ import adminRouter from './routes/admin.js'
 import userRouter from './routes/user.js';
 import organizerRouter from './routes/organizer.js';
 import handle404 from './controllers/errorController.js';
-import './connection.js';
-import createUserTable from './models/user.js'
+import connectDB from './connection.js';
+
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));;
 app.use(cookieParser());
 
 
+
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
 app.use(express.static("Public"));
+
+// Connect to MongoDB
+connectDB();
+
+app.use(
+  session({
+    secret: "your_secret_key", // Simple hardcoded secret
+    resave: false, // Prevents session being saved repeatedly if not modified
+    saveUninitialized: false, // Don't save uninitialized sessions
+    store: MongoStore.create({
+      mongoUrl: `mongodb+srv://${process.env.MONGO_USERNAME}:${encodeURIComponent(process.env.MONGO_PASSWORD)}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`,
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      httpOnly: true, // Prevents client-side JS access
+      secure: false, // Set true in production with HTTPS
+    },
+  })
+);
 
 // Ensure tables are created before starting the server
 // (async () => {
@@ -44,6 +70,10 @@ app.use((req, res, next) => {
 app.get('/', optionalAuth, (req, res) => {
   res.render("home.ejs");
 })
+
+// app.get('/', (req, res) => {
+//   res.render("home.ejs");
+// })
 
 // Route for Contact Us page
 app.get('/contact', (req, res) => {
