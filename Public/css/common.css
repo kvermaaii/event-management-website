@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
+*
+{ 
+    scrollbar-width: thin;
+    scrollbar-color: #9353d3 #1a1a1a; /* thumb color, track color */
+}
+
+/* For Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+    background: #1a1a1a;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #9353d3;
+    border-radius: 4px;
+}
+
 body {
     font-family: "Quicksand", sans-serif;
     margin: 0;
@@ -9,6 +26,7 @@ body {
     width: 100%;
     overflow-x: hidden;
     box-sizing: border-box;
+    scrollbar-color: #9353d3;
 }
 
 html {
