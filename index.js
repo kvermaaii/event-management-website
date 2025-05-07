@@ -66,14 +66,14 @@ app.use((req, res, next) => {
   res.locals.isAuth = false; // Default value
   res.locals.user = null;   // Default value
   next();
-});-
-// app.get('/', optionalAuth, (req, res) => {
-//   res.render("home.ejs");
-// })
-
-app.get('/', (req, res) => {
+});
+app.get('/', optionalAuth, (req, res) => {
   res.render("home.ejs");
 })
+
+// app.get('/', (req, res) => {
+//   res.render("home.ejs");
+// })
 
 // Route for Contact Us page
 app.get('/contact', (req, res) => {

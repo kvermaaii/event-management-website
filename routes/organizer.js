@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
+import {isAuth, optionalAuth} from '../middlewares/auth.js';
 import orgController from '../controllers/orgController.js'
 
-router.get('/dashboard', orgController.loadDashboard);
+router.get('/dashboard',optionalAuth ,orgController.loadDashboard);
 router.get('/events', orgController.getOrgEvents);
 router.post('/events', orgController.createEvents);
 router.put('/events/:id', orgController.updateEvnet);

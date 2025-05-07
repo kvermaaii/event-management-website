@@ -155,15 +155,18 @@ class orgController {
   async loadDashboard(req, res) {
     try {
       // Retrieve session information
-      const sessionId = req.cookies.uid;
-      const user = getUser(sessionId);
+    //   const sessionId = req.cookies.uid;
+    //   const user = getUser(sessionId);
+      const user = req.session.userId;
 
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
       // Fetch the organizer details
-      const organizer = await Organizer.findOne({ userId: user.userId });
+      const organizer = await Organizer.findOne({ userId: req.session.userId });
+      console.log("User ID:", req.session.userId);
+      console.log("Organizer fetched:", organizer);
 
       if (!organizer) {
         return res.status(403).json({ message: 'You are not registered as an organizer.' });

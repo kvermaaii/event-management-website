@@ -348,6 +348,9 @@ class authController {
         // Generate a new session ID
         const sessionId = uuidv4();
         console.log("Generated session ID:", sessionId);
+        
+        req.session.userId = user._id; // Store the user's ID in the session
+        console.log("User ID saved to session:", req.session.userId);
 
         // Save session information using your session service
         setUser(sessionId, user);
@@ -408,7 +411,7 @@ class authController {
       const newOrganizer = new Organizer({
         userId: req.session.userId,
         organizationName: orgName,
-        description,
+        description: description || "No description provided",
         contactNo: mobile,
       });
       await newOrganizer.save();
