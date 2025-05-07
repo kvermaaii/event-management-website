@@ -422,6 +422,39 @@ class authController {
       res.status(500).send("An error occurred.");
     }
   }
+  async logout(req, res) {
+    // Get the session ID from cookies
+    const sessionId = req.cookies.uid;
+    
+    if (sessionId) {
+      try {
+        // Import the necessary function to handle the user session
+        const { setUser } = await import('../services/auth.js');
+        
+        // Remove the user from the session map by setting it to null
+        setUser(sessionId, null);
+        
+        // Clear the session ID cookie
+        res.clearCookie("uid");
+        
+        // Clear the session data
+        if (req.session) {
+          req.session.destroy(err => {
+            if (err) {
+              console.error("Error destroying session:", err);
+            }
+          });
+        }
+        
+        console.log("User logged out successfully");
+      } catch (error) {
+        console.error("Error during logout:", error);
+      }
+    }
+    
+    // Redirect to the home page
+    res.redirect('/');
+  }
 }
 
 export default new authController();
