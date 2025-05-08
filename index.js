@@ -30,6 +30,9 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');  // Set up EJS for templating
 app.set('views', './views');
 app.use(express.static("Public"));
+//for multer
+app.use(express.static('uploads'));
+
 
 // Connect to MongoDB
 connectDB();

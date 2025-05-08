@@ -35,9 +35,12 @@ const EventSchema = new mongoose.Schema({
   ticketPrice: { type: Number, required: true },
   status: { type: String, default: 'Upcoming' },
   organizerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Organizer', required: true },
-  
+  image: {type: String, required: false},
+
 },{ collection: 'event' });
 
 const Event = mongoose.model('Event', EventSchema);
 
 export default Event;
+
+//   image: {type: String, required: false},

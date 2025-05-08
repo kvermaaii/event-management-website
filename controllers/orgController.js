@@ -214,27 +214,74 @@ class orgController {
     }
   }
 
+  // async createEvents(req, res) {
+  //   try {
+  //     const sessionId = req.cookies.uid;
+  //     const user = getUser(sessionId);
+
+  //     if (!user) {
+  //       return res.status(401).json({ message: 'Unauthorized' });
+  //     }
+
+  //     const organizer = await Organizer.findOne({ userId: req.session.userId });
+
+  //     if (!organizer) {
+  //       return res.status(403).json({ message: 'You are not registered as an organizer.' });
+  //     }
+
+  //     const { category, title, description, startDateTime, endDateTime, venue, capacity, price, status } = req.body;
+
+  //     if (!category || !title || !description || !startDateTime || !endDateTime || !venue || !capacity || !price) {
+  //       return res.status(400).json({ message: 'All fields are required.' });
+  //     }
+
+  //     // Create a new event in the database
+  //     const newEvent = new Event({
+  //       category,
+  //       title,
+  //       description,
+  //       startDateTime,
+  //       endDateTime,
+  //       venue,
+  //       capacity,
+  //       ticketPrice: price,
+  //       status: status || 'Upcoming',
+  //       organizerId: organizer._id,
+  //     });
+
+  //     await newEvent.save();
+
+  //     res.redirect('/organizer/dashboard');
+  //   } catch (error) {
+  //     console.error('Error creating event:', error);
+  //     res.status(500).json({ message: 'An error occurred while creating the event.' });
+  //   }
+  // }
+
   async createEvents(req, res) {
     try {
       const sessionId = req.cookies.uid;
       const user = getUser(sessionId);
-
+  
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
+  
       const organizer = await Organizer.findOne({ userId: req.session.userId });
-
+  
       if (!organizer) {
         return res.status(403).json({ message: 'You are not registered as an organizer.' });
       }
-
+  
       const { category, title, description, startDateTime, endDateTime, venue, capacity, price, status } = req.body;
-
+  
       if (!category || !title || !description || !startDateTime || !endDateTime || !venue || !capacity || !price) {
         return res.status(400).json({ message: 'All fields are required.' });
       }
-
+  
+      // Check if an image was uploaded
+      const imagePath = req.file ? `/uploads/events/${req.file.filename}` : null;
+  
       // Create a new event in the database
       const newEvent = new Event({
         category,
@@ -247,10 +294,11 @@ class orgController {
         ticketPrice: price,
         status: status || 'Upcoming',
         organizerId: organizer._id,
+        image: imagePath, // Add the image path to the event
       });
-
+  
       await newEvent.save();
-
+  
       res.redirect('/organizer/dashboard');
     } catch (error) {
       console.error('Error creating event:', error);
