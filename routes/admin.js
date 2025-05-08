@@ -5,11 +5,22 @@ import {isAuth} from '../middlewares/auth.js';
 
 // router.use(isAuth);
 
+// Dashboard route
 router.get('/dashboard', adminController.loadDashboard);
-router.get('/users',adminController.getAllUsers);
-router.get('/events',adminController.getAllEvents);
-router.post('/users',adminController.createUser);
-router.put('/users/:id',adminController.updateUser);
-router.delete('/users/:id',adminController.deleteUser);
+
+// User routes
+router.get('/users', adminController.getAllUsers);
+router.post('/users', adminController.createUser);
+router.put('/users/:id', adminController.updateUser);
+router.delete('/users/:id', adminController.deleteUser);
+
+// Event routes
+router.get('/events', adminController.getAllEvents);
+
+// Organizer routes
+router.get('/organizers', adminController.getAllOrganizers);
+router.get('/organizers/:id', adminController.getOrganizerById);
+router.put('/organizers/:id/verify', adminController.verifyOrganizer);
+router.put('/organizers/:id/reject', adminController.rejectOrganizer);
 
 export default router;
