@@ -19,7 +19,7 @@ class userController {    async loadDashboard (req, res){
             try {
                 // If userId exists, try to find the user
                 if (userId) {
-                    user = await User.findById(userId).select('-passwordHash');
+                    user = await User.findById(userId).select('name').lean();
                 }
             } catch (error) {
                 console.error('Error finding user:', error);
@@ -31,14 +31,12 @@ class userController {    async loadDashboard (req, res){
                 console.error('User not found in database');
                 return res.redirect('/login');
             }
-              // Generate username from name as a fallback if not provided
-            const username = user.username || user.name.replace(/\s+/g, '').toLowerCase();
             
             // Render dashboard with user data
             res.render('user_dashboard.ejs', { 
                 user: {
-                    ...user._doc,
-                    username
+                    name: user.name,
+                    username: user.name.replace(/\s+/g, '').toLowerCase()
                 }
             });} catch (error) {
             console.error('Error loading dashboard:', error);

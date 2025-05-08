@@ -79,7 +79,7 @@ app.get('/', optionalAuth, (req, res) => {
 // })
 
 // Route for Contact Us page
-app.get('/contact', (req, res) => {
+app.get('/contact', optionalAuth, (req, res) => {
   res.render("contact.ejs");
 })
 

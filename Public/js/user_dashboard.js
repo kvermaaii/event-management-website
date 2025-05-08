@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tab switching functionality
     const navItems = document.querySelectorAll('.sidebar-nav li[data-section]');
     const sections = document.querySelectorAll('.dashboard-section');
-    
-    navItems.forEach(item => {
+      navItems.forEach(item => {
         item.addEventListener('click', function() {
             const targetSection = this.getAttribute('data-section');
             
@@ -15,6 +14,34 @@ document.addEventListener('DOMContentLoaded', function() {
             sections.forEach(section => {
                 if (section.id === targetSection) {
                     section.classList.add('active');
+                    
+                    // If the profile section is clicked, load profile data from the server
+                    if (targetSection === 'profile') {
+                        // Fetch the profile data from the /user/profile endpoint
+                        fetch('/user/profile')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success && data.user) {
+                                    // Update form fields with the user data
+                                    document.getElementById('name').value = data.user.name || '';
+                                    document.getElementById('email').value = data.user.email || '';
+                                    
+                                    // Handle optional fields
+                                    if (document.getElementById('phone')) {
+                                        document.getElementById('phone').value = data.user.phone || '';
+                                    }
+                                    if (document.getElementById('username')) {
+                                        document.getElementById('username').value = data.user.username || 
+                                            (data.user.name ? data.user.name.replace(/\s+/g, '').toLowerCase() : '');
+                                    }
+                                } else {
+                                    console.error('Failed to load profile data');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching profile data:', error);
+                            });
+                    }
                 } else {
                     section.classList.remove('active');
                 }
@@ -86,9 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('An error occurred. Please try again later.', 'error');
             });
         });
-    }
-    
-    // Password change form submission
+    }    // Password change form submission
     const passwordForm = document.getElementById('password-form');
     if (passwordForm) {
         passwordForm.addEventListener('submit', function(e) {
@@ -243,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .notification.warning {
             border-left-color: #f59e0b;
         }
-        .notification-close {
+                .notification-close {
             cursor: pointer;
             font-size: 18px;
             position: absolute;
