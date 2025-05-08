@@ -25,8 +25,25 @@
 
     <div class="event-container">
         <div class="event-header">
-            <div class="event-image">
-                <img src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>" alt="<%= event.title %>">
+            <div class="event-image-container">
+                <div class="event-image">
+                    <img src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>" alt="<%= event.title %>">
+                </div>
+                <div class="event-buttons">
+                    <% if (event.status === 'start_selling') { %>
+                    <a href="/payments/<%= event._id %>" class="register-btn">
+                        <i class="fas fa-ticket-alt"></i> Register Now
+                    </a>
+                    <% } else { %>
+                    <button class="register-btn disabled" disabled>
+                        <i class="fas fa-ticket-alt"></i> Registration Unavailable
+                    </button>
+                    <% } %>
+                    
+                    <button class="share-btn" onclick="shareEvent()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
             </div>
             <div class="event-info">
                 <div>
@@ -60,29 +77,12 @@
                         <i class="fas fa-info-circle"></i>
                         <div class="event-detail-text"><strong>Status:</strong> <%= event.status === 'start_selling' ? 'Available' : 'Not Available' %></div>
                     </div>
-                    
-                    <% if (event.organizerId) { %>
+                      <% if (event.organizerId) { %>
                     <div class="event-detail">
                         <i class="fas fa-user-tie"></i>
-                        <div class="event-detail-text"><strong>Organized by:</strong> <%= event.organizerId.name || 'Unknown' %></div>
+                        <div class="event-detail-text"><strong>Organized by:</strong> <%= event.organizerId.organizationName || 'Unknown' %></div>
                     </div>
                     <% } %>
-                </div>
-                
-                <div class="event-buttons">
-                    <% if (event.status === 'start_selling') { %>
-                    <a href="/payments/<%= event._id %>" class="register-btn">
-                        <i class="fas fa-ticket-alt"></i> Register Now
-                    </a>
-                    <% } else { %>
-                    <button class="register-btn disabled" disabled>
-                        <i class="fas fa-ticket-alt"></i> Registration Unavailable
-                    </button>
-                    <% } %>
-                    
-                    <button class="share-btn" onclick="shareEvent()">
-                        <i class="fas fa-share-alt"></i> Share
-                    </button>
                 </div>
             </div>
         </div>
