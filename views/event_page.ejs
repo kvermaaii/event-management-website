@@ -1,44 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Booking</title>
-
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/buttons.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/event_page.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/event_page.css">
+  <link rel="stylesheet" href="/css/related_events.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>NIGHTLIFE - <%= event.title %></title>
 </head>
-<body>
-    <%- include('partials/navbar') %>
 
-    <header class="event-header">
-        <img src="/images/random_bg.png" alt="Event Picture">
-        <div class="event-info">
-            <h1><%= title %></h1>
-            <p>Type | Language | Event Time</p>
-            <p><strong>Date:</strong> Date</p>
-            <p><strong>Location:</strong> Location</p>
-            <p><strong>Price:</strong> Price</p>
-            <button class="book-now-btn">Book Now</button>
-        </div>
-    </header>
+<body class="background-container">
+
+  <%- include('partials/navbar') %>
+
+  <div class="event-page-container">
+    <!-- Gradient blobs for background design -->
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+    <div class="gradient-blob blob-3"></div>
 
     <div class="event-container">
-        <section class="event-details">
-            <h2>Event Details</h2>
-            <p>Join us for an unforgettable experience featuring live performances and engaging activities.</p>
-        </section>
-
-        <section class="artist-lineup">
-            <h2>Guests</h2>
-            <div class="artist-grid">
-                <div class="artist"><img src="/images/guest.png" alt="Guest 1"><p>Guest 1</p></div>
-                <div class="artist"><img src="/images/guest.png" alt="Guest 2"><p>Guest 2</p></div>
+        <div class="event-header">
+            <div class="event-image">
+                <img src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>" alt="<%= event.title %>">
             </div>
-        </section>
+            <div class="event-info">
+                <div>
+                    <h1><%= event.title %></h1>
+                    <span class="event-category"><%= event.category %></span>
+                    
+                    <div class="event-detail">
+                        <i class="fas fa-calendar"></i>
+                        <div class="event-detail-text">
+                            <strong>Start:</strong> <%= new Date(event.startDateTime).toLocaleString() %><br>
+                            <strong>End:</strong> <%= new Date(event.endDateTime).toLocaleString() %>
+                        </div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="event-detail-text"><%= event.venue %></div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <i class="fas fa-ticket-alt"></i>
+                        <div class="event-detail-text"><strong>Price:</strong> $<%= event.ticketPrice.toFixed(2) %></div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <i class="fas fa-users"></i>
+                        <div class="event-detail-text"><strong>Capacity:</strong> <%= event.capacity %> people</div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="event-detail-text"><strong>Status:</strong> <%= event.status === 'start_selling' ? 'Available' : 'Not Available' %></div>
+                    </div>
+                    
+                    <% if (event.organizerId) { %>
+                    <div class="event-detail">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="event-detail-text"><strong>Organized by:</strong> <%= event.organizerId.name || 'Unknown' %></div>
+                    </div>
+                    <% } %>
+                </div>
+                
+                <div class="event-buttons">
+                    <% if (event.status === 'start_selling') { %>
+                    <a href="/payments/<%= event._id %>" class="register-btn">
+                        <i class="fas fa-ticket-alt"></i> Register Now
+                    </a>
+                    <% } else { %>
+                    <button class="register-btn disabled" disabled>
+                        <i class="fas fa-ticket-alt"></i> Registration Unavailable
+                    </button>
+                    <% } %>
+                    
+                    <button class="share-btn" onclick="shareEvent()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="event-content">
+            <div class="event-section event-description">
+                <h2>About This Event</h2>
+                <p><%= event.description %></p>
+            </div>
+            
+            <% if (typeof relatedEvents !== 'undefined' && relatedEvents.length > 0) { %>
+            <div class="event-section related-events-section">
+                <h2>Related Events</h2>
+                <div class="cards-container">
+                    <% relatedEvents.forEach(relEvent => { %>
+                    <div class="category-card" onclick="window.location.href = '/event/<%= relEvent._id %>'">
+                        <img src="<%= relEvent.image ? (relEvent.image.includes('/uploads/') ? relEvent.image.replace('/uploads/', '/') : relEvent.image) : '/images/blank.png' %>"
+                            alt="<%= relEvent.title %>" />
+                        <p><%= relEvent.title %></p>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
+        </div>
     </div>
+</div>
+
+<script>
+    function shareEvent() {
+        if (navigator.share) {
+            navigator.share({
+                title: '<%= event.title %>',
+                text: 'Check out this event: <%= event.title %>',
+                url: window.location.href
+            })
+            .catch((error) => console.log('Error sharing:', error));
+        } else {
+            // Fallback for browsers that don't support the Web Share API
+            alert('Copy this link to share: ' + window.location.href);
+        }    }
+</script>
+
+  <%- include('partials/footer') %>
+
 </body>
 </html>
