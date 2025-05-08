@@ -305,11 +305,75 @@ class orgController {
   }
 
   async updateEvnet (req, res){
-
+    try {
+      const eventId = req.params.id;
+      const { category, title, description, startDateTime, endDateTime, venue, capacity, price, status } = req.body;
+      
+      // Check if event exists and if the user has the right to update it
+      const event = await Event.findById(eventId);
+      
+      if (!event) {
+        return res.status(404).json({ message: 'Event not found.' });
+      }
+      
+      // Verify the organizer owns this event
+      const organizer = await Organizer.findOne({ userId: req.session.userId });
+      
+      if (!organizer || !event.organizerId.equals(organizer._id)) {
+        return res.status(403).json({ message: 'You do not have permission to update this event.' });
+      }
+      
+      // Update the event
+      event.category = category || event.category;
+      event.title = title || event.title;
+      event.description = description || event.description;
+      event.startDateTime = startDateTime || event.startDateTime;
+      event.endDateTime = endDateTime || event.endDateTime;
+      event.venue = venue || event.venue;
+      event.capacity = capacity || event.capacity;
+      event.ticketPrice = price || event.ticketPrice;
+      event.status = status || event.status;
+      
+      // If there's a new image file, update the image path
+      if (req.file) {
+        event.image = `/events/${req.file.filename}`;
+      }
+      
+      await event.save();
+      
+      res.redirect('/organizer/dashboard');
+    } catch (error) {
+      console.error('Error updating event:', error);
+      res.status(500).json({ message: 'An error occurred while updating the event.' });
+    }
   }
 
   async delateEvent (req, res){
-
+    try {
+      const eventId = req.params.id;
+      
+      // Check if event exists
+      const event = await Event.findById(eventId);
+      
+      if (!event) {
+        return res.status(404).json({ message: 'Event not found.' });
+      }
+      
+      // Verify the organizer owns this event
+      const organizer = await Organizer.findOne({ userId: req.session.userId });
+      
+      if (!organizer || !event.organizerId.equals(organizer._id)) {
+        return res.status(403).json({ message: 'You do not have permission to delete this event.' });
+      }
+      
+      // Delete the event
+      await Event.findByIdAndDelete(eventId);
+      
+      res.status(200).json({ message: 'Event deleted successfully!' });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      res.status(500).json({ message: 'An error occurred while deleting the event.' });
+    }
   }
 }
 
