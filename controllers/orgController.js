@@ -174,9 +174,12 @@ class orgController {
 
       // Fetch all events created by this organizer
       const events = await Event.find({ organizerId: organizer._id });
+      const totalEvents = events.length;
+      const totalactiveEvents = events.filter(event => event.status === 'start_selling').length;
+      const upcomingEvents = events.filter(event => event.status === 'start_selling'); 
 
       // Render the dashboard view with events
-      res.render('creator_dashboard.ejs', { events });
+      res.render('creator_dashboard.ejs', { events, totalEvents, totalactiveEvents, upcomingEvents, user });
     } catch (error) {
       console.error('Error retrieving organizer events:', error);
       res.status(500).json({ message: 'An error occurred while retrieving events.' });
@@ -193,7 +196,7 @@ class orgController {
       }
 
       // Get the organizer's details
-      const organizer = await Organizer.findOne({ userId: user.userId });
+      const organizer = await Organizer.findOne({ userId: req.session.userId });
 
       if (!organizer) {
         return res.status(403).json({ message: 'You are not registered as an organizer.' });
@@ -201,8 +204,10 @@ class orgController {
 
       // Fetch events associated with the organizer
       const events = await Event.find({ organizerId: organizer._id });
+      const totalEvents = events.length;
+      const totalactiveEvents = events.filter(event => event.status === 'start_selling').length;
 
-      res.render('creator_dashboard.ejs', { events });
+      res.render('creator_dashboard.ejs', { events,  totalEvents, totalactiveEvents});
     } catch (error) {
       console.error('Error loading organizer dashboard:', error);
       res.status(500).send('An error occurred while loading the dashboard.');
@@ -218,7 +223,7 @@ class orgController {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
-      const organizer = await Organizer.findOne({ userId: user.userId });
+      const organizer = await Organizer.findOne({ userId: req.session.userId });
 
       if (!organizer) {
         return res.status(403).json({ message: 'You are not registered as an organizer.' });
