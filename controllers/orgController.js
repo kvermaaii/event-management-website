@@ -277,10 +277,8 @@ class orgController {
   
       if (!category || !title || !description || !startDateTime || !endDateTime || !venue || !capacity || !price) {
         return res.status(400).json({ message: 'All fields are required.' });
-      }
-  
-      // Check if an image was uploaded
-      const imagePath = req.file ? `/uploads/events/${req.file.filename}` : null;
+      }      // Check if an image was uploaded
+      const imagePath = req.file ? `/events/${req.file.filename}` : null;
   
       // Create a new event in the database
       const newEvent = new Event({

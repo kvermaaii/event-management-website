@@ -189,12 +189,12 @@
     
     <div class="cards-container">
       <% if (events && events.length > 0) { %>
-        <% events.forEach(event => { %>
-          <div class="category-card" onclick="window.location.href = '/event/<%= event._id %>'">
+        <% events.forEach(event => { %>          <div class="category-card" onclick="window.location.href = '/event/<%= event._id %>'">
             <img
-              src="<%= event.image || '/uploads/events/default-event.png' %>"
-              alt="<%= event.image %>"
+              src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>"
+              alt="<%= event.title %>"
             />
+            <p><%= event.title %></p>
           </div>
         <% }); %>
       <% } else { %>

@@ -13,7 +13,7 @@ if (!fs.existsSync(uploadDir)) {
 
 // Define storage for multer
 const storage = multer.diskStorage({
-  destination: "./uploads",
+  destination: "./uploads/events",
   filename: function (req, file, cb) {
     const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${file.originalname}`;
     cb(null, uniqueName);  },
@@ -21,5 +21,4 @@ const storage = multer.diskStorage({
 
 // Initialize multer
 const upload = multer({ storage });
-
 export default upload;
