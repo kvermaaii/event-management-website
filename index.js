@@ -19,6 +19,10 @@ import MongoStore from "connect-mongo";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+// for getting the events on home page
+import Event from './models/event.js';
+
+
 dotenv.config();
 
 app.use(express.json());
@@ -70,9 +74,41 @@ app.use((req, res, next) => {
   res.locals.user = null;   // Default value
   next();
 });
-app.get('/', optionalAuth, (req, res) => {
-  res.render("home.ejs");
-})
+// app.get('/', optionalAuth, (req, res) => {
+//   res.render("home.ejs");
+// })
+
+// Route to render home page with events
+app.get('/', async (req, res) => {
+  try {
+    const titleQuery = req.query.title || ''; // Get search by title
+    const venueQuery = req.query.venue || ''; // Get search by venue
+
+    let events;
+    if (titleQuery || venueQuery) {
+      // Filter events based on search inputs
+      console.log(`Title Query: ${titleQuery}, Venue Query: ${venueQuery}`);
+
+      events = await Event.find({
+        $or: [
+          { title: { $regex: titleQuery, $options: 'i' } },
+          { venue: { $regex: venueQuery, $options: 'i' } },
+        ],
+      });
+      console.log(`Filtered events count: ${events.length}`);
+
+    } else {
+      // Fetch all events if no search inputs are provided
+      events = await Event.find().sort({ startDateTime: 1 });
+      console.log(`Total events count: ${events.length}`); 
+    }
+    console.log('Events retrieved successfully:', events); 
+    res.render('home', { events, titleQuery, venueQuery });
+  } catch (error) {
+    console.error('Error loading events:', error);
+    res.status(500).send('An error occurred while loading the events.');
+  }
+});
 
 // app.get('/', (req, res) => {
 //   res.render("home.ejs");

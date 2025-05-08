@@ -83,7 +83,7 @@
 
     <div class="cards-container">
       <div class="category-card" onclick="window.location.href = '/concert'">
-        <img src="images/concerts.png" alt="concert Icon">
+        <img src="/images/concerts.png" alt="concert Icon">
         <p>Concert</p>
       </div>
       <div class="category-card" onclick="window.location.href = '/exhibition'">
@@ -95,12 +95,12 @@
         <p>TEDx</p>
       </div>
       <div class="category-card" onclick="window.location.href = '/health-camp'">
-        <img src="images/health-camp.jpg" alt="Health-camp icon">
+        <img src="/images/health-camp.jpg" alt="Health-camp icon">
         <p>Health Camps</p>
       </div>
     </div>
 
-    <div class="heading-content">
+    <!-- <div class="heading-content">
       <h2>Browse All events</h2>
       <p>Here's a list of all events for you to choose from!</p>
     </div>
@@ -152,7 +152,57 @@
       </div>
     </div>
 
-    <div style="height: 20px;"></div>
+    <div style="height: 20px;"></div> -->
+
+    <div class="heading-content">
+      <h2>Browse All Events</h2>
+      <p>Here's a list of all events for you to choose from!</p>
+    </div>
+    
+    <div class="search-container">
+      <form method="GET" action="/">
+        <div class="search-box">
+          <input
+            class="input"
+            name="title"
+            placeholder="Search by event title"
+            value="<%= titleQuery || '' %>"
+            type="text"
+          />
+          <span class="input-border"></span>
+        </div>
+    
+        <div class="search-box">
+          <input
+            class="input"
+            name="venue"
+            placeholder="Search by venue"
+            value="<%= venueQuery || '' %>"
+            type="text"
+          />
+          <span class="input-border"></span>
+        </div>
+    
+        <button type="submit" class="search-button">Search</button>
+      </form>
+    </div>
+    
+    <div class="cards-container">
+      <% if (events && events.length > 0) { %>
+        <% events.forEach(event => { %>
+          <div class="category-card" onclick="window.location.href = '/event/<%= event._id %>'">
+            <img
+              src="<%= event.image || '/uploads/events/default-event.png' %>"
+              alt="<%= event.image %>"
+            />
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No events found.</p>
+      <% } %>
+    </div>
+    
+
     <div class="pagination">
       <ul class="pagination-list">
         <li><a >«</a></li>
