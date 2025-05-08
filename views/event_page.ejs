@@ -28,8 +28,7 @@
             <div class="event-image-container">
                 <div class="event-image">
                     <img src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>" alt="<%= event.title %>">
-                </div>
-                <div class="event-buttons">
+                </div>                <div class="event-buttons">
                     <% if (event.status === 'start_selling') { %>
                     <a href="/payments/<%= event._id %>" class="register-btn">
                         <i class="fas fa-ticket-alt"></i> Register Now
