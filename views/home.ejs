@@ -193,12 +193,11 @@
           <span class="input-border"></span>        </div>
       </form>
     </div>
-    
-    <div class="cards-container">
+      <div class="cards-container">
       <% if (events && events.length > 0) { %>
         <% events.forEach(event => { %>          <div class="category-card" onclick="window.location.href = '/event/<%= event._id %>'">
             <img
-              src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/images/blank.png' %>"
+              src="<%= event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/uploads/events/default-event.png' %>"
               alt="<%= event.title %>"
             />
             <p><%= event.title %></p>
