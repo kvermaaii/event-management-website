@@ -1,28 +1,36 @@
 import User from '../models/user.js';
 import Event from '../models/event.js';
 import Organizer from '../models/organizer.js';
+import Admin from '../models/admin.js';
 
-class adminController {
-    async loadDashboard (req, res) {
+class adminController {    async loadDashboard (req, res) {
         try {
             // Get counts for dashboard statistics
             const userCount = await User.countDocuments();
             const eventCount = await Event.countDocuments();
             const organizerCount = await Organizer.countDocuments();
             const verifiedOrganizerCount = await Organizer.countDocuments({ verified: true });
+            const adminCount = await Admin.countDocuments();
             
             // Get recent events
             const recentEvents = await Event.find()
                 .sort({ createdAt: -1 })
                 .limit(5)
                 .populate('organizerId');
+                
+            // Since we're in the admin controller and passed the isAdmin middleware,
+            // user is guaranteed to be an admin
+            const admin = await Admin.findOne({ userId: req.user._id }).populate('userId');
             
             res.render("admin.ejs", {
                 userCount,
                 eventCount,
                 organizerCount,
                 verifiedOrganizerCount,
-                recentEvents
+                adminCount,
+                recentEvents,
+                admin,
+                user: req.user
             });
         } catch (error) {
             console.error('Error loading admin dashboard:', error);
@@ -149,8 +157,7 @@ class adminController {
             res.status(500).json({ message: 'Server error' });
         }
     }
-    
-    async createUser (req, res) {
+      async createUser (req, res) {
         try {
             const userData = req.body;
             const user = new User(userData);
@@ -162,6 +169,7 @@ class adminController {
             res.status(500).json({ message: 'Server error' });
         }
     }
+
 }
 
 export default new adminController();
