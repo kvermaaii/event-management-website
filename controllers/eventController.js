@@ -2,12 +2,11 @@ import Event from '../models/event.js';
 
 class eventController {
     async getAllEvents (req, res) {
-        try {
-            const titleQuery = req.query.title || '';
+        try {            const titleQuery = req.query.title || '';
             const venueQuery = req.query.venue || '';
             const categoryQuery = req.query.category || '';
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 12;
+            const limit = parseInt(req.query.limit) || 8;
             const skip = (page - 1) * limit;
 
             // Build the query filter

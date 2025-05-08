@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="/css/navbar.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <link rel="stylesheet" href="css/common.css">  <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/pagination.css">
   <title>NIGHTLIFE - Home</title>
+  <script src="/js/home.js" defer></script>
 </head>
 
 <body class="background-container">
@@ -190,10 +190,7 @@
             <option value="TEDx" <%= categoryQuery === 'TEDx' ? 'selected' : '' %>>TEDx</option>
             <option value="Health Camps" <%= categoryQuery === 'Health Camps' ? 'selected' : '' %>>Health Camps</option>
           </select>
-          <span class="input-border"></span>
-        </div>
-    
-        <button type="submit" class="search-button">Search</button>
+          <span class="input-border"></span>        </div>
       </form>
     </div>
     
@@ -234,32 +231,7 @@
         <% } %>
       </ul>
     </div>
-    
-    <%- include('partials/footer') %>
-
-      <script>
-        // Accordion functionality
-        document.addEventListener('DOMContentLoaded', function () {
-          const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-          accordionHeaders.forEach(header => {
-            header.addEventListener('click', function () {
-              const accordionItem = this.parentElement;
-              const isActive = accordionItem.classList.contains('active');
-
-              // Close all accordion items
-              document.querySelectorAll('.accordion-item').forEach(item => {
-                item.classList.remove('active');
-              });
-
-              // If the clicked item wasn't active, make it active
-              if (!isActive) {
-                accordionItem.classList.add('active');
-              }
-            });
-          });
-        });
-      </script>
+      <%- include('partials/footer') %>
 </body>
 
 </html>
