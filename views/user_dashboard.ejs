@@ -170,20 +170,17 @@
             </div>
           </div>
         </section>
-        
-        <!-- Profile Section -->
+          <!-- Profile Section -->
         <section id="profile" class="dashboard-section">
-          <h2>My Profile</h2>
-          
-          <div class="profile-container">
-            <form id="profile-form" class="profile-form">              <div class="form-row">
+          <h2>My Profile</h2>          <div class="profile-container">
+            <form id="profile-form" class="profile-form"><div class="form-row">
                 <div class="form-group">
                   <label for="name">Full Name</label>
-                  <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>">
+                  <input type="text" id="name" name="name" value="">
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" disabled>
+                  <input type="email" id="email" name="email" value="" disabled>
                 </div>
               </div>
               
@@ -194,11 +191,9 @@
                 </div>
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input type="text" id="username" name="username" value="<%= user ? user.username : '' %>" disabled>
+                  <input type="text" id="username" name="username" value="" disabled>
                 </div>
-              </div>
-              
-              <div class="form-actions">
+              </div>              <div class="form-actions">
                 <button type="submit" class="btn save-profile">Save Changes</button>
               </div>
             </form>
