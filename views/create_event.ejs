@@ -176,6 +176,9 @@
         name="endDateTime"
         required
       />
+      <small id="endDateError" style="color: red; display: none;">
+        End Date Time must be later than Start Date Time.
+      </small>
     </div>
 
     <div class="form-group">
@@ -241,5 +244,32 @@
 
     <br />
     <button type="submit" class="submit-btn form-submit-btn">Submit</button>
+    <script>
+      const startDateTimeInput = document.getElementById('startDateTime');
+      const endDateTimeInput = document.getElementById('endDateTime');
+      const endDateError = document.getElementById('endDateError');
+    
+      // Add real-time validation for endDateTime
+      endDateTimeInput.addEventListener('input', () => {
+        const startDateTime = new Date(startDateTimeInput.value);
+        const endDateTime = new Date(endDateTimeInput.value);
+    
+        // Show error if endDateTime is less than or equal to startDateTime
+        if (startDateTimeInput.value && endDateTime <= startDateTime) {
+          endDateError.style.display = 'inline';
+        } else {
+          endDateError.style.display = 'none';
+        }
+      });
+    
+      // Optional: Prevent form submission if the error is visible
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (e) => {
+        if (endDateError.style.display === 'inline') {
+          alert('Please fix the errors before submitting the form.');
+          e.preventDefault(); // Prevent form submission
+        }
+      });
+    </script>
   </form>
 </div>
