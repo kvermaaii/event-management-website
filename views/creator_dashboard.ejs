@@ -13,143 +13,177 @@
   <!-- Include navbar partial -->
   <%- include('partials/navbar') %>
 
+  <!-- Dashboard starts here, directly after navbar -->
   <div class="dashboard-container">
-    <div class="dashboard-grid">
+    <!-- Gradient blobs for background design -->
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+    <div class="gradient-blob blob-3"></div>
     
-      <div class="bento-box salmon-box">
-        <h2 class="box-title">Creator Dashboard</h2>
-      </div>
-    
-      <div class="bento-box broccoli-box">
-        <div style="text-align: center;">
-          <h3 style="margin-top: 0;">Total Events</h3>
-          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">8</p>
-          <p style="font-size: 0.9em; color: #aaa;">2 active events</p>
+    <!-- Dashboard content -->
+    <div class="dashboard-content">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="user-info">
+          <div class="profile-image">
+            <img src="/images/guest.png" alt="Profile Picture">
+          </div>
+          <h3><%= user ? user.name : 'Event Creator' %></h3>
+          <p><%= user ? '@' + user.username : '@organizer' %></p>
         </div>
+        
+        <nav class="sidebar-nav">
+          <ul>
+            <li class="active" data-section="events">
+              <i class="fas fa-calendar-alt"></i> My Events
+            </li>
+            <li data-section="analytics">
+              <i class="fas fa-chart-pie"></i> Analytics
+            </li>
+            <li data-section="feedback">
+              <i class="fas fa-comments"></i> Feedback
+            </li>
+            <li data-section="settings">
+              <i class="fas fa-cog"></i> Settings
+            </li>
+            <li>
+              <i class="fas fa-sign-out-alt"></i> <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    
-      <div class="bento-box tamago-box">
-        <div style="width: 100%; padding: 15px; display: flex; justify-content: space-around;">
-          <div style="text-align: center;">
-            <h4>Revenue</h4>
-            <p style="font-size: 1.8em; font-weight: bold;">₹47,500</p>
-            <span style="color: #4CAF50; font-size: 0.8em;">↑ 12% vs last month</span>
-          </div>
-          <div style="text-align: center;">
-            <h4>Attendees</h4>
-            <p style="font-size: 1.8em; font-weight: bold;">324</p>
-            <span style="color: #4CAF50; font-size: 0.8em;">↑ 8% vs last month</span>
-          </div>
-          <div style="text-align: center;">
-            <h4>Avg. Rating</h4>
-            <p style="font-size: 1.8em; font-weight: bold;">4.7<span style="font-size: 0.6em; vertical-align: super;">★</span></p>
-            <span style="color: #4CAF50; font-size: 0.8em;">↑ 0.2 vs last month</span>
-          </div>
-        </div>
-      </div>
-    
-      <div class="bento-box pork-box">
-        <!-- Event Carousel -->
-        <div class="event-carousel">
-          <h3 style="margin-top: 0; color: #d9b0ff;">Upcoming Events</h3>
-          <div class="carousel-container">
-            <div class="carousel-item">
-              <div class="event-card">
-                <h4>Tech Conference 2023</h4>
-                <p><i class="fas fa-calendar"></i> June 15, 2023</p>
-                <p><i class="fas fa-map-marker-alt"></i> Convention Center</p>
-                <p><i class="fas fa-users"></i> 120 registered</p>
-              </div>
+      
+      <!-- Main Content Area -->
+      <div class="main-content">
+        <!-- Events Section -->
+        <section id="events" class="dashboard-section active">
+          <h2>My Events</h2>
+          
+          <div class="stats-row">
+            <div class="stat-card">
+              <h3>Total Events</h3>
+              <div class="value">8</div>
+              <div class="sub-text">2 active events</div>
             </div>
-            <div class="carousel-item">
-              <div class="event-card">
-                <h4>Music Festival</h4>
-                <p><i class="fas fa-calendar"></i> July 8, 2023</p>
-                <p><i class="fas fa-map-marker-alt"></i> Central Park</p>
-                <p><i class="fas fa-users"></i> 85 registered</p>
-              </div>
+            
+            <div class="stat-card">
+              <h3>Revenue</h3>
+              <div class="value">₹47,500</div>
+              <div class="trend trend-up">↑ 12% vs last month</div>
             </div>
-            <div class="carousel-item">
-              <div class="event-card">
-                <h4>Startup Meetup</h4>
-                <p><i class="fas fa-calendar"></i> July 22, 2023</p>
-                <p><i class="fas fa-map-marker-alt"></i> Innovation Hub</p>
-                <p><i class="fas fa-users"></i> 45 registered</p>
-              </div>
+            
+            <div class="stat-card">
+              <h3>Attendees</h3>
+              <div class="value">324</div>
+              <div class="trend trend-up">↑ 8% vs last month</div>
             </div>
-          </div>
-          <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
-          <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
-        </div>
-      </div>
-    
-      <div class="bento-box edamame-box">
-        <div style="text-align: center;">
-          <h3 style="margin-top: 0;">Conversion</h3>
-          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">62%</p>
-          <p style="font-size: 0.9em; color: #aaa;">From page visits</p>
-        </div>
-      </div>
-    
-      <div class="bento-box tomato-box">
-        <div style="text-align: center;">
-          <h3 style="margin-top: 0;">Feedback</h3>
-          <p style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">58</p>
-          <p style="font-size: 0.9em; color: #aaa;">New reviews</p>
-        </div>
-      </div>
-    
-      <div class="bento-box tofu-box">
-        <div class="event-management">
-          <div class="event-management-header">
-            <h3>Event Management</h3>
-            <a href="/events/create-event"><button class="create-event-btn">
-              <i class="fas fa-plus"></i> Create Event
-            </button></a>
+            
+            <div class="stat-card">
+              <h3>Avg. Rating</h3>
+              <div class="value">4.7<span style="font-size: 0.5em; vertical-align: super;">★</span></div>
+              <div class="trend trend-up">↑ 0.2 vs last month</div>
+            </div>
           </div>
           
-          <div class="table-responsive">
-            <table class="event-table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Date</th>
-                  <th>Venue</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% events.forEach(event => { %>
+          <!-- Upcoming Events Carousel -->
+          <h3>Upcoming Events</h3>
+          <div class="event-carousel">
+            <div class="carousel-container">
+              <div class="carousel-item">
+                <div class="event-card">
+                  <h4>Tech Conference 2025</h4>
+                  <p><i class="fas fa-calendar"></i> June 15, 2025</p>
+                  <p><i class="fas fa-map-marker-alt"></i> Convention Center</p>
+                  <p><i class="fas fa-users"></i> 120 registered</p>
+                  <p><i class="fas fa-ticket-alt"></i> 280 remaining</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="event-card">
+                  <h4>Music Festival</h4>
+                  <p><i class="fas fa-calendar"></i> July 8, 2025</p>
+                  <p><i class="fas fa-map-marker-alt"></i> Central Park</p>
+                  <p><i class="fas fa-users"></i> 85 registered</p>
+                  <p><i class="fas fa-ticket-alt"></i> 415 remaining</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="event-card">
+                  <h4>Startup Meetup</h4>
+                  <p><i class="fas fa-calendar"></i> July 22, 2025</p>
+                  <p><i class="fas fa-map-marker-alt"></i> Innovation Hub</p>
+                  <p><i class="fas fa-users"></i> 45 registered</p>
+                  <p><i class="fas fa-ticket-alt"></i> 155 remaining</p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control prev">&#10094;</button>
+            <button class="carousel-control next">&#10095;</button>
+          </div>
+          
+          <div class="event-management">
+            <div class="event-management-header">
+              <h3>Event Management</h3>
+              <a href="/events/create-event">
+                <button class="create-event-btn">
+                  <i class="fas fa-plus"></i> Create Event
+                </button>
+              </a>
+            </div>
+            
+            <div class="event-filters">
+              <button class="filter-btn active" data-filter="all">All Events</button>
+              <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+              <button class="filter-btn" data-filter="ongoing">Ongoing</button>
+              <button class="filter-btn" data-filter="completed">Completed</button>
+              <button class="filter-btn" data-filter="draft">Drafts</button>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="event-table">
+                <thead>
                   <tr>
-                    <td><%= event.title %></td>
-                    <td><%= event.date %></td>
-                    <td><%= event.venue %></td>
-                    <td>
-                      <span class="status-badge <%= event.status === 'Upcoming' ? 'status-upcoming' : 'status-past' %>">
-                        <%= event.status %>
-                      </span>
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="edit-btn" data-id="<%= event.id %>"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="delete-btn" data-id="<%= event.id %>"><i class="fas fa-trash"></i> Delete</button>
-                      </div>
-                    </td>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                <% }); %>
-                <tr>
-                  <td>Tech Conference 2023</td>
-                  <td>June 15, 2023</td>
-                  <td>Convention Center</td>
-                  <td><span class="status-badge status-upcoming">Upcoming</span></td>
-                  <td>
-                    <div class="action-buttons">
-                      <button class="edit-btn" data-id="1"><i class="fas fa-edit"></i> Edit</button>
-                      <button class="delete-btn" data-id="1"><i class="fas fa-trash"></i> Delete</button>
-                    </div>
-                  </td>
-                </tr>
+                </thead>
+                <tbody>
+                  <% events && events.forEach(event => { %>
+                    <tr>
+                      <td><%= event.title %></td>
+                      <td><%= event.date %></td>
+                      <td><%= event.venue %></td>
+                      <td>
+                        <span class="status-badge <%= event.status === 'Upcoming' ? 'status-upcoming' : 'status-past' %>">
+                          <%= event.status %>
+                        </span>
+                      </td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="edit-btn" data-id="<%= event.id %>"><i class="fas fa-edit"></i> Edit</button>
+                          <button class="delete-btn" data-id="<%= event.id %>"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }); %>
+                  <!-- Sample data if events array is empty -->
+                  <% if (!events || events.length === 0) { %>
+                    <tr>
+                      <td>Tech Conference 2025</td>
+                      <td>June 15, 2025</td>
+                      <td>Convention Center</td>
+                      <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="edit-btn" data-id="1"><i class="fas fa-edit"></i> Edit</button>
+                          <button class="delete-btn" data-id="1"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% } %>
                 <!-- <tr>
                   <td>Music Festival</td>
                   <td>July 8, 2023</td>
@@ -186,10 +220,9 @@
                       <button class="delete-btn" data-id="4"><i class="fas fa-trash"></i> Delete</button>
                     </div>
                   </td>
-                </tr>  -->
-                <tr>
+                </tr>  -->                <tr>
                   <td>Design Conference</td>
-                  <td>April 5, 2023</td>
+                  <td>April 5, 2025</td>
                   <td>Art Gallery</td>
                   <td><span class="status-badge status-completed">Completed</span></td>
                   <td>
@@ -201,7 +234,7 @@
                 </tr>
                 <tr>
                   <td>Product Launch</td>
-                  <td>March 20, 2023</td>
+                  <td>March 20, 2025</td>
                   <td>City Hall</td>
                   <td><span class="status-badge status-completed">Completed</span></td>
                   <td>
@@ -210,83 +243,222 @@
                       <button class="delete-btn" data-id="6"><i class="fas fa-trash"></i> Delete</button>
                     </div>
                   </td>
-                </tr> 
-
-              </tbody>
+                </tr>              </tbody>
             </table>
           </div>
-        </div>
+        </section>
+        
+        <!-- Analytics Section -->
+        <section id="analytics" class="dashboard-section">
+          <h2>Analytics</h2>
+          
+          <div class="analytics-filters">
+            <div class="date-range-selector">
+              <i class="fas fa-calendar"></i> Last 30 days <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <div class="chart-header">
+              <div class="chart-title">Ticket Sales</div>
+            </div>
+            <div class="chart-placeholder">
+              <p>Ticket sales chart will be displayed here</p>
+            </div>
+          </div>
+          
+          <div class="stats-row">
+            <div class="stat-card">
+              <h3>Conversion Rate</h3>
+              <div class="value">62%</div>
+              <div class="sub-text">From page visits</div>
+            </div>
+            
+            <div class="stat-card">
+              <h3>Page Views</h3>
+              <div class="value">1,428</div>
+              <div class="trend trend-up">↑ 15% vs last month</div>
+            </div>
+            
+            <div class="stat-card">
+              <h3>Avg. Ticket Price</h3>
+              <div class="value">₹475</div>
+              <div class="trend trend-down">↓ 5% vs last month</div>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <div class="chart-header">
+              <div class="chart-title">Attendance by Event Type</div>
+            </div>
+            <div class="chart-placeholder">
+              <p>Attendance chart will be displayed here</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Feedback Section -->
+        <section id="feedback" class="dashboard-section">
+          <h2>Feedback & Reviews</h2>
+          
+          <div class="stats-row">
+            <div class="stat-card">
+              <h3>Total Reviews</h3>
+              <div class="value">58</div>
+              <div class="sub-text">12 new this month</div>
+            </div>
+            
+            <div class="stat-card">
+              <h3>Average Rating</h3>
+              <div class="value">4.7<span style="font-size: 0.5em; vertical-align: super;">★</span></div>
+              <div class="trend trend-up">↑ 0.2 vs last month</div>
+            </div>
+            
+            <div class="stat-card">
+              <h3>Response Rate</h3>
+              <div class="value">87%</div>
+              <div class="sub-text">Replies to reviews</div>
+            </div>
+          </div>
+          
+          <h3>Recent Reviews</h3>
+          <div class="reviews-container">
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                    <img src="/images/blank.png" alt="Avatar">
+                  </div>
+                  <div>
+                    <div class="reviewer-name">Ankit Sharma</div>
+                    <div class="review-event">Tech Conference 2025</div>
+                  </div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+              </div>
+              <div class="review-date">April 25, 2025</div>
+              <div class="review-content">
+                Amazing conference! The speakers were incredibly knowledgeable and the networking opportunities were fantastic. Looking forward to attending next year!
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                    <img src="/images/blank.png" alt="Avatar">
+                  </div>
+                  <div>
+                    <div class="reviewer-name">Priya Patel</div>
+                    <div class="review-event">Music Festival</div>
+                  </div>
+                </div>
+                <div class="review-rating">★★★★☆</div>
+              </div>
+              <div class="review-date">April 18, 2025</div>
+              <div class="review-content">
+                Great lineup of artists! The sound system was excellent and the atmosphere was electric. Only drawback was the long lines at food stalls.
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                    <img src="/images/blank.png" alt="Avatar">
+                  </div>
+                  <div>
+                    <div class="reviewer-name">Rahul Verma</div>
+                    <div class="review-event">Startup Meetup</div>
+                  </div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+              </div>
+              <div class="review-date">April 10, 2025</div>
+              <div class="review-content">
+                Very insightful discussions and valuable connections made. The panel discussions were extremely helpful for my startup journey.
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="settings" class="dashboard-section">
+          <h2>Account Settings</h2>
+          
+          <div class="settings-form">
+            <h3>Profile Information</h3>
+            <form id="profile-form" class="profile-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" disabled>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="organization">Organization</label>
+                  <input type="text" id="organization" name="organization" value="<%= user && user.organization ? user.organization : '' %>">
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="text" id="phone" name="phone" value="<%= user && user.phone ? user.phone : '' %>">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="website">Website</label>
+                  <input type="url" id="website" name="website" value="<%= user && user.website ? user.website : '' %>">
+                </div>
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" value="<%= user ? user.username : '' %>" disabled>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="settings-form">
+            <h3>Change Password</h3>
+            <form id="password-form" class="password-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="currentPassword">Current Password</label>
+                  <input type="password" id="currentPassword" name="currentPassword">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="newPassword">New Password</label>
+                  <input type="password" id="newPassword" name="newPassword">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm New Password</label>
+                  <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Password</button>
+              </div>
+            </form>
+          </div>
+        </section>
       </div>
-      
     </div>
   </div>
-
   <!-- Include footer partial -->
   <%- include('partials/footer') %>
 
-  <script>
-    // Event Carousel
-    let currentIndex = 0;
-    const items = document.querySelectorAll('.carousel-item');
-    
-    function moveCarousel(direction) {
-      const container = document.querySelector('.carousel-container');
-      const itemCount = items.length;
-      
-      if (itemCount <= 1) return;
-      
-      currentIndex = (currentIndex + direction + itemCount) % itemCount;
-      container.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
-    
-    // Event handlers for buttons
-    document.addEventListener('DOMContentLoaded', function() {
-      // Create event button
-      const createBtn = document.querySelector('.create-event-btn');
-      if (createBtn) {
-        createBtn.addEventListener('click', function() {
-          window.location.href = '/event/create';
-        });
-      }
-      
-      // Edit buttons
-      const editBtns = document.querySelectorAll('.edit-btn');
-      editBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const eventId = this.getAttribute('data-id');
-          window.location.href = `/event/edit/${eventId}`;
-        });
-      });
-      
-      // Delete buttons
-      const deleteBtns = document.querySelectorAll('.delete-btn');
-      deleteBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const eventId = this.getAttribute('data-id');
-          if (confirm('Are you sure you want to delete this event?')) {
-            fetch(`/event/${eventId}`, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                alert('Event deleted successfully');
-                window.location.reload();
-              } else {
-                alert('Failed to delete event');
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert('An error occurred while deleting the event');
-            });
-          }
-        });
-      });
-    });
-  </script>
+  <script src="/js/creator_dashboard.js"></script>
 </body>
 </html>
