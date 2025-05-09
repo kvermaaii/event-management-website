@@ -214,6 +214,27 @@
                 </div>
               </form>
             </div>
+            
+            <div class="password-section">
+              <h3>Update Email</h3>
+              <form id="email-form" class="password-form">
+                <div class="form-group">
+                  <label for="currentEmail">Current Email</label>
+                  <input type="email" id="currentEmail" name="currentEmail" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="newEmail">New Email</label>
+                  <input type="email" id="newEmail" name="newEmail" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address">
+                </div>
+                <div class="form-group">
+                  <label for="emailPassword">Current Password</label>
+                  <input type="password" id="emailPassword" name="emailPassword" required>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn change-email">Update Email</button>
+                </div>
+              </form>
+            </div>
           </div>
         </section>
         

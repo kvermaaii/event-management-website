@@ -163,6 +163,70 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Email update form submission
+    const emailForm = document.getElementById('email-form');
+    if (emailForm) {
+        // Populate the current email field when the profile section is loaded
+        document.querySelector('.sidebar-nav li[data-section="profile"]').addEventListener('click', function() {
+            fetch('/user/profile')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        document.getElementById('currentEmail').value = data.user.email || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching email:', error);
+                });
+        });
+
+        emailForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(emailForm);
+            const newEmail = formData.get('newEmail');
+            const password = formData.get('emailPassword');
+            
+            // Validate email format
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(newEmail)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Send data to server (AJAX request)
+            fetch('/user/update-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    newEmail,
+                    password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Email updated successfully!', 'success');
+                    emailForm.reset(); // Clear form
+                    
+                    // Update the displayed email in currentEmail field
+                    document.getElementById('currentEmail').value = newEmail;
+                    // Also update it in the main profile form
+                    document.getElementById('email').value = newEmail;
+                } else {
+                    showNotification(data.message || 'Failed to update email.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('An error occurred. Please try again later.', 'error');
+            });
+        });
+    }
+    
     // View booking details functionality
     const viewDetailsButtons = document.querySelectorAll('.view-details');
     viewDetailsButtons.forEach(button => {

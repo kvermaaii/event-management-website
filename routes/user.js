@@ -8,5 +8,6 @@ router.get('/events', userController.getUserEvents);
 router.get('/profile', userController.getUserProfile);
 router.put('/profile', userController.updateUserProfile);
 router.post('/change-password', userController.changePassword);
+router.post('/update-email', userController.updateEmail);
 
 export default router;

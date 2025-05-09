@@ -268,6 +268,108 @@ class userController {    async loadDashboard (req, res){
             });
         }
     }
+    
+    async updateEmail(req, res) {
+        try {
+            // Get user ID from either req.user or req.session
+            let userId = null;
+            if (req.user) {
+                userId = req.user._id;
+            } else if (req.session.userId) {
+                userId = req.session.userId;
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'User not authenticated'
+                });
+            }
+            
+            // Get new email and password from request body
+            const { newEmail, password } = req.body;
+            
+            // Validate required fields
+            if (!newEmail || !password) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email and password are required'
+                });
+            }
+            
+            // Validate email format
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(newEmail)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid email format'
+                });
+            }
+            
+            // Find the user
+            const User = (await import('../models/user.js')).default;
+            const user = await User.findById(userId);
+            
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'User not found'
+                });
+            }
+            
+            // Import bcrypt for password verification
+            const bcrypt = (await import('bcrypt')).default;
+            
+            // Verify current password
+            const isMatch = await bcrypt.compare(password, user.passwordHash);
+            if (!isMatch) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Current password is incorrect'
+                });
+            }
+            
+            // Check if the new email is different from the current one
+            if (user.email === newEmail) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'New email is the same as the current email'
+                });
+            }
+            
+            // Check if email is already in use by another user
+            const existingUser = await User.findOne({ email: newEmail });
+            if (existingUser && existingUser._id.toString() !== userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email is already in use by another account'
+                });
+            }
+            
+            // Update email
+            user.email = newEmail;
+            await user.save();
+            
+            res.status(200).json({
+                success: true,
+                message: 'Email updated successfully'
+            });
+        } catch (error) {
+            console.error('Error updating email:', error);
+            
+            // Check for duplicate email error
+            if (error.code === 11000) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email already in use'
+                });
+            }
+            
+            res.status(500).json({
+                success: false,
+                message: 'Failed to update email',
+                error: error.message
+            });
+        }
+    }
 }
 
 export default new userController();
