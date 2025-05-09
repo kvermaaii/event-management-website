@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Include navbar -->
     <%- include('partials/navbar') %>
 
-    <!-- Dashboard starts here, directly after navbar -->
     <div class="dashboard-container">
-        <!-- Gradient blobs for background design -->
         <div class="gradient-blob blob-1"></div>
         <div class="gradient-blob blob-2"></div>
         <div class="gradient-blob blob-3"></div>
@@ -29,7 +28,7 @@
                         <img src="/images/guest.png" alt="Admin Profile">
                     </div>
                     <h3>Admin Panel</h3>
-                    <p>System Administration</p>
+                    <p>System Administrator</p>
                 </div>
                 
                 <nav class="sidebar-nav">
@@ -69,7 +68,7 @@
                         </div>
                         
                         <div class="stat-card">
-                            <h3>Active Organizers</h3>
+                            <h3>Verified Organizers</h3>
                             <div class="stat-value"><%= typeof verifiedOrganizerCount !== 'undefined' ? verifiedOrganizerCount : 0 %></div>
                         </div>
                         
@@ -79,29 +78,35 @@
                         </div>
                     </div>
                     
-                    <!-- Data Visualization Placeholders -->
-                    <div class="placeholder-container">
+                    <!-- Data Visualization Charts -->
+                    <div class="table-container">
                         <h3>Monthly Event Statistics</h3>
-                        <div class="data-viz-placeholder">
-                            <p class="placeholder-text">Area for future monthly event statistics chart</p>
+                        <div class="chart-container">
+                            <canvas id="monthlyEventsChart"></canvas>
                         </div>
                     </div>
-                    
-                    <div class="stats-container">
-                        <div class="placeholder-container">
+                    <div class="table-container">
+                        <h3>Organizer Verification Status</h3>
+                        <div class="chart-container">
+                            <canvas id="organizerVerificationChart"></canvas>
+                        </div>
+                    </div>
+                      <div class="stats-container">
+                        <div class="table-container">
                             <h3>Event Categories</h3>
-                            <div class="data-viz-placeholder">
-                                <p class="placeholder-text">Area for future pie chart of event categories</p>
+                            <div class="chart-container">
+                                <canvas id="eventCategoriesChart"></canvas>
                             </div>
                         </div>
                         
-                        <div class="placeholder-container">
+                        <div class="table-container">
                             <h3>Revenue Analysis</h3>
-                            <div class="data-viz-placeholder">
-                                <p class="placeholder-text">Area for future revenue chart</p>
+                            <div class="chart-container">
+                                <canvas id="revenueChart"></canvas>
                             </div>
                         </div>
                     </div>
+                    
                     
                     <div class="table-container">
                         <div class="section-header">
@@ -117,14 +122,13 @@
                             </thead>
                             <tbody>
                                 <% if (typeof recentEvents !== 'undefined' && recentEvents.length > 0) { %>
-                                    <% recentEvents.forEach(event => { %>
-                                        <tr>
+                                    <% recentEvents.forEach(event => { %>                                        <tr>
                                             <td><%= event.title %></td>
                                             <td><%= event.organizerId ? event.organizerId.organizationName : 'Unknown' %></td>
-                                            <td><%= new Date(event.startDate).toLocaleDateString() %></td>
+                                            <td><%= new Date(event.startDateTime).toLocaleDateString() %></td>
                                             <td>
-                                                <span class="status-badge <%= event.isActive ? 'status-verified' : 'status-pending' %>">
-                                                    <%= event.isActive ? 'Active' : 'Pending' %>
+                                                <span class="status-badge <%= event.status === 'start_selling' ? 'status-verified' : 'status-pending' %>">
+                                                    <%= event.status === 'start_selling' ? 'Active' : 'Pending' %>
                                                 </span>
                                             </td>
                                         </tr>
