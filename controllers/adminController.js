@@ -2,6 +2,7 @@ import User from '../models/user.js';
 import Event from '../models/event.js';
 import Organizer from '../models/organizer.js';
 import Admin from '../models/admin.js';
+import Registration from '../models/registration.js';
 
 class adminController {    async loadDashboard (req, res) {
         try {
@@ -35,6 +36,169 @@ class adminController {    async loadDashboard (req, res) {
         } catch (error) {
             console.error('Error loading admin dashboard:', error);
             res.status(500).send('Server error');
+        }
+    }
+    
+    // Chart data endpoints
+    async getMonthlyEventStats(req, res) {
+        try {
+            const now = new Date();
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(now.getMonth() - 6);
+            
+            // Aggregate monthly events
+            const monthlyEvents = await Event.aggregate([
+                {
+                    $match: {
+                        startDateTime: { $gte: sixMonthsAgo, $lte: now }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { 
+                            year: { $year: "$startDateTime" }, 
+                            month: { $month: "$startDateTime" } 
+                        },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { "_id.year": 1, "_id.month": 1 }
+                }
+            ]);
+            
+            // Format the data for the chart
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const formattedData = [];
+            
+            // Initialize with zeros for the last 6 months
+            for (let i = 0; i < 6; i++) {
+                const d = new Date();
+                d.setMonth(d.getMonth() - 5 + i);
+                const year = d.getFullYear();
+                const month = d.getMonth();
+                
+                formattedData.push({
+                    month: months[month],
+                    year: year,
+                    count: 0
+                });
+            }
+            
+            // Fill in actual counts
+            monthlyEvents.forEach(item => {
+                const monthIndex = item._id.month - 1; // MongoDB months are 1-indexed
+                const label = months[monthIndex];
+                const dataIndex = formattedData.findIndex(
+                    d => d.month === label && d.year === item._id.year
+                );
+                
+                if (dataIndex !== -1) {
+                    formattedData[dataIndex].count = item.count;
+                }
+            });
+            
+            res.json(formattedData);
+        } catch (error) {
+            console.error('Error getting monthly event stats:', error);
+            res.status(500).json({ message: 'Server error' });
+        }
+    }
+    
+    async getEventCategoriesStats(req, res) {
+        try {
+            const categoryStats = await Event.aggregate([
+                {
+                    $group: {
+                        _id: "$category",
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { count: -1 }
+                }
+            ]);
+            
+            const formattedData = categoryStats.map(item => ({
+                category: item._id,
+                count: item.count
+            }));
+            
+            res.json(formattedData);
+        } catch (error) {
+            console.error('Error getting event categories stats:', error);
+            res.status(500).json({ message: 'Server error' });
+        }
+    }
+    
+    async getRevenueAnalysis(req, res) {
+        try {
+            const now = new Date();
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(now.getMonth() - 6);
+            
+            // Get all registrations from the last 6 months
+            const registrations = await Registration.find({
+                registrationDate: { $gte: sixMonthsAgo, $lte: now }
+            }).populate('eventId');
+            
+            // Calculate monthly revenue
+            const monthlyRevenue = {};
+            
+            registrations.forEach(reg => {
+                if (reg.eventId && reg.eventId.ticketPrice) {
+                    const date = new Date(reg.registrationDate);
+                    const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
+                    
+                    if (!monthlyRevenue[monthYear]) {
+                        monthlyRevenue[monthYear] = 0;
+                    }
+                    
+                    monthlyRevenue[monthYear] += reg.eventId.ticketPrice;
+                }
+            });
+            
+            // Format for chart
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const formattedData = [];
+            
+            // Initialize with zeros for all months
+            for (let i = 0; i < 6; i++) {
+                const d = new Date();
+                d.setMonth(d.getMonth() - 5 + i);
+                const year = d.getFullYear();
+                const month = d.getMonth();
+                const monthYear = `${year}-${month + 1}`;
+                
+                formattedData.push({
+                    month: months[month],
+                    year: year,
+                    revenue: monthlyRevenue[monthYear] || 0
+                });
+            }
+            
+            res.json(formattedData);
+        } catch (error) {
+            console.error('Error getting revenue analysis:', error);
+            res.status(500).json({ message: 'Server error' });
+        }
+    }
+    
+    async getOrganizerVerificationStats(req, res) {
+        try {
+            // Get counts of verified and unverified organizers
+            const verifiedCount = await Organizer.countDocuments({ verified: true });
+            const unverifiedCount = await Organizer.countDocuments({ verified: false });
+            
+            const data = [
+                { status: 'Verified', count: verifiedCount },
+                { status: 'Unverified', count: unverifiedCount }
+            ];
+            
+            res.json(data);
+        } catch (error) {
+            console.error('Error getting organizer verification stats:', error);
+            res.status(500).json({ message: 'Server error' });
         }
     }
     
