@@ -135,15 +135,34 @@ const categories = {
   ]
 };
 
-app.get('/:category', (req, res) => {
-  const category = req.params.category;
-  const cards = categories[category];
-  if (cards) {
-    res.render('category', { category, cards });
-  } else {
-    res.status(404).render('404');
+// app.get('/:category', (req, res) => {
+//   const category = req.params.category;
+//   const cards = categories[category];
+//   if (cards) {
+//     res.render('category', { category, cards });
+//   } else {
+//     res.status(404).render('404');
+//   }
+// });
+
+app.get('/:category', async (req, res) => {
+  try {
+    const category = req.params.category;
+    const events = await Event.find({ category: new RegExp(category, 'i') }).lean();
+    console.log('Events fetched:', events);
+
+    if (!events || events.length === 0) {
+      return res.render('category', { category, cards: [] });
+    }
+
+    res.render('category', { category, cards: events });
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).render('500', { message: 'An error occurred while fetching events.' });
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
