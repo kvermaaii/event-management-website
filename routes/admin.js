@@ -28,4 +28,10 @@ router.get('/organizers/:id', adminController.getOrganizerById);
 router.put('/organizers/:id/verify', adminController.verifyOrganizer);
 router.put('/organizers/:id/reject', adminController.rejectOrganizer);
 
+// Chart data routes
+router.get('/chart/monthly-events', adminController.getMonthlyEventStats);
+router.get('/chart/event-categories', adminController.getEventCategoriesStats);
+router.get('/chart/revenue-analysis', adminController.getRevenueAnalysis);
+router.get('/chart/organizer-verification', adminController.getOrganizerVerificationStats);
+
 export default router;

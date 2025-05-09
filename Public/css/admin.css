@@ -524,11 +524,10 @@ body {
   font-style: italic;
 }
 
-/* Data Visualization Placeholder */
-.data-viz-placeholder {
+/* Chart Containers */
+.chart-container {
   width: 100%;
   height: 300px;
-  background: linear-gradient(135deg, rgba(147, 83, 211, 0.2), rgba(244, 63, 94, 0.2));
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -536,6 +535,7 @@ body {
   margin-bottom: 20px;
   box-sizing: border-box;
   max-width: 100%;
+  position: relative;
 }
 
 /* Responsive Styles */
