@@ -36,19 +36,45 @@ class userController {    async loadDashboard (req, res){
                 console.error('User not found in database');
                 return res.redirect('/login');
             }
-            
-            // Get user's bookings/registrations
+              // Get user's bookings/registrations
             const registrations = await Registration.find({ userId })
                 .populate({
                     path: 'eventId',
                     model: 'Event',
                     select: 'title description startDateTime endDateTime venue ticketPrice status'
                 }).sort({ registrationDate: -1 });
+            
+            // Group registrations by event ID
+            const eventRegistrationMap = new Map();
+            
+            // Process each registration and count tickets per event
+            registrations.forEach(registration => {
+                const eventId = registration.eventId._id.toString();
+                  if (!eventRegistrationMap.has(eventId)) {
+                    eventRegistrationMap.set(eventId, {
+                        event: registration.eventId,
+                        registrations: [],
+                        count: 0,
+                        latestRegistrationId: registration._id, // Keep track of the latest registration for this event
+                        latestRegistrationDate: registration.registrationDate
+                    });
+                }
+                
+                // Add registration to the event's registrations array
+                eventRegistrationMap.get(eventId).registrations.push(registration);
+                eventRegistrationMap.get(eventId).count++;
+                
+                // Update latest registration ID if this one is newer
+                if (registration.registrationDate > eventRegistrationMap.get(eventId).latestRegistrationDate) {
+                    eventRegistrationMap.get(eventId).latestRegistrationId = registration._id;
+                    eventRegistrationMap.get(eventId).latestRegistrationDate = registration.registrationDate;
+                }
+            });
                 
             // Process events data to categorize as upcoming, completed, or cancelled
             const currentDate = new Date();
-            const userBookings = registrations.map(registration => {
-                const event = registration.eventId;
+            const userBookings = Array.from(eventRegistrationMap.values()).map(eventData => {
+                const event = eventData.event;
                 const startDate = new Date(event.startDateTime);
                 
                 // Determine status
@@ -64,7 +90,7 @@ class userController {    async loadDashboard (req, res){
                 const timeOptions = { hour: 'numeric', minute: 'numeric' };
                 
                 return {
-                    id: registration._id,
+                    id: eventData.latestRegistrationId, // Use the latest registration ID
                     title: event.title,
                     date: startDate.toLocaleDateString('en-US', dateOptions),
                     time: startDate.toLocaleTimeString('en-US', timeOptions),
@@ -72,7 +98,8 @@ class userController {    async loadDashboard (req, res){
                     ticketType: 'Standard', // Assuming a default if not available
                     price: event.ticketPrice,
                     status: status,
-                    eventId: event._id
+                    eventId: event._id,
+                    ticketCount: eventData.count // Add the ticket count
                 };
             });
             

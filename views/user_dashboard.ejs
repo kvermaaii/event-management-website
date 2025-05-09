@@ -60,14 +60,12 @@
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="upcoming">Upcoming</button>
             <button class="filter-btn" data-filter="completed">Completed</button>
-            <button class="filter-btn" data-filter="cancelled">Cancelled</button>
           </div>
             <div class="bookings-list">
             <% if (locals.bookings && bookings.length > 0) { %>
-              <% bookings.forEach(booking => { %>
-                <div class="booking-card <%= booking.status %>">
+              <% bookings.forEach(booking => { %>                <div class="booking-card <%= booking.status %>">
                   <div class="booking-header">
-                    <h3><%= booking.title %></h3>
+                    <h3><%= booking.title %> <% if (booking.ticketCount > 1) { %><span class="ticket-count-badge"><%= booking.ticketCount %> tickets</span><% } %></h3>
                     <span class="status-badge <%= booking.status %>"><%= booking.status %></span>
                   </div>
                   
@@ -83,23 +81,21 @@
                     <div class="detail-item">
                       <i class="fas fa-map-marker-alt"></i>
                       <span><%= booking.venue %></span>
-                    </div>
-                    <div class="detail-item">
+                    </div>                    <div class="detail-item">
                       <i class="fas fa-ticket-alt"></i>
-                      <span><%= booking.ticketType %></span>
-                    </div>
-                    <div class="detail-item">
+                      <span><% if (booking.ticketCount > 1) { %><%= booking.ticketCount %> × <% } %><%= booking.ticketType %></span>
+                    </div><div class="detail-item">
                       <i class="fas fa-money-bill-wave"></i>
-                      <span>$<%= booking.price.toFixed(2) %></span>
+                      <span>$<%= booking.price.toFixed(2) %> <% if (booking.ticketCount > 1) { %> × <%= booking.ticketCount %> = $<%= (booking.price * booking.ticketCount).toFixed(2) %><% } %></span>
                     </div>
                   </div>
                   
-                  <div class="booking-actions">
+                  <!-- <div class="booking-actions">
                     <button class="btn view-details" data-event-id="<%= booking.eventId %>">View Details</button>
                     <% if (booking.status === 'upcoming') { %>
                       <button class="btn cancel-booking" data-booking-id="<%= booking.id %>">Cancel Booking</button>
                     <% } %>
-                  </div>
+                  </div> -->
                 </div>
               <% }); %>
             <% } else { %>
