@@ -21,7 +21,7 @@
         <div class="container">
             <div class="payment-container">
                 <h2 class="section-title">Secure Checkout</h2>
-                <form action="/payment/process-payment" method="POST">
+                <form action="/payments/process-payment" method="POST">
                     <input type="hidden" name="eventId" value="<%= event._id %>">
                     
                     <div class="form-group">
@@ -95,7 +95,7 @@
 
                     <button type="submit" class="payment-btn">
                         <span>Pay Now</span>
-                    </button>
+                      </button>
                 </form>
             </div>
             

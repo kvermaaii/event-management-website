@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 
 // Route to render home page with events - Using eventController
 import eventController from './controllers/eventController.js';
-app.get('/', eventController.getAllEvents);
+app.get('/',optionalAuth, eventController.getAllEvents);
 
 // Single event page route
 app.get('/event/:id', optionalAuth, eventController.getEventById);

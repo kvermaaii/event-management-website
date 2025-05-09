@@ -13,7 +13,7 @@ router.get('/category/:category', optionalAuth, eventController.getEventsByCateg
 router.get('/api/upcoming', eventController.getUpcomingEvents);
 
 // Create event form page
-router.get('/create-event', isAuth, eventController.createEventForm);
+router.get('/create-event',eventController.createEventForm);
 
 // Get event details by ID
 router.get('/:id', optionalAuth, eventController.getEventById);
