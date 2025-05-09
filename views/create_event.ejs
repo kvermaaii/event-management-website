@@ -117,17 +117,16 @@
   }
 </style>
 
-<div class="form-container wide-form">
-  <form method="POST" action="/organizer/events" enctype="multipart/form-data" class="full-width-form">
-    <h1 style="text-align: center;">Create Event</h1>
+<div class="form-container wide-form">  <form method="POST" action="<%= typeof event !== 'undefined' && event ? '/organizer/events/' + event._id + '?_method=PUT' : '/organizer/events' %>" enctype="multipart/form-data" class="full-width-form" <%= typeof event !== 'undefined' && event ? 'data-edit="true"' : '' %>>
+    <h1 style="text-align: center;"><%= typeof event !== 'undefined' && event ? 'Edit Event' : 'Create Event' %></h1>
 
     <div class="form-group">
       <label for="category">Category</label>
       <select class="form-control" id="category" name="category" required>
-        <option>Concerts</option>
-        <option>Exhibitions</option>
-        <option>TEDx</option>
-        <option>Health Camps</option>
+        <option <%= typeof event !== 'undefined' && event && event.category === 'Concerts' ? 'selected' : '' %>>Concerts</option>
+        <option <%= typeof event !== 'undefined' && event && event.category === 'Exhibitions' ? 'selected' : '' %>>Exhibitions</option>
+        <option <%= typeof event !== 'undefined' && event && event.category === 'TEDx' ? 'selected' : '' %>>TEDx</option>
+        <option <%= typeof event !== 'undefined' && event && event.category === 'Health Camps' ? 'selected' : '' %>>Health Camps</option>
       </select>
     </div>
 
@@ -140,11 +139,10 @@
         name="title"
         placeholder="Enter event title"
         maxlength="100"
+        value="<%= typeof event !== 'undefined' && event ? event.title : '' %>"
         required
       />
-    </div>
-
-    <div class="form-group">
+    </div>    <div class="form-group">
       <label for="description">Description</label>
       <textarea
         class="form-control"
@@ -153,7 +151,7 @@
         placeholder="Enter event description"
         maxlength="1000"
         required
-      ></textarea>
+      ><%= typeof event !== 'undefined' && event ? event.description : '' %></textarea>
     </div>
 
     <div class="form-group">
@@ -163,6 +161,7 @@
         class="form-control"
         id="startDateTime"
         name="startDateTime"
+        value="<%= typeof event !== 'undefined' && event ? event.startDateTime.toISOString().slice(0, 16) : '' %>"
         required
       />
     </div>
@@ -174,6 +173,7 @@
         class="form-control"
         id="endDateTime"
         name="endDateTime"
+        value="<%= typeof event !== 'undefined' && event ? event.endDateTime.toISOString().slice(0, 16) : '' %>"
         required
       />
       <small id="endDateError" style="color: red; display: none;">
@@ -190,6 +190,7 @@
         name="venue"
         placeholder="Enter event venue"
         maxlength="200"
+        value="<%= typeof event !== 'undefined' && event ? event.venue : '' %>"
         required
       />
     </div>
@@ -204,6 +205,7 @@
         placeholder="Enter event capacity"
         min="1"
         max="100000"
+        value="<%= typeof event !== 'undefined' && event ? event.capacity : '' %>"
         required
       />
     </div>
@@ -218,6 +220,7 @@
         placeholder="Enter event price"
         min="0"
         step="0.01"
+        value="<%= typeof event !== 'undefined' && event ? event.ticketPrice : '' %>"
         required
       />
     </div>
@@ -225,8 +228,8 @@
     <div class="form-group">
       <label for="status">Status</label>
       <select class="form-control" id="status" name="status" required>
-        <option value="start_selling">Start Selling</option>
-        <option value="not_selling">Not Selling</option>
+        <option value="start_selling" <%= typeof event !== 'undefined' && event && event.status === 'start_selling' ? 'selected' : '' %>>Start Selling</option>
+        <option value="not_selling" <%= typeof event !== 'undefined' && event && event.status === 'not_selling' ? 'selected' : '' %>>Not Selling</option>
       </select>
     </div>
 
@@ -238,8 +241,14 @@
         id="image"
         name="image"
         accept="image/*"
-        required
+        <%= typeof event !== 'undefined' && event ? '' : 'required' %>
       />
+      <% if (typeof event !== 'undefined' && event && event.image) { %>
+      <div class="current-image mt-2">
+        <p>Current image: <span class="image-name"><%= event.image.split('/').pop() %></span></p>
+        <small class="text-muted">Upload a new image only if you want to change it</small>
+      </div>
+      <% } %>
     </div>
 
     <br />

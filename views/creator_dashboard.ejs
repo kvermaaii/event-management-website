@@ -30,7 +30,6 @@
             <img src="/images/guest.png" alt="Profile Picture">
           </div>
           <h3><%= user ? user.name : 'Event Creator' %></h3>
-          <p><%= user ? '@' + user.username : '@organizer' %></p>
         </div>
         
         <nav class="sidebar-nav">
@@ -167,9 +166,9 @@
         <section id="analytics" class="dashboard-section">
           <h2>Analytics</h2>
             <div class="analytics-filters">
-            <div class="date-range-selector" id="dateRangeSelector">
+            <!-- <div class="date-range-selector" id="dateRangeSelector">
               <i class="fas fa-calendar"></i> Last 30 days <i class="fas fa-chevron-down"></i>
-            </div>
+            </div> -->
             <div class="date-range-dropdown" id="dateRangeDropdown" style="display: none; position: absolute; z-index: 100; background: rgba(40, 40, 40, 0.95); border: 1px solid var(--glass-border); border-radius: 8px; padding: 10px; min-width: 200px; margin-top: 40px;">
               <div class="date-option" data-range="7">Last 7 days</div>
               <div class="date-option" data-range="30">Last 30 days</div>

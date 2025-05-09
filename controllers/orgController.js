@@ -137,10 +137,10 @@
 //         }
 
 //     } 
-//     async updateEvnet (req, res){
+//     async updateEvent (req, res){
 
 //     }
-//     async delateEvent (req, res){
+//     async deleteEvent (req, res){
 
 //     }
 // }
@@ -576,8 +576,7 @@ class orgController {  async loadDashboard(req, res) {
       res.status(500).json({ message: 'An error occurred while creating the event.' });
     }
   }
-
-  async updateEvnet (req, res){
+  async updateEvent (req, res){
     try {
       const eventId = req.params.id;
       const { category, title, description, startDateTime, endDateTime, venue, capacity, price, status } = req.body;
@@ -620,8 +619,7 @@ class orgController {  async loadDashboard(req, res) {
       res.status(500).json({ message: 'An error occurred while updating the event.' });
     }
   }
-
-  async delateEvent (req, res){
+  async deleteEvent (req, res){
     try {
       const eventId = req.params.id;
       

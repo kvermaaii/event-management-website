@@ -82,13 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/events/create-event';
         });
     }
-    
-    // Edit buttons
+      // Edit buttons
     const editBtns = document.querySelectorAll('.edit-btn');
     editBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const eventId = this.getAttribute('data-id');
-            window.location.href = `/event/edit/${eventId}`;
+            // Redirect to edit event page
+            window.location.href = `/events/create-event?editId=${eventId}`;
         });
     });
     
@@ -98,20 +98,21 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const eventId = this.getAttribute('data-id');
             if (confirm('Are you sure you want to delete this event?')) {
-                fetch(`/event/${eventId}`, {
+                fetch(`/organizer/events/${eventId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Event deleted successfully');
-                        window.location.reload();
-                    } else {
-                        alert('Failed to delete event');
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
                     }
+                    throw new Error('Network response was not ok');
+                })
+                .then(data => {
+                    alert('Event deleted successfully');
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.error('Error:', error);

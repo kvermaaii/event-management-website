@@ -18,6 +18,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import methodOverride from 'method-override';
 
 // for getting the events on home page
 import Event from './models/event.js';
@@ -26,8 +27,9 @@ import Event from './models/event.js';
 dotenv.config();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));;
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(methodOverride('_method')); // Enable method override using _method query param
 
 
 

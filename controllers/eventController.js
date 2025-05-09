@@ -75,13 +75,30 @@ class eventController {
             console.error('Error fetching category events:', error);
             res.status(500).send('An error occurred while fetching category events.');
         }
-    }
-
-    async createEventForm (req,res) {
-        res.render('base', { title: 'Create event', content: 'create_event', showLogin: false, 
-            showSignup: false });
-
-
+    }    async createEventForm (req,res) {
+        try {
+            const { editId } = req.query;
+            let event = null;
+            
+            // If editId is provided, fetch the event details
+            if (editId) {
+                event = await Event.findById(editId);
+                if (!event) {
+                    return res.status(404).render('404');
+                }
+            }
+            
+            res.render('base', { 
+                title: editId ? 'Edit Event' : 'Create Event', 
+                content: 'create_event', 
+                showLogin: false, 
+                showSignup: false,
+                event: event // Pass the event object for edit mode
+            });
+        } catch (error) {
+            console.error('Error loading event form:', error);
+            res.status(500).send('An error occurred while loading the event form.');
+        }
     }async getEventById (req, res) {
         try {
             const eventId = req.params.id;
