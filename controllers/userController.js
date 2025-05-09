@@ -17,6 +17,8 @@ class userController {    async loadDashboard (req, res){
             
             // Find user by ID (excluding password hash)
             const User = (await import('../models/user.js')).default;
+            const Registration = (await import('../models/registration.js')).default;
+            const Event = (await import('../models/event.js')).default;
             let user;
             
             try {
@@ -34,14 +36,82 @@ class userController {    async loadDashboard (req, res){
                 console.error('User not found in database');
                 return res.redirect('/login');
             }
+              // Get user's bookings/registrations
+            const registrations = await Registration.find({ userId })
+                .populate({
+                    path: 'eventId',
+                    model: 'Event',
+                    select: 'title description startDateTime endDateTime venue ticketPrice status'
+                }).sort({ registrationDate: -1 });
             
-            // Render dashboard with user data
+            // Group registrations by event ID
+            const eventRegistrationMap = new Map();
+            
+            // Process each registration and count tickets per event
+            registrations.forEach(registration => {
+                const eventId = registration.eventId._id.toString();
+                  if (!eventRegistrationMap.has(eventId)) {
+                    eventRegistrationMap.set(eventId, {
+                        event: registration.eventId,
+                        registrations: [],
+                        count: 0,
+                        latestRegistrationId: registration._id, // Keep track of the latest registration for this event
+                        latestRegistrationDate: registration.registrationDate
+                    });
+                }
+                
+                // Add registration to the event's registrations array
+                eventRegistrationMap.get(eventId).registrations.push(registration);
+                eventRegistrationMap.get(eventId).count++;
+                
+                // Update latest registration ID if this one is newer
+                if (registration.registrationDate > eventRegistrationMap.get(eventId).latestRegistrationDate) {
+                    eventRegistrationMap.get(eventId).latestRegistrationId = registration._id;
+                    eventRegistrationMap.get(eventId).latestRegistrationDate = registration.registrationDate;
+                }
+            });
+                
+            // Process events data to categorize as upcoming, completed, or cancelled
+            const currentDate = new Date();
+            const userBookings = Array.from(eventRegistrationMap.values()).map(eventData => {
+                const event = eventData.event;
+                const startDate = new Date(event.startDateTime);
+                
+                // Determine status
+                let status = 'upcoming';
+                if (event.status === 'cancelled') {
+                    status = 'cancelled';
+                } else if (startDate < currentDate) {
+                    status = 'completed';
+                }
+                
+                // Format date for display
+                const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                const timeOptions = { hour: 'numeric', minute: 'numeric' };
+                
+                return {
+                    id: eventData.latestRegistrationId, // Use the latest registration ID
+                    title: event.title,
+                    date: startDate.toLocaleDateString('en-US', dateOptions),
+                    time: startDate.toLocaleTimeString('en-US', timeOptions),
+                    venue: event.venue,
+                    ticketType: 'Standard', // Assuming a default if not available
+                    price: event.ticketPrice,
+                    status: status,
+                    eventId: event._id,
+                    ticketCount: eventData.count // Add the ticket count
+                };
+            });
+            
+            // Render dashboard with user data and bookings
             res.render('user_dashboard.ejs', { 
                 user: {
                     name: user.name,
                     username: user.name.replace(/\s+/g, '').toLowerCase()
-                }
-            });} catch (error) {
+                },
+                bookings: userBookings
+            });
+        } catch (error) {
             console.error('Error loading dashboard:', error);
             return res.redirect('/login');
         }
@@ -402,10 +472,48 @@ class userController {    async loadDashboard (req, res){
         res.status(500).send('An error occurred while saving the event.');
       }
     }
-
-
     async getSavedEvents(req, res){
-
+        try {
+            // Get user ID from either req.user or req.session
+            let userId = null;
+            if (req.user) {
+                userId = req.user._id;
+            } else if (req.session.userId) {
+                userId = req.session.userId;
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'User not authenticated'
+                });
+            }
+              // Find all saved events for this user and populate event details
+            const savedEvents = await SavedEvent.find({ userId })
+                .populate({
+                    path: 'eventId',
+                    model: 'Event',
+                    select: 'title description startDateTime endDateTime venue ticketPrice status image'
+                })
+                .sort({ savedDate: -1 }); // Sort by most recently saved first
+            
+            // Extract the event data from saved events
+            const events = savedEvents.map(saved => ({
+                ...saved.eventId._doc,
+                savedDate: saved.savedDate,
+                savedEventId: saved._id
+            }));
+            
+            res.status(200).json({
+                success: true,
+                events
+            });
+        } catch (error) {
+            console.error('Error fetching saved events:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve saved events',
+                error: error.message
+            });
+        }
     }
 
     async deleteSavedEvent(req, res) {

@@ -10,6 +10,6 @@ router.put('/profile', userController.updateUserProfile);
 router.post('/change-password', userController.changePassword);
 router.post('/update-email', userController.updateEmail);
 router.post('/save-event',userController.saveEvent);
-router.get('saved-events',userController.getSavedEvents);
+router.get('/saved-events',userController.getSavedEvents);
 router.delete('/delete-saved-event', userController.deleteSavedEvent);
 export default router;

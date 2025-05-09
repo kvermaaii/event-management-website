@@ -42,6 +42,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                 console.error('Error fetching profile data:', error);
                             });
                     }
+                    
+                    // If the saved section is clicked, load saved events from the server
+                    if (targetSection === 'saved') {
+                        // Fetch the saved events from the /user/saved-events endpoint
+                        fetch('/user/saved-events')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    displaySavedEvents(data.events);
+                                } else {
+                                    console.error('Failed to load saved events');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching saved events:', error);
+                            });
+                    }
                 } else {
                     section.classList.remove('active');
                 }
@@ -345,4 +362,119 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+    
+    // Function to display saved events
+    function displaySavedEvents(events) {
+        const savedEventsList = document.querySelector('.saved-events-list');
+        
+        // Clear previous content
+        savedEventsList.innerHTML = '';
+        
+        if (!events || events.length === 0) {
+            // Display message when no saved events
+            savedEventsList.innerHTML = `
+                <div class="no-saved-events">
+                    <p>You don't have any saved events yet.</p>
+                    <a href="/" class="btn explore-events">Explore Events</a>
+                </div>
+            `;
+            return;
+        }
+        
+        // Create and append saved event cards
+        events.forEach(event => {
+            // Format dates for display
+            const startDate = new Date(event.startDateTime);
+            const formattedDate = startDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            const formattedTime = startDate.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Create the card element
+            const eventCard = document.createElement('div');
+            eventCard.className = 'saved-event-card';
+            eventCard.dataset.eventId = event._id;
+            eventCard.dataset.savedEventId = event.savedEventId;            // Set the card HTML
+            eventCard.innerHTML = `
+                <div class="saved-event-info">
+                    <h3>${event.title}</h3>
+                    <div class="saved-event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>${formattedDate}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${formattedTime}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${event.venue}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>₹${event.ticketPrice}</span>
+                        </div>
+                    </div>
+                    <div class="saved-event-actions">
+                        <a href="/events/${event._id}" class="btn view-event">View Event</a>
+                        <button class="btn remove-saved" data-event-id="${event._id}">Remove</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event card to the list
+            savedEventsList.appendChild(eventCard);
+        });
+        
+        // Add event listeners to remove buttons
+        document.querySelectorAll('.remove-saved').forEach(button => {
+            button.addEventListener('click', function() {
+                const eventId = this.getAttribute('data-event-id');
+                removeSavedEvent(eventId, this.closest('.saved-event-card'));
+            });
+        });
+    }
+
+    // Function to remove a saved event
+    function removeSavedEvent(eventId, cardElement) {
+        if (confirm('Are you sure you want to remove this event from your saved list?')) {
+            fetch('/user/delete-saved-event', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ eventId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the card from the UI with a fade-out effect
+                    cardElement.classList.add('fade-out');
+                    setTimeout(() => {
+                        cardElement.remove();
+                        
+                        // Check if there are any saved events left
+                        const savedEventsList = document.querySelector('.saved-events-list');
+                        if (!savedEventsList.children.length) {
+                            displaySavedEvents([]); // Show the "no saved events" message
+                        }
+                    }, 300);
+                    
+                    showNotification('Event removed from saved list', 'success');
+                } else {
+                    showNotification('Failed to remove event from saved list', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error removing saved event:', error);
+                showNotification('An error occurred while removing the event', 'error');
+            });
+        }
+    }
 });
