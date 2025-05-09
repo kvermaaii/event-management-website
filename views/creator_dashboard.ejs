@@ -64,20 +64,15 @@
               <div class="stat-card">
               <h3>Revenue</h3>
               <div class="value">₹<%= totalRevenue.toLocaleString() %></div>
-              <div class="trend <%= revenueChange >= 0 ? 'trend-up' : 'trend-down' %>"><%= revenueChange >= 0 ? '↑' : '↓' %> <%= Math.abs(revenueChange) %>% vs last month</div>
+              <!-- <div class="trend <%= revenueChange >= 0 ? 'trend-up' : 'trend-down' %>"><%= revenueChange >= 0 ? '↑' : '↓' %> <%= Math.abs(revenueChange) %>% vs last month</div> -->
             </div>
             
             <div class="stat-card">
               <h3>Attendees</h3>
               <div class="value"><%= totalAttendees %></div>
-              <div class="trend <%= attendeeChange >= 0 ? 'trend-up' : 'trend-down' %>"><%= attendeeChange >= 0 ? '↑' : '↓' %> <%= Math.abs(attendeeChange) %>% vs last month</div>
+              <!-- <div class="trend <%= attendeeChange >= 0 ? 'trend-up' : 'trend-down' %>"><%= attendeeChange >= 0 ? '↑' : '↓' %> <%= Math.abs(attendeeChange) %>% vs last month</div> -->
             </div>
             
-            <div class="stat-card">
-              <h3>Avg. Rating</h3>
-              <div class="value"><%= avgRating %><span style="font-size: 0.5em; vertical-align: super;">★</span></div>
-              <div class="trend <%= ratingChange >= 0 ? 'trend-up' : 'trend-down' %>"><%= ratingChange >= 0 ? '↑' : '↓' %> <%= Math.abs(ratingChange) %> vs last month</div>
-            </div>
           </div>
           
           <!-- Upcoming Events Carousel -->
@@ -186,23 +181,25 @@
             </div>
           </div>
           
-          <div class="stats-row">
-            <div class="stat-card">
-              <h3>Conversion Rate</h3>
-              <div class="value">62%</div>
-              <div class="sub-text">From page visits</div>
+          <div class="stats-row">            <div class="stat-card">
+              <h3>Top Selling Event</h3>
+              <% if (typeof topSellingEvent !== 'undefined' && topSellingEvent) { %>
+              <div class="value" style="font-size: 1.5em;"><%= topSellingEvent.title %></div>
+              <div class="sub-text"><%= topSellingEvent.ticketsSold %> tickets sold</div>
+              <% } else { %>
+              <div class="value">N/A</div>
+              <div class="sub-text">No sales data</div>
+              <% } %>
             </div>
             
             <div class="stat-card">
-              <h3>Page Views</h3>
-              <div class="value">1,428</div>
-              <div class="trend trend-up">↑ 15% vs last month</div>
+              <h3>Tickets Sold</h3>
+              <div class="value"><%= typeof totalTicketsSold !== 'undefined' ? totalTicketsSold : totalAttendees %></div>
             </div>
-            
-            <div class="stat-card">
+              <div class="stat-card">
               <h3>Avg. Ticket Price</h3>
-              <div class="value">₹475</div>
-              <div class="trend trend-down">↓ 5% vs last month</div>
+              <div class="value">₹<%= typeof avgTicketPrice !== 'undefined' ? avgTicketPrice : (events.reduce((sum, event) => sum + (event.ticketPrice || 0), 0) / Math.max(events.length, 1)).toFixed(0) %></div>
+              <!-- <div class="trend trend-down">↓ 5% vs last month</div> -->
             </div>
           </div>
           

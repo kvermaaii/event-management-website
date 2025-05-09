@@ -228,6 +228,66 @@ class orgController {  async loadDashboard(req, res) {
       const attendeeChange = lastMonthAttendees > 0 ? 
         Math.round(((totalAttendees - lastMonthAttendees) / lastMonthAttendees) * 100) : 0;
       
+      // Calculate total tickets sold (same as totalAttendees in this case)
+      const totalTicketsSold = totalAttendees;
+      
+      // Calculate ticket sales change percentage
+      const ticketsSoldChange = attendeeChange; // Same as attendee change
+      
+      // Find the top selling event
+      let topSellingEvent = null;
+      if (events.length > 0) {
+        // Create an object to track ticket sales per event
+        const eventSales = {};
+        
+        // Get all registrations for this organizer's events
+        const allRegistrations = await Registration.find({
+          eventId: { $in: events.map(event => event._id) }
+        });
+        
+        // Count registrations per event
+        for (const reg of allRegistrations) {
+          const eventId = reg.eventId.toString();
+          if (!eventSales[eventId]) {
+            eventSales[eventId] = 0;
+          }
+          eventSales[eventId]++;
+        }
+        
+        // Find the event with the most sales
+        if (Object.keys(eventSales).length > 0) {
+          const topEventId = Object.keys(eventSales).reduce((a, b) => 
+            eventSales[a] > eventSales[b] ? a : b
+          );
+          
+          const topEvent = events.find(event => event._id.toString() === topEventId);
+          if (topEvent) {
+            topSellingEvent = {
+              title: topEvent.title,
+              ticketsSold: eventSales[topEventId]
+            };
+          }
+        }
+      }
+      
+      // Calculate average ticket price
+      let avgTicketPrice = 0;
+      let totalTickets = 0;
+      let totalPrice = 0;
+      
+      if (events.length > 0) {
+        // Sum up all ticket prices and number of events with prices
+        for (const event of events) {
+          if (event.ticketPrice) {
+            totalPrice += event.ticketPrice;
+            totalTickets++;
+          }
+        }
+        
+        // Calculate average
+        avgTicketPrice = totalTickets > 0 ? Math.round(totalPrice / totalTickets) : 0;
+      }
+      
       // For ratings, since we don't have a Rating model, we'll use a default value
       const avgRating = 4.7; // This would be calculated from a Ratings model if it existed
       const ratingChange = 0.2; // This would also be calculated from actual data
@@ -247,7 +307,11 @@ class orgController {  async loadDashboard(req, res) {
         totalAttendees,
         attendeeChange,
         avgRating,
-        ratingChange
+        ratingChange,
+        topSellingEvent,
+        totalTicketsSold,
+        ticketsSoldChange,
+        avgTicketPrice
       });
     } catch (error) {
       console.error('Error retrieving organizer events:', error);
@@ -332,6 +396,66 @@ class orgController {  async loadDashboard(req, res) {
       const attendeeChange = lastMonthAttendees > 0 ? 
         Math.round(((totalAttendees - lastMonthAttendees) / lastMonthAttendees) * 100) : 0;
       
+      // Calculate total tickets sold (same as totalAttendees in this case)
+      const totalTicketsSold = totalAttendees;
+      
+      // Calculate ticket sales change percentage
+      const ticketsSoldChange = attendeeChange; // Same as attendee change
+      
+      // Find the top selling event
+      let topSellingEvent = null;
+      if (events.length > 0) {
+        // Create an object to track ticket sales per event
+        const eventSales = {};
+        
+        // Get all registrations for this organizer's events
+        const allRegistrations = await Registration.find({
+          eventId: { $in: events.map(event => event._id) }
+        });
+        
+        // Count registrations per event
+        for (const reg of allRegistrations) {
+          const eventId = reg.eventId.toString();
+          if (!eventSales[eventId]) {
+            eventSales[eventId] = 0;
+          }
+          eventSales[eventId]++;
+        }
+        
+        // Find the event with the most sales
+        if (Object.keys(eventSales).length > 0) {
+          const topEventId = Object.keys(eventSales).reduce((a, b) => 
+            eventSales[a] > eventSales[b] ? a : b
+          );
+          
+          const topEvent = events.find(event => event._id.toString() === topEventId);
+          if (topEvent) {
+            topSellingEvent = {
+              title: topEvent.title,
+              ticketsSold: eventSales[topEventId]
+            };
+          }
+        }
+      }
+      
+      // Calculate average ticket price
+      let avgTicketPrice = 0;
+      let totalTickets = 0;
+      let totalPrice = 0;
+      
+      if (events.length > 0) {
+        // Sum up all ticket prices and number of events with prices
+        for (const event of events) {
+          if (event.ticketPrice) {
+            totalPrice += event.ticketPrice;
+            totalTickets++;
+          }
+        }
+        
+        // Calculate average
+        avgTicketPrice = totalTickets > 0 ? Math.round(totalPrice / totalTickets) : 0;
+      }
+      
       // For ratings, since we don't have a Rating model, we'll use a default value
       const avgRating = 4.7; // This would be calculated from a Ratings model if it existed
       const ratingChange = 0.2; // This would also be calculated from actual data
@@ -351,7 +475,11 @@ class orgController {  async loadDashboard(req, res) {
         totalAttendees,
         attendeeChange,
         avgRating,
-        ratingChange
+        ratingChange,
+        topSellingEvent,
+        totalTicketsSold,
+        ticketsSoldChange,
+        avgTicketPrice
       });
     } catch (error) {
       console.error('Error loading organizer dashboard:', error);
@@ -371,7 +499,7 @@ class orgController {  async loadDashboard(req, res) {
   //     const organizer = await Organizer.findOne({ userId: req.session.userId });
 
   //     if (!organizer) {
-  //       return res.status(403).json({ message: 'You are not registered as an organizer.' });
+  //       return res.status(403).json({ message: 'You are not registered as an organizer' });
   //     }
 
   //     const { category, title, description, startDateTime, endDateTime, venue, capacity, price, status } = req.body;
