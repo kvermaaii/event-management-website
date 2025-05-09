@@ -6,7 +6,7 @@ import { isAuth, optionalAuth } from '../middlewares/auth.js';
 const router = express.Router();
 
 // Route for payment page with event ID
-router.get('/:id', async (req, res) => {
+router.get('/:id',optionalAuth ,async (req, res) => {
     try {
         const eventId = req.params.id;
         const event = await Event.findById(eventId);

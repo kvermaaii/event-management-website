@@ -38,10 +38,19 @@
                         <i class="fas fa-ticket-alt"></i> Registration Unavailable
                     </button>
                     <% } %>
-                    
-                    <button class="share-btn" onclick="shareEvent()">
+
+
+                    <!-- <button class="share-btn" onclick="shareEvent()">
                         <i class="fas fa-share-alt"></i> Share
-                    </button>
+                    </button> -->
+
+                    <form action="/user/save-event" method="POST" style="display: inline;">
+                      <input type="hidden" name="eventId" value="<%= event._id %>">
+                      <button type="submit" class="save-btn">
+                        <i class="fas fa-bookmark"></i> Save
+                      </button>
+                    </form>
+
                 </div>
             </div>
             <div class="event-info">
@@ -110,7 +119,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     function shareEvent() {
         if (navigator.share) {
             navigator.share({
@@ -123,7 +132,7 @@
             // Fallback for browsers that don't support the Web Share API
             alert('Copy this link to share: ' + window.location.href);
         }    }
-</script>
+</script> -->
 
   <%- include('partials/footer') %>
 

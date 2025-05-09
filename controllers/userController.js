@@ -1,3 +1,6 @@
+import SavedEvent from '../models/save.js';
+import Event from '../models/event.js';
+
 class userController {    async loadDashboard (req, res){
         try {
             // Check if user is available through req.user (from middleware) or req.session.user
@@ -369,6 +372,40 @@ class userController {    async loadDashboard (req, res){
                 error: error.message
             });
         }
+    }
+
+    async saveEvent(req, res) {
+      try {
+        const { eventId } = req.body;
+        const userId = req.session.userId; // Assuming the user is authenticated
+        console.log('Event id:', eventId);
+    
+        // Check if the event exists
+        const event = await Event.findById(eventId);
+        if (!event) {
+          return res.status(404).send('Event not found');
+        }
+    
+        // Check if the event is already saved for the user
+        const existingSavedEvent = await SavedEvent.findOne({ userId, eventId });
+        if (existingSavedEvent) {
+          return res.status(400).send('Event already saved.');
+        }
+    
+        // Save the event for the user
+        const savedEvent = new SavedEvent({ userId, eventId });
+        await savedEvent.save();
+    
+        res.send('Event saved successfully!');
+      } catch (error) {
+        console.error('Error saving event:', error);
+        res.status(500).send('An error occurred while saving the event.');
+      }
+    }
+
+
+    async getSavedEvents(req, res){
+
     }
 }
 
