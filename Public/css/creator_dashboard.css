@@ -515,15 +515,19 @@ body {
 }
 
 .date-range-selector {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--light-text);
-  padding: 8px 15px;
+  background: rgba(40, 40, 40, 0.8);
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
+  padding: 8px 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.date-range-selector:hover {
+  background: rgba(60, 60, 60, 0.8);
 }
 
 .chart-container {
@@ -549,10 +553,20 @@ body {
 .chart-placeholder {
   height: 300px;
   display: flex;
-  align-items: center;
+}
+
+.chart-content {
+  height: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
+  width: 100%;
+}
+
+.chart-content canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* Feedback Section */
@@ -698,6 +712,26 @@ body {
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+/* Date Range Dropdown Styles */
+.date-range-dropdown {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.date-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.date-option:hover {
+  background: rgba(var(--primary-color-rgb), 0.3);
+}
+
+.date-option.active {
+  background: rgba(var(--primary-color-rgb), 0.5);
 }
 
 /* Responsive Design */

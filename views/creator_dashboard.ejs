@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creator Dashboard | EventMaster</title>  <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/creator_dashboard.css">
-  <link rel="stylesheet" href="/css/carousel-fix.css">
+  <link rel="stylesheet" href="/css/creator_dashboard.css">  <link rel="stylesheet" href="/css/carousel-fix.css">
+  <link rel="stylesheet" href="/css/creator_dashboard_chart.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Include navbar partial -->
@@ -165,19 +166,22 @@
         <!-- Analytics Section -->
         <section id="analytics" class="dashboard-section">
           <h2>Analytics</h2>
-          
-          <div class="analytics-filters">
-            <div class="date-range-selector">
+            <div class="analytics-filters">
+            <div class="date-range-selector" id="dateRangeSelector">
               <i class="fas fa-calendar"></i> Last 30 days <i class="fas fa-chevron-down"></i>
             </div>
-          </div>
-          
-          <div class="chart-container">
+            <div class="date-range-dropdown" id="dateRangeDropdown" style="display: none; position: absolute; z-index: 100; background: rgba(40, 40, 40, 0.95); border: 1px solid var(--glass-border); border-radius: 8px; padding: 10px; min-width: 200px; margin-top: 40px;">
+              <div class="date-option" data-range="7">Last 7 days</div>
+              <div class="date-option" data-range="30">Last 30 days</div>
+              <div class="date-option" data-range="90">Last 3 months</div>
+              <div class="date-option" data-range="180">Last 6 months</div>
+              <div class="date-option" data-range="365">Last 12 months</div>
+            </div>
+          </div><div class="chart-container">
             <div class="chart-header">
               <div class="chart-title">Ticket Sales</div>
-            </div>
-            <div class="chart-placeholder">
-              <p>Ticket sales chart will be displayed here</p>
+            </div>            <div class="chart-content">
+              <canvas id="ticketSalesChart"></canvas>
             </div>
           </div>
           
@@ -201,16 +205,13 @@
               <div class="value">₹<%= typeof avgTicketPrice !== 'undefined' ? avgTicketPrice : (events.reduce((sum, event) => sum + (event.ticketPrice || 0), 0) / Math.max(events.length, 1)).toFixed(0) %></div>
               <!-- <div class="trend trend-down">↓ 5% vs last month</div> -->
             </div>
-          </div>
-          
-          <div class="chart-container">
+          </div>          <div class="chart-container">
             <div class="chart-header">
               <div class="chart-title">Attendance by Event Type</div>
+            </div>            <div class="chart-content">
+              <canvas id="eventTypeChart"></canvas>
             </div>
-            <div class="chart-placeholder">
-              <p>Attendance chart will be displayed here</p>
-            </div>
-          </div>        </section>
+          </div></section>
         
         <!-- Settings Section -->
         <section id="settings" class="dashboard-section">
