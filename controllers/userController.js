@@ -402,10 +402,48 @@ class userController {    async loadDashboard (req, res){
         res.status(500).send('An error occurred while saving the event.');
       }
     }
-
-
     async getSavedEvents(req, res){
-
+        try {
+            // Get user ID from either req.user or req.session
+            let userId = null;
+            if (req.user) {
+                userId = req.user._id;
+            } else if (req.session.userId) {
+                userId = req.session.userId;
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'User not authenticated'
+                });
+            }
+              // Find all saved events for this user and populate event details
+            const savedEvents = await SavedEvent.find({ userId })
+                .populate({
+                    path: 'eventId',
+                    model: 'Event',
+                    select: 'title description startDateTime endDateTime venue ticketPrice status image'
+                })
+                .sort({ savedDate: -1 }); // Sort by most recently saved first
+            
+            // Extract the event data from saved events
+            const events = savedEvents.map(saved => ({
+                ...saved.eventId._doc,
+                savedDate: saved.savedDate,
+                savedEventId: saved._id
+            }));
+            
+            res.status(200).json({
+                success: true,
+                events
+            });
+        } catch (error) {
+            console.error('Error fetching saved events:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve saved events',
+                error: error.message
+            });
+        }
     }
 
     async deleteSavedEvent(req, res) {
