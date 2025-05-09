@@ -301,18 +301,19 @@ body {
   width: 100%;
   position: relative;
   padding: 20px 0;
+  overflow: hidden; /* Added to ensure content doesn't overflow */
 }
 
 .carousel-container {
   display: flex;
-  overflow: hidden; /* Keep this hidden to control carousel via JS */
-  scroll-behavior: smooth;
   width: 100%;
+  position: relative;
+  transition: transform 0.5s ease; /* Move transition to container instead of items */
 }
 
 .carousel-item {
   min-width: 100%;
-  transition: transform 0.5s ease;
+  flex-shrink: 0; /* Prevent items from shrinking */
 }
 
 .event-card {
