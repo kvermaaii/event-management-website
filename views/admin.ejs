@@ -13,9 +13,7 @@
     <!-- Include navbar -->
     <%- include('partials/navbar') %>
 
-    <!-- Dashboard starts here, directly after navbar -->
     <div class="dashboard-container">
-        <!-- Gradient blobs for background design -->
         <div class="gradient-blob blob-1"></div>
         <div class="gradient-blob blob-2"></div>
         <div class="gradient-blob blob-3"></div>
@@ -117,14 +115,13 @@
                             </thead>
                             <tbody>
                                 <% if (typeof recentEvents !== 'undefined' && recentEvents.length > 0) { %>
-                                    <% recentEvents.forEach(event => { %>
-                                        <tr>
+                                    <% recentEvents.forEach(event => { %>                                        <tr>
                                             <td><%= event.title %></td>
                                             <td><%= event.organizerId ? event.organizerId.organizationName : 'Unknown' %></td>
-                                            <td><%= new Date(event.startDate).toLocaleDateString() %></td>
+                                            <td><%= new Date(event.startDateTime).toLocaleDateString() %></td>
                                             <td>
-                                                <span class="status-badge <%= event.isActive ? 'status-verified' : 'status-pending' %>">
-                                                    <%= event.isActive ? 'Active' : 'Pending' %>
+                                                <span class="status-badge <%= event.status === 'start_selling' ? 'status-verified' : 'status-pending' %>">
+                                                    <%= event.status === 'start_selling' ? 'Active' : 'Pending' %>
                                                 </span>
                                             </td>
                                         </tr>

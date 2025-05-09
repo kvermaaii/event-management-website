@@ -130,12 +130,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = document.createElement('tr');
             const status = event.isActive ? 'status-verified' : 'status-pending';
             const statusText = event.isActive ? 'Active' : 'Pending';
-            
-            row.innerHTML = `
+              row.innerHTML = `
                 <td>${event._id}</td>
                 <td>${event.title}</td>
-                <td>${event.organizer?.organizationName || 'Unknown'}</td>
-                <td>${new Date(event.startDate).toLocaleDateString()}</td>
+                <td>${event.organizerId?.organizationName || 'Unknown'}</td>
+                <td>${new Date(event.startDateTime).toLocaleDateString()}</td>
                 <td>${event.venue || 'TBD'}</td>
                 <td><span class="status-badge ${status}">${statusText}</span></td>
                 <td>
