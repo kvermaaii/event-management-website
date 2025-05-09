@@ -32,13 +32,40 @@
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" readonly>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="tickets">Number of Tickets:</label>
                         <div class="number-picker">
                             <button type="button" onclick="changeTickets(-1)">-</button>
                             <input type="number" id="tickets" name="tickets" min="1" max="10" step="1" value="1" required>
                             <button type="button" onclick="changeTickets(1)">+</button>
                         </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="tickets">Number of Tickets:</label>
+                        <div class="number-picker">
+                            <button 
+                                type="button" 
+                                onclick="changeTickets(-1)" 
+                                id="decrease-btn">-</button>
+                            <input 
+                                type="number" 
+                                id="tickets" 
+                                name="tickets" 
+                                min="1" 
+                                max="<%= ticketsLeft %>" 
+                                step="1" 
+                                value="1" 
+                                required>
+                            <button 
+                                type="button" 
+                                onclick="changeTickets(1)" 
+                                id="increase-btn">+</button>
+                        </div>
+                        <small id="tickets-left-message">
+                            <%= ticketsLeft > 0 
+                                ? `${ticketsLeft} tickets left` 
+                                : 'Sold Out!' %>
+                        </small>
                     </div>
 
                     <div class="payment-section">
