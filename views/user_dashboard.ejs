@@ -62,112 +62,52 @@
             <button class="filter-btn" data-filter="completed">Completed</button>
             <button class="filter-btn" data-filter="cancelled">Cancelled</button>
           </div>
-          
-          <div class="bookings-list">
-           
-            <!-- Sample booking cards for preview -->
-            <div class="booking-card upcoming">
-              <div class="booking-header">
-                <h3>Tech Conference 2025</h3>
-                <span class="status-badge upcoming">upcoming</span>
+            <div class="bookings-list">
+            <% if (locals.bookings && bookings.length > 0) { %>
+              <% bookings.forEach(booking => { %>
+                <div class="booking-card <%= booking.status %>">
+                  <div class="booking-header">
+                    <h3><%= booking.title %></h3>
+                    <span class="status-badge <%= booking.status %>"><%= booking.status %></span>
+                  </div>
+                  
+                  <div class="booking-details">
+                    <div class="detail-item">
+                      <i class="fas fa-calendar"></i>
+                      <span><%= booking.date %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-clock"></i>
+                      <span><%= booking.time %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span><%= booking.venue %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-ticket-alt"></i>
+                      <span><%= booking.ticketType %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-money-bill-wave"></i>
+                      <span>$<%= booking.price.toFixed(2) %></span>
+                    </div>
+                  </div>
+                  
+                  <div class="booking-actions">
+                    <button class="btn view-details" data-event-id="<%= booking.eventId %>">View Details</button>
+                    <% if (booking.status === 'upcoming') { %>
+                      <button class="btn cancel-booking" data-booking-id="<%= booking.id %>">Cancel Booking</button>
+                    <% } %>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="no-bookings">
+                <p>You don't have any bookings yet.</p>
+                <a href="/" class="btn explore-events">Explore Events</a>
               </div>
-              
-              <div class="booking-details">
-                <div class="detail-item">
-                  <i class="fas fa-calendar"></i>
-                  <span>April 15, 2025</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-clock"></i>
-                  <span>9:00 AM</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <span>Convention Center, San Francisco</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-ticket-alt"></i>
-                  <span>VIP Pass</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-money-bill-wave"></i>
-                  <span>$75.00</span>
-                </div>
-              </div>
-              
-              <div class="booking-actions">
-                <button class="btn view-details">View Details</button>
-                <button class="btn cancel-booking">Cancel Booking</button>
-              </div>
-            </div>
-
-            <div class="booking-card completed">
-              <div class="booking-header">
-                <h3>Music Festival</h3>
-                <span class="status-badge completed">completed</span>
-              </div>
-              
-              <div class="booking-details">
-                <div class="detail-item">
-                  <i class="fas fa-calendar"></i>
-                  <span>March 10, 2025</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-clock"></i>
-                  <span>4:00 PM</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <span>Central Park, New York</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-ticket-alt"></i>
-                  <span>Weekend Pass</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-money-bill-wave"></i>
-                  <span>$120.00</span>
-                </div>
-              </div>
-              
-              <div class="booking-actions">
-                <button class="btn view-details">View Details</button>
-              </div>
-            </div>
-
-            <div class="booking-card cancelled">
-              <div class="booking-header">
-                <h3>Business Workshop</h3>
-                <span class="status-badge cancelled">cancelled</span>
-              </div>
-              
-              <div class="booking-details">
-                <div class="detail-item">
-                  <i class="fas fa-calendar"></i>
-                  <span>February 20, 2025</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-clock"></i>
-                  <span>10:00 AM</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <span>Business Center, Chicago</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-ticket-alt"></i>
-                  <span>Standard</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-money-bill-wave"></i>
-                  <span>$45.00</span>
-                </div>
-              </div>
-              
-              <div class="booking-actions">
-                <button class="btn view-details">View Details</button>
-              </div>
-            </div>
+            <% } %>
           </div>
         </section>
           <!-- Profile Section -->

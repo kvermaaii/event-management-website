@@ -17,6 +17,8 @@ class userController {    async loadDashboard (req, res){
             
             // Find user by ID (excluding password hash)
             const User = (await import('../models/user.js')).default;
+            const Registration = (await import('../models/registration.js')).default;
+            const Event = (await import('../models/event.js')).default;
             let user;
             
             try {
@@ -35,13 +37,54 @@ class userController {    async loadDashboard (req, res){
                 return res.redirect('/login');
             }
             
-            // Render dashboard with user data
+            // Get user's bookings/registrations
+            const registrations = await Registration.find({ userId })
+                .populate({
+                    path: 'eventId',
+                    model: 'Event',
+                    select: 'title description startDateTime endDateTime venue ticketPrice status'
+                }).sort({ registrationDate: -1 });
+                
+            // Process events data to categorize as upcoming, completed, or cancelled
+            const currentDate = new Date();
+            const userBookings = registrations.map(registration => {
+                const event = registration.eventId;
+                const startDate = new Date(event.startDateTime);
+                
+                // Determine status
+                let status = 'upcoming';
+                if (event.status === 'cancelled') {
+                    status = 'cancelled';
+                } else if (startDate < currentDate) {
+                    status = 'completed';
+                }
+                
+                // Format date for display
+                const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                const timeOptions = { hour: 'numeric', minute: 'numeric' };
+                
+                return {
+                    id: registration._id,
+                    title: event.title,
+                    date: startDate.toLocaleDateString('en-US', dateOptions),
+                    time: startDate.toLocaleTimeString('en-US', timeOptions),
+                    venue: event.venue,
+                    ticketType: 'Standard', // Assuming a default if not available
+                    price: event.ticketPrice,
+                    status: status,
+                    eventId: event._id
+                };
+            });
+            
+            // Render dashboard with user data and bookings
             res.render('user_dashboard.ejs', { 
                 user: {
                     name: user.name,
                     username: user.name.replace(/\s+/g, '').toLowerCase()
-                }
-            });} catch (error) {
+                },
+                bookings: userBookings
+            });
+        } catch (error) {
             console.error('Error loading dashboard:', error);
             return res.redirect('/login');
         }
