@@ -407,6 +407,29 @@ class userController {    async loadDashboard (req, res){
     async getSavedEvents(req, res){
 
     }
+
+    async deleteSavedEvent(req, res) {
+      try {
+        const { eventId } = req.body; // The event ID to be deleted
+        const userId = req.session.userId; // Assuming the user is authenticated
+    
+        // Check if the saved event exists for the user
+        const savedEvent = await SavedEvent.findOne({ userId, eventId });
+    
+        if (!savedEvent) {
+          return res.status(404).send('Saved event not found.');
+        }
+    
+        // Delete the saved event
+        await SavedEvent.deleteOne({ userId, eventId });
+    
+        res.send('Saved event deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting saved event:', error);
+        res.status(500).send('An error occurred while deleting the saved event.');
+      }
+    }
+
 }
 
 export default new userController();
