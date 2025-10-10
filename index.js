@@ -4,7 +4,7 @@ const port = 3000;
 import { v4 as uuidv4 } from 'uuid';
 import { setUser, getUser } from './services/auth.js';
 import cookieParser from 'cookie-parser';
-import {isAuth, optionalAuth} from './middlewares/auth.js';
+import { isAuth, optionalAuth } from './middlewares/auth.js';
 import authRouter from './routes/authentication.js';
 import paymentRouter from './routes/payment.js';
 import eventRouter from './routes/event.js';
@@ -27,7 +27,7 @@ import Event from './models/event.js';
 dotenv.config();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(methodOverride('_method')); // Enable method override using _method query param
 
@@ -43,13 +43,16 @@ app.use(express.static('uploads'));
 // Connect to MongoDB
 connectDB();
 
+const username = process.env.MONGO_USERNAME;
+const password = encodeURIComponent(process.env.MONGO_PASSWORD);
+
 app.use(
   session({
     secret: "your_secret_key", // Simple hardcoded secret
     resave: false, // Prevents session being saved repeatedly if not modified
     saveUninitialized: false, // Don't save uninitialized sessions
     store: MongoStore.create({
-      mongoUrl: `mongodb+srv://${process.env.MONGO_USERNAME}:${encodeURIComponent(process.env.MONGO_PASSWORD)}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`,
+      mongoUrl: `mongodb+srv://${username}:${password}@event-management-websit.4kvbvbt.mongodb.net/?retryWrites=true&w=majority&appName=event-management-website-db`,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
@@ -82,7 +85,7 @@ app.use((req, res, next) => {
 
 // Route to render home page with events - Using eventController
 import eventController from './controllers/eventController.js';
-app.get('/',optionalAuth, eventController.getAllEvents);
+app.get('/', optionalAuth, eventController.getAllEvents);
 
 // Single event page route
 app.get('/event/:id', optionalAuth, eventController.getEventById);
@@ -96,7 +99,7 @@ app.get('/contact', optionalAuth, (req, res) => {
   res.render("contact.ejs");
 })
 
-app.use('/',authRouter);
+app.use('/', authRouter);
 app.use('/payments', paymentRouter);
 app.use('/events', eventRouter);
 app.use('/admin', adminRouter);
