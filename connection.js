@@ -36,15 +36,15 @@ const connectDB = async () => {
   try {
     const username = process.env.MONGO_USERNAME;
     const password = encodeURIComponent(process.env.MONGO_PASSWORD); // Encode special characters
-    
-    // Construct the MongoDB connection string using environment variables
-    const dbURI = `mongodb+srv://${username}:${password}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`;
-    
+
+    // Construct the MongoDB connection string using env variables
+    const dbURI = `mongodb+srv://${username}:${password}@event-management-websit.4kvbvbt.mongodb.net/?retryWrites=true&w=majority&appName=event-management-website-db`;
+
     // Use local MongoDB as fallback if credentials aren't available
     const fallbackURI = 'mongodb://127.0.0.1:27017/EventManagement';
-    
+
     await mongoose.connect(username && password ? dbURI : fallbackURI);
-    
+
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
