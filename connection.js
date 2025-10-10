@@ -39,7 +39,6 @@ const connectDB = async () => {
     
     // Construct the MongoDB connection string using environment variables
     const dbURI = `mongodb+srv://${username}:${password}@nightlifeapp.k11i9sx.mongodb.net/EventManagement?retryWrites=true&w=majority`;
-    
     // Use local MongoDB as fallback if credentials aren't available
     const fallbackURI = 'mongodb://127.0.0.1:27017/EventManagement';
     
