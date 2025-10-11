@@ -167,20 +167,37 @@ class eventController {
 
     // API route: Send filtered events as JSON for async frontend fetch
     async getEventsApi(req, res) {
-        try {
-            const query = {};
-            if (req.query.title) query.title = new RegExp(req.query.title, 'i');
-            if (req.query.venue) query.venue = new RegExp(req.query.venue, 'i');
-            if (req.query.category) query.category = new RegExp(req.query.category, 'i');
+    try {
+        const titleQuery = req.query.title || '';
+        const venueQuery = req.query.venue || '';
+        const categoryQuery = req.query.category || '';
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 8;
+        const skip = (page - 1) * limit;
 
-            const events = await Event.find(query).lean();
+        const filter = {};
+        if (titleQuery) filter.title = { $regex: titleQuery, $options: 'i' };
+        if (venueQuery) filter.venue = { $regex: venueQuery, $options: 'i' };
+        if (categoryQuery) filter.category = categoryQuery;
 
-            res.json(events);
+        const totalEvents = await Event.countDocuments(filter);
+        const totalPages = Math.ceil(totalEvents / limit);
 
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Error fetching events' });
-        }
+        const events = await Event.find(filter)
+        .sort({ startDateTime: 1 })
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+        res.json({
+        events,
+        currentPage: page,
+        totalPages,
+        });
+    } catch (err) {
+        console.error('Error fetching events:', err);
+        res.status(500).json({ message: 'Error fetching events' });
+    }
     }
 
     // Existing method to get all events and render with pagination (can be retained or replaced)
