@@ -167,6 +167,9 @@ app.get('/:category', async (req, res) => {
   }
 });
 
+app.get('/', optionalAuth, eventController.getHomePage);  // Render home page
+app.get('/api/events', optionalAuth, eventController.getEventsApi);  // API for events JSON
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
