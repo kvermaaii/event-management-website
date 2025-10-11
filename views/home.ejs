@@ -193,7 +193,7 @@
           <span class="input-border"></span>        </div>
       </form>
     </div>
-      <div class="cards-container">
+      <!-- <div class="cards-container">
       <% if (events && events.length > 0) { %>
         <% events.forEach(event => { %>          <div class="category-card" onclick="window.location.href = '/event/<%= event._id %>'">
             <img
@@ -206,7 +206,11 @@
       <% } else { %>
         <p>No events found.</p>
       <% } %>
+    </div> -->
+    <div class="cards-container" id="event-list">
+  <!-- Events loaded dynamically here -->
     </div>
+    
         <div class="pagination">
       <ul class="pagination-list">
         <% if (typeof currentPage !== 'undefined' && typeof totalPages !== 'undefined') { %>
