@@ -33,3 +33,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+
+async function loadEvents() {
+  try {
+    const params = new URLSearchParams({
+      title: new URLSearchParams(window.location.search).get('title') || '',
+      venue: new URLSearchParams(window.location.search).get('venue') || '',
+      category: new URLSearchParams(window.location.search).get('category') || ''
+    });
+
+    const response = await fetch('/api/events?' + params.toString());
+    if (!response.ok) throw new Error('Network response was not ok');
+
+    const events = await response.json();
+
+    const container = document.getElementById('event-list');
+    container.innerHTML = '';
+
+    if (events.length === 0) {
+      container.innerHTML = '<p>No events found.</p>';
+      return;
+    }
+
+    events.forEach(event => {
+      const eventCard = document.createElement('div');
+      eventCard.className = 'category-card';
+      eventCard.onclick = () => window.location.href = `/event/${event._id}`;
+
+      eventCard.innerHTML = `
+        <img src="${event.image ? (event.image.includes('/uploads/') ? event.image.replace('/uploads/', '/') : event.image) : '/uploads/events/default-event.png'}" 
+          alt="${event.title}" />
+        <p>${event.title}</p>
+      `;
+
+      container.appendChild(eventCard);
+    });
+  } catch (error) {
+    console.error('Error loading events:', error);
+  }
+}
+
+// Load events on page load
+window.addEventListener('DOMContentLoaded', loadEvents);
