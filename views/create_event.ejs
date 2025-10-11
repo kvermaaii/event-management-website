@@ -46,7 +46,7 @@
       <input
         type="datetime-local"
         class="form-control"
-        id="startDateTime"
+        id="startDate"
         name="startDateTime"
         required
       />
@@ -56,7 +56,7 @@
       <input
         type="datetime-local"
         class="form-control"
-        id="endDateTime"
+        id="endDate"
         name="endDateTime"
         required
       />
@@ -117,65 +117,49 @@
   }
 </style>
 
-<div class="form-container wide-form">  <form method="POST" action="<%= typeof event !== 'undefined' && event ? '/organizer/events/' + event._id + '?_method=PUT' : '/organizer/events' %>" enctype="multipart/form-data" class="full-width-form" <%= typeof event !== 'undefined' && event ? 'data-edit="true"' : '' %>>
-    <h1 style="text-align: center;"><%= typeof event !== 'undefined' && event ? 'Edit Event' : 'Create Event' %></h1>
+<div class="form-container wide-form">
+  <form method="POST"
+    action="<%= typeof event !== 'undefined' && event ? '/organizer/events/' + event._id + '?_method=PUT' : '/organizer/events' %>"
+    enctype="multipart/form-data" class="full-width-form" <%=typeof event !=='undefined' && event ? 'data-edit="true"'
+    : '' %>>
+    <h1 style="text-align: center;">
+      <%= typeof event !=='undefined' && event ? 'Edit Event' : 'Create Event' %>
+    </h1>
 
     <div class="form-group">
       <label for="category">Category</label>
-      <select class="form-control" id="category" name="category" required>
-        <option <%= typeof event !== 'undefined' && event && event.category === 'Concerts' ? 'selected' : '' %>>Concerts</option>
-        <option <%= typeof event !== 'undefined' && event && event.category === 'Exhibitions' ? 'selected' : '' %>>Exhibitions</option>
-        <option <%= typeof event !== 'undefined' && event && event.category === 'TEDx' ? 'selected' : '' %>>TEDx</option>
-        <option <%= typeof event !== 'undefined' && event && event.category === 'Health Camps' ? 'selected' : '' %>>Health Camps</option>
+      <select class="form-control" id="category" name="category">
+        <option <%=typeof event !=='undefined' && event && event.category==='Concerts' ? 'selected' : '' %>>Concerts
+        </option>
+        <option <%=typeof event !=='undefined' && event && event.category==='Exhibitions' ? 'selected' : '' %>
+          >Exhibitions</option>
+        <option <%=typeof event !=='undefined' && event && event.category==='TEDx' ? 'selected' : '' %>>TEDx</option>
+        <option <%=typeof event !=='undefined' && event && event.category==='Health Camps' ? 'selected' : '' %>>Health
+          Camps</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="title">Title</label>
-      <input
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        placeholder="Enter event title"
-        maxlength="100"
-        value="<%= typeof event !== 'undefined' && event ? event.title : '' %>"
-        required
-      />
-    </div>    <div class="form-group">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Enter event title"
+        value="<%= typeof event !== 'undefined' && event ? event.title : '' %>" />
+    </div>
+    <div class="form-group">
       <label for="description">Description</label>
-      <textarea
-        class="form-control"
-        id="description"
-        name="description"
-        placeholder="Enter event description"
-        maxlength="1000"
-        required
-      ><%= typeof event !== 'undefined' && event ? event.description : '' %></textarea>
+      <textarea class="form-control" id="description" name="description"
+        placeholder="Enter event description"><%= typeof event !== 'undefined' && event ? event.description : '' %></textarea>
     </div>
 
     <div class="form-group">
       <label for="startDateTime">Start Date Time</label>
-      <input
-        type="datetime-local"
-        class="form-control"
-        id="startDateTime"
-        name="startDateTime"
-        value="<%= typeof event !== 'undefined' && event ? event.startDateTime.toISOString().slice(0, 16) : '' %>"
-        required
-      />
+      <input type="datetime-local" class="form-control" id="startDateTime" name="startDateTime"
+        value="<%= typeof event !== 'undefined' && event ? event.startDateTime.toISOString().slice(0, 16) : '' %>" />
     </div>
 
     <div class="form-group">
       <label for="endDateTime">End Date Time</label>
-      <input
-        type="datetime-local"
-        class="form-control"
-        id="endDateTime"
-        name="endDateTime"
-        value="<%= typeof event !== 'undefined' && event ? event.endDateTime.toISOString().slice(0, 16) : '' %>"
-        required
-      />
+      <input type="datetime-local" class="form-control" id="endDateTime" name="endDateTime"
+        value="<%= typeof event !== 'undefined' && event ? event.endDateTime.toISOString().slice(0, 16) : '' %>" />
       <small id="endDateError" style="color: red; display: none;">
         End Date Time must be later than Start Date Time.
       </small>
@@ -183,102 +167,50 @@
 
     <div class="form-group">
       <label for="venue">Venue</label>
-      <input
-        type="text"
-        class="form-control"
-        id="venue"
-        name="venue"
-        placeholder="Enter event venue"
-        maxlength="200"
-        value="<%= typeof event !== 'undefined' && event ? event.venue : '' %>"
-        required
-      />
+      <input type="text" class="form-control" id="venue" name="venue" placeholder="Enter event venue"
+        value="<%= typeof event !== 'undefined' && event ? event.venue : '' %>" />
     </div>
 
     <div class="form-group">
       <label for="capacity">Capacity</label>
-      <input
-        type="number"
-        class="form-control"
-        id="capacity"
-        name="capacity"
-        placeholder="Enter event capacity"
-        min="1"
-        max="100000"
-        value="<%= typeof event !== 'undefined' && event ? event.capacity : '' %>"
-        required
-      />
+      <input type="number" class="form-control" id="capacity" name="capacity" placeholder="Enter event capacity"
+        value="<%= typeof event !== 'undefined' && event ? event.capacity : '' %>" />
     </div>
 
     <div class="form-group">
       <label for="price">Price</label>
-      <input
-        type="number"
-        class="form-control"
-        id="price"
-        name="price"
-        placeholder="Enter event price"
-        min="0"
-        step="0.01"
-        value="<%= typeof event !== 'undefined' && event ? event.ticketPrice : '' %>"
-        required
-      />
+      <input type="number" class="form-control" id="price" name="price" placeholder="Enter event price"
+        value="<%= typeof event !== 'undefined' && event ? event.ticketPrice : '' %>" />
     </div>
 
     <div class="form-group">
       <label for="status">Status</label>
-      <select class="form-control" id="status" name="status" required>
-        <option value="start_selling" <%= typeof event !== 'undefined' && event && event.status === 'start_selling' ? 'selected' : '' %>>Start Selling</option>
-        <option value="not_selling" <%= typeof event !== 'undefined' && event && event.status === 'not_selling' ? 'selected' : '' %>>Not Selling</option>
+      <select class="form-control" id="status" name="status">
+        <option value="start_selling" <%=typeof event !=='undefined' && event && event.status==='start_selling'
+          ? 'selected' : '' %>>Start Selling</option>
+        <option value="not_selling" <%=typeof event !=='undefined' && event && event.status==='not_selling' ? 'selected'
+          : '' %>>Not Selling</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="image">Event Image</label>
-      <input
-        type="file"
-        class="form-control"
-        id="image"
-        name="image"
-        accept="image/*"
-        <%= typeof event !== 'undefined' && event ? '' : 'required' %>
+      <input type="file" class="form-control" id="image" name="image" <%=typeof event !=='undefined' && event ? ''
+        : 'required' %>
       />
-      <% if (typeof event !== 'undefined' && event && event.image) { %>
-      <div class="current-image mt-2">
-        <p>Current image: <span class="image-name"><%= event.image.split('/').pop() %></span></p>
-        <small class="text-muted">Upload a new image only if you want to change it</small>
-      </div>
-      <% } %>
+      <% if (typeof event !=='undefined' && event && event.image) { %>
+        <div class="current-image mt-2">
+          <p>Current image: <span class="image-name">
+              <%= event.image.split('/').pop() %>
+            </span></p>
+          <small class="text-muted">Upload a new image only if you want to change it</small>
+        </div>
+        <% } %>
     </div>
 
     <br />
     <button type="submit" class="submit-btn form-submit-btn">Submit</button>
-    <script>
-      const startDateTimeInput = document.getElementById('startDateTime');
-      const endDateTimeInput = document.getElementById('endDateTime');
-      const endDateError = document.getElementById('endDateError');
-    
-      // Add real-time validation for endDateTime
-      endDateTimeInput.addEventListener('input', () => {
-        const startDateTime = new Date(startDateTimeInput.value);
-        const endDateTime = new Date(endDateTimeInput.value);
-    
-        // Show error if endDateTime is less than or equal to startDateTime
-        if (startDateTimeInput.value && endDateTime <= startDateTime) {
-          endDateError.style.display = 'inline';
-        } else {
-          endDateError.style.display = 'none';
-        }
-      });
-    
-      // Optional: Prevent form submission if the error is visible
-      const form = document.querySelector('form');
-      form.addEventListener('submit', (e) => {
-        if (endDateError.style.display === 'inline') {
-          alert('Please fix the errors before submitting the form.');
-          e.preventDefault(); // Prevent form submission
-        }
-      });
-    </script>
+    <script src="/js/validation-utils.js"></script>
+    <script src="/js/event-validation.js"></script>
   </form>
 </div>
