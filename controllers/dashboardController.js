@@ -31,7 +31,7 @@
 //                 {
 //                     name: 'Maria Garcia',
 //                     email: 'maria.garcia@example.com',
-//                     organization: 'EventMaster',
+//                     organization: 'NIGHTLIFE',
 //                     eventsCreated: 15,
 //                     status: 'inactive'
 //                 }
