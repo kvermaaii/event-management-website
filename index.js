@@ -150,7 +150,7 @@ const categories = {
 //   }
 // });
 
-app.get('/:category', async (req, res) => {
+app.get('/:category',optionalAuth ,async (req, res) => {
   try {
     const category = req.params.category;
     const events = await Event.find({ category: new RegExp(category, 'i') }).lean();
