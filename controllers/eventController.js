@@ -189,7 +189,7 @@ class eventController {
         .limit(limit)
         .lean();
 
-         console.log(`Returning ${events.length} events of total ${totalEvents}`);
+        console.log(`Returning ${events.length} events of total ${totalEvents}`);
 
         res.json({
         events,
