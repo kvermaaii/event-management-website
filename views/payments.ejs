@@ -285,6 +285,95 @@
             }
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+        const eventId = document.getElementById('eventId').value;
+        const ticketsInput = document.getElementById('tickets');
+        const ticketsLeftMsg = document.getElementById('tickets-left-message');
+        const paymentResult = document.getElementById('payment-result-msg');
+        const paymentForm = document.getElementById('payment-form');
+
+        document.getElementById('decrease-btn').onclick = () => {
+            let val = parseInt(ticketsInput.value);
+            if (val > 1) ticketsInput.value = val - 1;
+            updateTotalAmount();
+        };
+
+        document.getElementById('increase-btn').onclick = () => {
+            let val = parseInt(ticketsInput.value);
+            if (val < parseInt(ticketsInput.max)) ticketsInput.value = val + 1;
+            updateTotalAmount();
+        };
+
+        function updateTotalAmount() {
+            const pricePerTicket = <%= event.ticketPrice %>;
+            const totalAmount = ticketsInput.value * pricePerTicket;
+            document.getElementById('total-amount').textContent = totalAmount;
+        }
+
+        function fetchTicketsLeft() {
+            fetch(`/payments/api/events/${eventId}/tickets-left`)
+            .then(res => res.json())
+            .then(data => {
+                ticketsLeftMsg.textContent =
+                data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+                ticketsInput.max = data.ticketsLeft;
+                if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+                ticketsInput.value = data.ticketsLeft;
+                updateTotalAmount();
+                }
+            });
+        }
+
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            paymentResult.textContent = '';
+            paymentResult.style.color = '';
+
+            const formData = {
+            eventId,
+            tickets: ticketsInput.value,
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value,
+            // add other payment details if needed, e.g., cardNumber, upiId etc.
+            };
+
+            try {
+            const response = await fetch('/payments/api/payments/process-payment-ajax', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                paymentResult.textContent = `Error: ${data.error}`;
+                paymentResult.style.color = 'red';
+            } else if (data.success) {
+                paymentResult.textContent = 'Payment successful! Redirecting...';
+                paymentResult.style.color = 'green';
+
+                ticketsLeftMsg.textContent =
+                data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+                ticketsInput.max = data.ticketsLeft;
+
+                if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+                ticketsInput.value = data.ticketsLeft;
+                }
+                updateTotalAmount();
+
+                setTimeout(() => (window.location.href = '/user/dashboard'), 2000);
+            }
+            } catch (err) {
+            paymentResult.textContent = 'An unexpected error occurred.';
+            paymentResult.style.color = 'red';
+            }
+        });
+
+        updateTotalAmount();
+        fetchTicketsLeft();
+        setInterval(fetchTicketsLeft, 15000); // polling tickets left every 15 seconds
+        });
+
 </script>
 
 
