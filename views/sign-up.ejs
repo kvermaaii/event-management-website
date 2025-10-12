@@ -5,97 +5,26 @@
 
     <div class="form-group">
       <label for="email">Email Address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        name="email"
-        placeholder="Enter email"
-        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-        title="Please enter a valid email address"
-        required
-      />
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" />
     </div>
     <div class="form-group">
       <label for="name">name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        name="name"
-        placeholder="Enter name"
-        pattern="^[A-Za-z\s]{1,50}$"
-        title="Name should contain only letters and spaces, maximum 50 characters"
-        maxlength="50"
-        required
-      />
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" />
     </div>
     <div class="form-group">
       <label for="password1">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password1"
-        name="password1"
-        placeholder="Enter password"
-        minlength="8"
-        maxlength="64"
-        title="Password must be at least 8 characters long"
-        required
-        oninput="checkPasswordMatch();"
-      />
+      <input type="password" class="form-control" id="password" name="password1" placeholder="Enter password" />
     </div>
     <div class="form-group">
       <label for="password2">Re-enter Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password2"
-        name="password2"
-        placeholder="Confirm password"
+      <input type="password" class="form-control" id="confirmPassword" name="password2"
+        placeholder="Confirm password" />
 
-        minlength="8"
-        maxlength="64"
-        title="Passwords must match"
-        required
-        oninput="checkPasswordMatch();"
-      />
-      <span id="passwordMatchError" style="color: red; display: none;">Passwords do not match</span>
     </div>
     <br />
     <button type="submit" class="submit-btn form-submit-btn">Submit</button>
   </form>
 </div>
 
-<script>
-  function checkPasswordMatch() {
-    const password1 = document.getElementById('password1').value;
-    const password2 = document.getElementById('password2').value;
-    const passwordMatchError = document.getElementById('passwordMatchError');
-    const submitBtn = document.querySelector('.form-submit-btn');
-    
-    if (password1 && password2) {
-      if (password1 !== password2) {
-        passwordMatchError.style.display = 'block';
-        password2.setCustomValidity("Passwords must match");
-        submitBtn.disabled = true;
-      } else {
-        passwordMatchError.style.display = 'none';
-        document.getElementById('password2').setCustomValidity('');
-        submitBtn.disabled = false;
-      }
-    } else {
-      passwordMatchError.style.display = 'none';
-    }
-  }
-
-  document.getElementById('signupForm').addEventListener('submit', function(e) {
-    const password1 = document.getElementById('password1').value;
-    const password2 = document.getElementById('password2').value;
-    
-    if (password1 !== password2) {
-      e.preventDefault();
-      document.getElementById('passwordMatchError').style.display = 'block';
-    }
-  });
-</script>
+<script src="/js/validation-utils.js"></script>
+<script src="/js/signup-validation.js"></script>
