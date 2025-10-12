@@ -476,9 +476,10 @@ class userController {
             // Check if the event is already saved for the user
             const existingSavedEvent = await SavedEvent.findOne({ userId, eventId });
             if (existingSavedEvent) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Event already saved'
+                return res.status(200).json({
+                    success: true,
+                    alreadySaved: true,
+                    message: 'Event is already saved'
                 });
             }
 
@@ -498,6 +499,84 @@ class userController {
             });
         }
     }
+
+    async unsaveEvent(req, res) {
+        try {
+            const { eventId } = req.body;
+
+            // Get user ID from either req.user or req.session
+            let userId = null;
+            if (req.user) {
+                userId = req.user._id;
+            } else if (req.session.userId) {
+                userId = req.session.userId;
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Please log in to unsave events'
+                });
+            }
+
+            console.log('Unsaving event id:', eventId, 'User id:', userId);
+
+            // Check if the event is saved for the user
+            const savedEvent = await SavedEvent.findOne({ userId, eventId });
+            if (!savedEvent) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Event is not saved'
+                });
+            }
+
+            // Remove the saved event
+            await SavedEvent.deleteOne({ userId, eventId });
+
+            res.status(200).json({
+                success: true,
+                message: 'Event unsaved successfully!'
+            });
+        } catch (error) {
+            console.error('Error unsaving event:', error);
+            res.status(500).json({
+                success: false,
+                message: 'An error occurred while unsaving the event'
+            });
+        }
+    }
+
+    async checkSavedStatus(req, res) {
+        try {
+            const { eventId } = req.query;
+
+            // Get user ID from either req.user or req.session
+            let userId = null;
+            if (req.user) {
+                userId = req.user._id;
+            } else if (req.session.userId) {
+                userId = req.session.userId;
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    isSaved: false
+                });
+            }
+
+            // Check if the event is saved for the user
+            const savedEvent = await SavedEvent.findOne({ userId, eventId });
+
+            res.status(200).json({
+                success: true,
+                isSaved: !!savedEvent
+            });
+        } catch (error) {
+            console.error('Error checking saved status:', error);
+            res.status(500).json({
+                success: false,
+                message: 'An error occurred while checking saved status'
+            });
+        }
+    }
+
     async getSavedEvents(req, res) {
         try {
             // Get user ID from either req.user or req.session

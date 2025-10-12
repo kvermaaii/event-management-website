@@ -216,55 +216,72 @@
                 const saveForm = document.getElementById('save-event-form');
                 const saveBtn = document.getElementById('save-event-btn');
                 const saveBtnText = document.getElementById('save-btn-text');
+                const eventId = saveForm.querySelector('input[name="eventId"]').value;
+
+                let isSaved = false;
+
+                // check if user is saved already
+                fetch(`/user/check-saved-status?eventId=${eventId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.isSaved) {
+                            isSaved = true;
+                            saveBtn.classList.add('saved');
+                            saveBtnText.textContent = 'Saved';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking saved status:', error);
+                    });
 
                 if (saveForm) {
                     saveForm.addEventListener('submit', function (e) {
                         e.preventDefault();
 
-                        const eventId = this.querySelector('input[name="eventId"]').value;
-
                         saveBtn.classList.add('saving');
-                        saveBtnText.textContent = 'Saving...';
+                        const originalText = saveBtnText.textContent;
+                        saveBtnText.textContent = isSaved ? 'Unsaving...' : 'Saving...';
 
-                        // Send AJAX request
-                        fetch('/user/save-event', {
+                        const endpoint = isSaved ? '/user/unsave-event' : '/user/save-event';
+                        fetch(endpoint, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({ eventId })
                         })
-                            .then(response => {
-                                return response.json();
-                            })
+                            .then(response => response.json())
                             .then(data => {
+                                saveBtn.classList.remove('saving');
                                 if (data.success) {
-                                    showNotification(data.message, 'success');
+                                    if (isSaved) {
+                                        isSaved = false;
+                                        saveBtn.classList.remove('saved');
+                                        saveBtnText.textContent = 'Save';
+                                        showNotification('Event unsaved successfully!', 'success');
+                                    } else {
 
-                                    saveBtn.classList.remove('saving');
-                                    saveBtn.classList.add('saved');
-                                    saveBtnText.textContent = 'Saved';
-
-                                    saveBtn.disabled = true;
-
+                                        isSaved = true;
+                                        saveBtn.classList.add('saved');
+                                        saveBtnText.textContent = 'Saved';
+                                        showNotification(data.message, 'success');
+                                    }
                                 } else {
-                                    saveBtn.classList.remove('saving');
-                                    saveBtnText.textContent = 'Save';
+                                    saveBtnText.textContent = originalText;
+                                    showNotification(data.message || 'An error occurred', 'error');
                                 }
                             })
                             .catch(error => {
-                                console.error('Error saving event:', error);
-                                showNotification('An error occurred while saving the event', 'error');
+                                console.error('Error:', error);
                                 saveBtn.classList.remove('saving');
-                                saveBtnText.textContent = 'Save';
+                                saveBtnText.textContent = originalText;
+                                showNotification('An error occurred', 'error');
                             });
                     });
                 }
             });
         </script>
-
         <%- include('partials/footer') %>
-
 </body>
 
 </html>
