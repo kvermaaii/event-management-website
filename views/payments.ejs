@@ -16,27 +16,28 @@
 <body>
     <%- include('partials/navbar') %>
 
-        <div class="payment-page-container">
-            <!-- Gradient blobs for background design -->
-            <div class="gradient-blob blob-1"></div>
-            <div class="gradient-blob blob-2"></div>
-            <div class="gradient-blob blob-3"></div>
+    <div class="payment-page-container">
+        <!-- Gradient blobs for background design -->
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        <div class="gradient-blob blob-3"></div>
 
-            <div class="container">
-                <div class="payment-container">
-                    <h2 class="section-title">Secure Checkout</h2>
-                    <form action="/payments/process-payment" method="POST">
-                        <input type="hidden" name="eventId" value="<%= event._id %>">
-
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" readonly>
-                        </div>
-                        <!-- <div class="form-group">
+        <div class="container">
+            <div class="payment-container">
+                <h2 class="section-title">Secure Checkout</h2>
+                <!-- <form action="/payments/process-payment" method="POST"> -->
+                <form id="payment-form" novalidate>
+                    <!-- <input type="hidden" name="eventId" value="<%= event._id %>"> -->
+                    <input type="hidden" id="eventId" value="<%= event._id %>">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" readonly>
+                    </div>
+                    <!-- <div class="form-group">
                         <label for="tickets">Number of Tickets:</label>
                         <div class="number-picker">
                             <button type="button" onclick="changeTickets(-1)">-</button>
@@ -44,13 +45,49 @@
                             <button type="button" onclick="changeTickets(1)">+</button>
                         </div>
                     </div> -->
-                        <div class="form-group">
-                            <label for="tickets">Number of Tickets:</label>
-                            <div class="number-picker">
-                                <button type="button" onclick="changeTickets(-1)" id="decrease-btn">-</button>
-                                <input type="number" id="tickets" name="tickets" min="1" max="<%= ticketsLeft %>"
-                                    step="1" value="1">
-                                <button type="button" onclick="changeTickets(1)" id="increase-btn">+</button>
+
+                    <div class="form-group">
+                        <label for="tickets">Number of Tickets:</label>
+                        <div class="number-picker">
+                            <!-- <button 
+                                type="button" 
+                                onclick="changeTickets(-1)" 
+                                id="decrease-btn">-</button> -->
+                            
+                            <button type="button" id="decrease-btn">-</button>
+                            <input 
+                                type="number" 
+                                id="tickets" 
+                                name="tickets" 
+                                min="1" 
+                                max="<%= ticketsLeft %>" 
+                                step="1" 
+                                value="1" 
+                                required>
+                            <!-- <button 
+                                type="button" 
+                                onclick="changeTickets(1)" 
+                                id="increase-btn">+</button> -->
+                            <button type="button" id="increase-btn">+</button>
+                        </div>
+                        <!-- <small id="tickets-left-message">
+                            <%= ticketsLeft > 0 
+                                ? `${ticketsLeft} tickets left` 
+                                : 'Sold Out!' %>
+                        </small> -->
+                        <small id="tickets-left-message">
+                         <%= ticketsLeft > 0 ? `${ticketsLeft} tickets left` : 'Sold Out!' %>
+                        </small>
+                    </div>
+
+                    <div class="payment-section">
+                        <div class="payment-tabs">
+                            <div class="payment-tab active" data-tab="card">
+                                <i class="fas fa-credit-card"></i> Card Payment
+                            </div>
+                            <div class="payment-tab" data-tab="upi">
+                                <i class="fas fa-mobile-alt"></i> UPI Payment
+
                             </div>
                             <small id="tickets-left-message">
                                 <%= ticketsLeft> 0
@@ -115,10 +152,13 @@
                             </div>
                         </div>
 
+
                         <button type="submit" class="payment-btn">
                             <span>Pay Now</span>
                         </button>
+                        <div id="payment-result-msg" style="margin-top: 1rem; font-weight: bold;"></div>
                     </form>
+
                 </div>
 
                 <div class="event-details">
@@ -172,18 +212,18 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
+<script>
 
-            function changeTickets(amount) {
-                const input = document.getElementById('tickets');
-                const currentValue = parseInt(input.value);
-                const newValue = currentValue + amount;
-
-                if (newValue >= parseInt(input.min) && newValue <= parseInt(input.max)) {
-                    input.value = newValue;
-                    updateTotalAmount(newValue);
-                }
+        function changeTickets(amount) {
+            const input = document.getElementById('tickets');
+            const currentValue = parseInt(input.value);
+            const newValue = currentValue + amount;
+            
+            if (newValue >= parseInt(input.min) && newValue <= parseInt(input.max)) {
+                input.value = newValue;
+                updateTotalAmount(newValue);
             }
 
             function updateTotalAmount(tickets) {
@@ -279,6 +319,226 @@
                 if (nameInput) {
                     nameInput.addEventListener('input', validateNameInput);
                 }
+            };
+            
+            if (nameInput) {
+                nameInput.addEventListener('input', validateNameInput);
+            }
+            
+            if (cardNameInput) {
+                cardNameInput.addEventListener('input', validateNameInput);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const eventId = document.getElementById('eventId').value;
+        const ticketsInput = document.getElementById('tickets');
+        const ticketsLeftMsg = document.getElementById('tickets-left-message');
+        const paymentResult = document.getElementById('payment-result-msg');
+        const paymentForm = document.getElementById('payment-form');
+
+        document.getElementById('decrease-btn').onclick = () => {
+            let val = parseInt(ticketsInput.value);
+            if (val > 1) ticketsInput.value = val - 1;
+            updateTotalAmount();
+        };
+
+        document.getElementById('increase-btn').onclick = () => {
+            let val = parseInt(ticketsInput.value);
+            if (val < parseInt(ticketsInput.max)) ticketsInput.value = val + 1;
+            updateTotalAmount();
+        };
+
+        function updateTotalAmount() {
+            const pricePerTicket = <%= event.ticketPrice %>;
+            const totalAmount = ticketsInput.value * pricePerTicket;
+            document.getElementById('total-amount').textContent = totalAmount;
+        }
+
+        function fetchTicketsLeft() {
+            fetch(`/payments/api/events/${eventId}/tickets-left`)
+            .then(res => res.json())
+            .then(data => {
+                ticketsLeftMsg.textContent =
+                data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+                ticketsInput.max = data.ticketsLeft;
+                if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+                ticketsInput.value = data.ticketsLeft;
+                updateTotalAmount();
+                }
+            });
+        }
+
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            paymentResult.textContent = '';
+            paymentResult.style.color = '';
+
+            const formData = {
+            eventId,
+            tickets: ticketsInput.value,
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value,
+            // add other payment details if needed, e.g., cardNumber, upiId etc.
+            };
+
+            try {
+            const response = await fetch('/payments/api/payments/process-payment-ajax', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                paymentResult.textContent = `Error: ${data.error}`;
+                paymentResult.style.color = 'red';
+            } else if (data.success) {
+                paymentResult.textContent = 'Payment successful! Redirecting...';
+                paymentResult.style.color = 'green';
+
+                ticketsLeftMsg.textContent =
+                data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+                ticketsInput.max = data.ticketsLeft;
+
+                if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+                ticketsInput.value = data.ticketsLeft;
+                }
+                updateTotalAmount();
+
+                setTimeout(() => (window.location.href = '/user/dashboard'), 2000);
+            }
+            } catch (err) {
+            paymentResult.textContent = 'An unexpected error occurred.';
+            paymentResult.style.color = 'red';
+            }
+        });
+
+        updateTotalAmount();
+        fetchTicketsLeft();
+        setInterval(fetchTicketsLeft, 15000); // polling tickets left every 15 seconds
+        });
+
+        //combined code bellow can replace the entire script with the bellow code 
+// document.addEventListener('DOMContentLoaded', () => {
+//   const eventId = document.getElementById('eventId').value;
+//   const ticketsInput = document.getElementById('tickets');
+//   const ticketsLeftMsg = document.getElementById('tickets-left-message');
+//   const paymentResult = document.getElementById('payment-result-msg');
+//   const paymentForm = document.getElementById('payment-form');
+//   const paymentTabs = document.querySelectorAll('.payment-tab');
+
+//   document.getElementById('decrease-btn').onclick = () => {
+//     let val = parseInt(ticketsInput.value);
+//     if (val > 1) ticketsInput.value = val - 1;
+//     updateTotalAmount();
+//   };
+
+//   document.getElementById('increase-btn').onclick = () => {
+//     let val = parseInt(ticketsInput.value);
+//     if (val < parseInt(ticketsInput.max)) ticketsInput.value = val + 1;
+//     updateTotalAmount();
+//   };
+
+//   function updateTotalAmount() {
+//     const pricePerTicket = <%= event.ticketPrice %>;
+//     const totalAmount = ticketsInput.value * pricePerTicket;
+//     document.getElementById('total-amount').textContent = totalAmount;
+//   }
+
+//   function fetchTicketsLeft() {
+//     fetch(`/payments/api/events/${eventId}/tickets-left`)
+//       .then(res => res.json())
+//       .then(data => {
+//         ticketsLeftMsg.textContent =
+//           data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+//         ticketsInput.max = data.ticketsLeft;
+//         if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+//           ticketsInput.value = data.ticketsLeft;
+//           updateTotalAmount();
+//         }
+//       });
+//   }
+
+//   function getActivePaymentMethod() {
+//     const activeTab = document.querySelector('.payment-tab.active');
+//     return activeTab ? activeTab.getAttribute('data-tab') : 'card';
+//   }
+
+//   paymentTabs.forEach(tab => {
+//     tab.addEventListener('click', () => {
+//       paymentTabs.forEach(t => t.classList.remove('active'));
+//       tab.classList.add('active');
+
+//       document.querySelectorAll('.payment-method-content').forEach(content => {
+//         content.classList.remove('active');
+//       });
+//       document.getElementById(tab.getAttribute('data-tab') + '-payment').classList.add('active');
+//     });
+//   });
+
+//   paymentForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     paymentResult.textContent = '';
+//     paymentResult.style.color = '';
+
+//     const paymentMethod = getActivePaymentMethod();
+//     const postData = {
+//       eventId,
+//       tickets: ticketsInput.value,
+//       name: document.getElementById('name').value.trim(),
+//       email: document.getElementById('email').value,
+//       paymentMethod,
+//     };
+
+//     if (paymentMethod === 'card') {
+//       postData.cardNumber = document.getElementById('card-number').value.trim();
+//       postData.cardExpiry = document.getElementById('card-expiry').value.trim();
+//       postData.cardCvv = document.getElementById('card-cvv').value.trim();
+//       postData.cardName = document.getElementById('card-name').value.trim();
+//     } else if (paymentMethod === 'upi') {
+//       postData.upiId = document.getElementById('upi-id').value.trim();
+//     }
+//     console.log('Payment data sent:', postData);
+//     try {
+//       const response = await fetch('/payments/api/payments/process-payment-ajax', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(postData),
+//       });
+//       const data = await response.json();
+//       console.log('Response received:', data);
+//       if (data.error) {
+//         paymentResult.textContent = `Error: ${data.error}`;
+//         paymentResult.style.color = 'red';
+//       } else if (data.success) {
+//         paymentResult.textContent = 'Payment successful! Redirecting...';
+//         paymentResult.style.color = 'green';
+
+//         ticketsLeftMsg.textContent =
+//           data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+//         ticketsInput.max = data.ticketsLeft;
+
+//         if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+//           ticketsInput.value = data.ticketsLeft;
+//         }
+//         updateTotalAmount();
+
+//         setTimeout(() => (window.location.href = '/user/dashboard'), 2000);
+//       }
+//     } catch (err) {
+//       paymentResult.textContent = 'An unexpected error occurred.';
+//       paymentResult.style.color = 'red';
+//     }
+//   });
+
+//   updateTotalAmount();
+//   fetchTicketsLeft();
+//   setInterval(fetchTicketsLeft, 15000); // poll tickets left every 15 seconds
+// });
+
+</script>
+
 
                 if (cardNameInput) {
                     cardNameInput.addEventListener('input', validateNameInput);
