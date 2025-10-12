@@ -21,9 +21,10 @@
         <div class="container">
             <div class="payment-container">
                 <h2 class="section-title">Secure Checkout</h2>
-                <form action="/payments/process-payment" method="POST">
-                    <input type="hidden" name="eventId" value="<%= event._id %>">
-                    
+                <!-- <form action="/payments/process-payment" method="POST"> -->
+                <form id="payment-form" novalidate>
+                    <!-- <input type="hidden" name="eventId" value="<%= event._id %>"> -->
+                    <input type="hidden" id="eventId" value="<%= event._id %>">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" value="<%= user ? user.name : '' %>" required>
@@ -43,10 +44,12 @@
                     <div class="form-group">
                         <label for="tickets">Number of Tickets:</label>
                         <div class="number-picker">
-                            <button 
+                            <!-- <button 
                                 type="button" 
                                 onclick="changeTickets(-1)" 
-                                id="decrease-btn">-</button>
+                                id="decrease-btn">-</button> -->
+                            
+                            <button type="button" id="decrease-btn">-</button>
                             <input 
                                 type="number" 
                                 id="tickets" 
@@ -56,15 +59,19 @@
                                 step="1" 
                                 value="1" 
                                 required>
-                            <button 
+                            <!-- <button 
                                 type="button" 
                                 onclick="changeTickets(1)" 
-                                id="increase-btn">+</button>
+                                id="increase-btn">+</button> -->
+                            <button type="button" id="increase-btn">+</button>
                         </div>
-                        <small id="tickets-left-message">
+                        <!-- <small id="tickets-left-message">
                             <%= ticketsLeft > 0 
                                 ? `${ticketsLeft} tickets left` 
                                 : 'Sold Out!' %>
+                        </small> -->
+                        <small id="tickets-left-message">
+                         <%= ticketsLeft > 0 ? `${ticketsLeft} tickets left` : 'Sold Out!' %>
                         </small>
                     </div>
 
@@ -123,6 +130,7 @@
                     <button type="submit" class="payment-btn">
                         <span>Pay Now</span>
                       </button>
+                     <div id="payment-result-msg" style="margin-top: 1rem; font-weight: bold;"></div>  <!--new code -->
                 </form>
             </div>
             
@@ -163,8 +171,8 @@
         </div>
     </div>
 
-    <script>
-        // Update ticket count and total amount
+<script>
+
         function changeTickets(amount) {
             const input = document.getElementById('tickets');
             const currentValue = parseInt(input.value);
@@ -276,7 +284,9 @@
                 cardNameInput.addEventListener('input', validateNameInput);
             }
         });
-    </script>
+
+</script>
+
 
     <%- include('partials/footer') %>
 </body>
