@@ -374,6 +374,124 @@
         setInterval(fetchTicketsLeft, 15000); // polling tickets left every 15 seconds
         });
 
+        //combined code bellow can replace the entire script with the bellow code 
+// document.addEventListener('DOMContentLoaded', () => {
+//   const eventId = document.getElementById('eventId').value;
+//   const ticketsInput = document.getElementById('tickets');
+//   const ticketsLeftMsg = document.getElementById('tickets-left-message');
+//   const paymentResult = document.getElementById('payment-result-msg');
+//   const paymentForm = document.getElementById('payment-form');
+//   const paymentTabs = document.querySelectorAll('.payment-tab');
+
+//   document.getElementById('decrease-btn').onclick = () => {
+//     let val = parseInt(ticketsInput.value);
+//     if (val > 1) ticketsInput.value = val - 1;
+//     updateTotalAmount();
+//   };
+
+//   document.getElementById('increase-btn').onclick = () => {
+//     let val = parseInt(ticketsInput.value);
+//     if (val < parseInt(ticketsInput.max)) ticketsInput.value = val + 1;
+//     updateTotalAmount();
+//   };
+
+//   function updateTotalAmount() {
+//     const pricePerTicket = <%= event.ticketPrice %>;
+//     const totalAmount = ticketsInput.value * pricePerTicket;
+//     document.getElementById('total-amount').textContent = totalAmount;
+//   }
+
+//   function fetchTicketsLeft() {
+//     fetch(`/payments/api/events/${eventId}/tickets-left`)
+//       .then(res => res.json())
+//       .then(data => {
+//         ticketsLeftMsg.textContent =
+//           data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+//         ticketsInput.max = data.ticketsLeft;
+//         if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+//           ticketsInput.value = data.ticketsLeft;
+//           updateTotalAmount();
+//         }
+//       });
+//   }
+
+//   function getActivePaymentMethod() {
+//     const activeTab = document.querySelector('.payment-tab.active');
+//     return activeTab ? activeTab.getAttribute('data-tab') : 'card';
+//   }
+
+//   paymentTabs.forEach(tab => {
+//     tab.addEventListener('click', () => {
+//       paymentTabs.forEach(t => t.classList.remove('active'));
+//       tab.classList.add('active');
+
+//       document.querySelectorAll('.payment-method-content').forEach(content => {
+//         content.classList.remove('active');
+//       });
+//       document.getElementById(tab.getAttribute('data-tab') + '-payment').classList.add('active');
+//     });
+//   });
+
+//   paymentForm.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     paymentResult.textContent = '';
+//     paymentResult.style.color = '';
+
+//     const paymentMethod = getActivePaymentMethod();
+//     const postData = {
+//       eventId,
+//       tickets: ticketsInput.value,
+//       name: document.getElementById('name').value.trim(),
+//       email: document.getElementById('email').value,
+//       paymentMethod,
+//     };
+
+//     if (paymentMethod === 'card') {
+//       postData.cardNumber = document.getElementById('card-number').value.trim();
+//       postData.cardExpiry = document.getElementById('card-expiry').value.trim();
+//       postData.cardCvv = document.getElementById('card-cvv').value.trim();
+//       postData.cardName = document.getElementById('card-name').value.trim();
+//     } else if (paymentMethod === 'upi') {
+//       postData.upiId = document.getElementById('upi-id').value.trim();
+//     }
+//     console.log('Payment data sent:', postData);
+//     try {
+//       const response = await fetch('/payments/api/payments/process-payment-ajax', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(postData),
+//       });
+//       const data = await response.json();
+//       console.log('Response received:', data);
+//       if (data.error) {
+//         paymentResult.textContent = `Error: ${data.error}`;
+//         paymentResult.style.color = 'red';
+//       } else if (data.success) {
+//         paymentResult.textContent = 'Payment successful! Redirecting...';
+//         paymentResult.style.color = 'green';
+
+//         ticketsLeftMsg.textContent =
+//           data.ticketsLeft > 0 ? `${data.ticketsLeft} tickets left` : 'Sold Out!';
+//         ticketsInput.max = data.ticketsLeft;
+
+//         if (parseInt(ticketsInput.value) > data.ticketsLeft) {
+//           ticketsInput.value = data.ticketsLeft;
+//         }
+//         updateTotalAmount();
+
+//         setTimeout(() => (window.location.href = '/user/dashboard'), 2000);
+//       }
+//     } catch (err) {
+//       paymentResult.textContent = 'An unexpected error occurred.';
+//       paymentResult.style.color = 'red';
+//     }
+//   });
+
+//   updateTotalAmount();
+//   fetchTicketsLeft();
+//   setInterval(fetchTicketsLeft, 15000); // poll tickets left every 15 seconds
+// });
+
 </script>
 
 
