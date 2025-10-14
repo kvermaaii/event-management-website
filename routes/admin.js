@@ -11,7 +11,7 @@ router.use(isAdmin);
 router.use(optionalAuth);
 
 // Dashboard route
-router.get('/dashboard', adminController.loadDashboard);
+router.get('/dashboard',adminController.loadDashboard);
 
 // User routes
 router.get('/users', adminController.getAllUsers);

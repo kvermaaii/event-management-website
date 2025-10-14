@@ -376,6 +376,14 @@ h2, h3 {
     color: var(--gray-text);
 }
 
+#tickets-left-message {
+    display: block;
+    margin-top: 8px;
+    color: #44ac92;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;

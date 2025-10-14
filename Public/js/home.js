@@ -22,13 +22,37 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Auto-submit form on input change
+//   const searchForm = document.querySelector('.search-container form');
+//   if (searchForm) {
+//     const formInputs = searchForm.querySelectorAll('input, select');
+    
+//     formInputs.forEach(input => {
+//       input.addEventListener('change', function() {
+//         searchForm.submit();
+//       });
+//     });
+//   }
+// });
+
   const searchForm = document.querySelector('.search-container form');
   if (searchForm) {
+    searchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get filter values
+      const params = new URLSearchParams(new FormData(searchForm));
+      // Optionally update the browser address bar (not required for functionality)
+      window.history.replaceState({}, '', '?' + params.toString());
+
+      // Fetch and render events for page 1 with the filters
+      loadEvents(1);
+    });
+
+    // Optionally, also trigger search on input or select change
     const formInputs = searchForm.querySelectorAll('input, select');
-    
     formInputs.forEach(input => {
       input.addEventListener('change', function() {
-        searchForm.submit();
+        searchForm.dispatchEvent(new Event('submit'));
       });
     });
   }
