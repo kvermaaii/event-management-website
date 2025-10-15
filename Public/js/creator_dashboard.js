@@ -824,4 +824,26 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'Other';
         }
     }
+
+    async function loadOrganizerRevenue(organizerId) {
+        try {
+            const response = await fetch(`/organizer/revenue/${organizerId}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+            document.getElementById('trueRevenue').textContent =
+            `₹${data.totalOrganizerRevenue.toFixed(2)}`;
+        } catch (error) {
+            console.error('Error fetching organizer revenue:', error);
+            document.getElementById('trueRevenue').textContent = 'Error loading revenue';
+        }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const organizerId = urlParams.get('organizerId');
+
+        // from user selection/input
+        const organizerIdFromUserInput = document.getElementById('organizerSelect').value;
+
+        loadOrganizerRevenue(organizerId || organizerIdFromUserInput);
+
 });
