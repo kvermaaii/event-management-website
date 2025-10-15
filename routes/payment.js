@@ -123,6 +123,9 @@ router.post('/api/payments/process-payment-ajax', optionalAuth, async (req, res)
       await Registration.create({ userId, eventId });
     }
 
+    console.log(`Payment processed for user ${userId} for event ${eventId}: tickets ${ticketCount} at ${new Date().toISOString()}`);
+
+
     if (totalRegistrations + ticketCount >= event.capacity) {
       event.status = 'Not Selling';
       await event.save();
