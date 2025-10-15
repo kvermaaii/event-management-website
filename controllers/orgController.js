@@ -150,6 +150,7 @@
 import { getUser } from '../services/auth.js';
 import Organizer from '../models/organizer.js';
 import Event from '../models/event.js';
+import Payment from '../models/payment.js';
 
 class orgController {  async loadDashboard(req, res) {
     try {
@@ -646,6 +647,25 @@ class orgController {  async loadDashboard(req, res) {
       res.status(500).json({ message: 'An error occurred while deleting the event.' });
     }
   }
+    async getRevenue (req, res) {
+      try {
+        const organizerId = req.params.organizerid;
+
+        // Step 1: Find all event IDs for this organizer
+        const events = await Event.find({ organizerId }).select('_id');
+        const eventIds = events.map(event => event._id);
+
+        // Step 2: Aggregate total organizerRevenue from payments for those events
+        const result = await Payment.aggregate([
+          { $match: { eventId: { $in: eventIds } } },
+          { $group: { _id: null, totalOrganizerRevenue: { $sum: '$organizerRevenue' } } }
+        ]);
+
+        res.json({ totalOrganizerRevenue: result[0]?.totalOrganizerRevenue || 0 });
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to calculate organizer revenue' });
+      }
+    }
 }
 
 export default new orgController();

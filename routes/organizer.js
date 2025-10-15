@@ -10,4 +10,6 @@ router.post('/events',upload.single('image'), orgController.createEvents);
 router.put('/events/:id', upload.single('image'), orgController.updateEvent);
 router.delete('/events/:id', orgController.deleteEvent);
 
+//revenue
+router.get('/revenue/:organizerId', orgController.getRevenue);
 export default router;
