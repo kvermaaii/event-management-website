@@ -139,8 +139,6 @@ router.post('/api/payments/process-payment-ajax', optionalAuth, async (req, res)
       totalPrice,
       adminCommission,
       organizerRevenue,
-      paymentMethod: req.body.paymentMethod || 'unknown',
-      paymentStatus: 'completed',
       paymentDate: new Date(),
     });
 

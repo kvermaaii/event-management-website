@@ -8,8 +8,6 @@ const PaymentSchema = new mongoose.Schema({
   adminCommission: { type: Number, required: true }, // 5% of totalPrice
   organizerRevenue: { type: Number, required: true }, // 95% of totalPrice
   paymentDate: { type: Date, default: Date.now },
-  paymentMethod: { type: String, enum: ['card', 'upi'], required: true },
-  paymentStatus: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
   transactionId: { type: String } // optional, if integrating payment gateway
 }, {
   collection: 'payments'

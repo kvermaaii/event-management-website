@@ -701,4 +701,13 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Error loading organizer verification chart:', error));
     }
+
+    async function loadAdminRevenue() {
+    const res = await fetch('/admin/revenue');
+    const data = await res.json();
+    document.getElementById('adminRevenue').textContent = `$${data.totalAdminCommission.toFixed(2)}`;
+    }
+
+    loadAdminRevenue();
+
 });
