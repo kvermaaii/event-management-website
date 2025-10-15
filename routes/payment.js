@@ -2,6 +2,8 @@ import express from 'express';
 import Event from '../models/event.js';
 import User from '../models/user.js';
 import Registration from '../models/registration.js';
+import Payment from '../models/payment.js'; 
+import Organizer from '../models/organizer.js';
 import { isAuth, optionalAuth } from '../middlewares/auth.js';
 const router = express.Router();
 
@@ -125,6 +127,27 @@ router.post('/api/payments/process-payment-ajax', optionalAuth, async (req, res)
 
     console.log(`Payment processed for user ${userId} for event ${eventId}: tickets ${ticketCount} at ${new Date().toISOString()}`);
 
+    const totalPrice = ticketCount * event.ticketPrice;
+    const adminCommission = totalPrice * 0.05;
+    const organizerRevenue = totalPrice - adminCommission;
+
+    // Save payment info
+    const payment = new Payment({
+      userId,
+      eventId,
+      tickets: ticketCount,
+      totalPrice,
+      adminCommission,
+      organizerRevenue,
+      paymentMethod: req.body.paymentMethod || 'unknown',
+      paymentStatus: 'completed',
+      paymentDate: new Date(),
+    });
+
+    await payment.save();
+
+    // Optionally, update organizer revenue field if you choose
+    await Organizer.findByIdAndUpdate(event.organizerId, { $inc: { revenue: organizerRevenue } });
 
     if (totalRegistrations + ticketCount >= event.capacity) {
       event.status = 'Not Selling';
